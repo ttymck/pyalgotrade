@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "pyalgotrade-ttymck"
-version = "0.20.post0"
-description = "algorithmic trading framework"
-authors = ["ttymck <tyler@tylerkontra.com>"]
+version = "0.21.dev0"
+description = "Python Algorithmic Trading Framework"
+authors = ["Gabriel Martin Becedillas Ruiz <pyalgotrade@gmail.com>", "Tyler M Kontra <tyler@tylerkontra.com>"]
+classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
@@ -21,6 +22,9 @@ ws4py = "0.3.4"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
+
+[tool.poetry.extras]
+TALib = ["cython", "ta-lib"]
 
 [build-system]
 requires = ["poetry>=0.12"]
