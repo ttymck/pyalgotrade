@@ -5,6 +5,9 @@ description = "Python Algorithmic Trading Framework"
 authors = ["Gabriel Martin Becedillas Ruiz <pyalgotrade@gmail.com>", "Tyler M Kontra <tyler@tylerkontra.com>"]
 classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
 license = "Apache-2.0"
+packages = [
+    { include = "pyalgotrade" },
+]
 
 [tool.poetry.dependencies]
 python = "^3.7"
