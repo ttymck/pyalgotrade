@@ -24,6 +24,9 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import sys
+from contextlib import contextmanager
+from io import StringIO
 
 # Force matplotlib to not use any Xwindows backend.
 import matplotlib

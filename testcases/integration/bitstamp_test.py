@@ -26,8 +26,8 @@ import json
 
 from six.moves import queue
 
-from . import common as tc_common
-from . import test_strategy
+from .. import common as tc_common
+from .. import test_strategy
 
 from pyalgotrade import broker as basebroker
 from pyalgotrade.bitstamp import barfeed

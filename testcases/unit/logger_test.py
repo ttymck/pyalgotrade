@@ -18,7 +18,10 @@
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
 """
 
-import datetime
+from contextlib import redirect_stderr
+import datetime, io
+
+from testcases import common
 
 from pyalgotrade import strategy
 from pyalgotrade import bar
@@ -26,26 +29,41 @@ from pyalgotrade import logger
 from pyalgotrade.barfeed import membf
 
 
-class TestBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 
 
-class BacktestingStrategy(strategy.BacktestingStrategy):
+class MockStrategy(strategy.BacktestingStrategy):
     def __init__(self, barFeed, cash):
+        logger.rootLoggerInitialized = False
         strategy.BacktestingStrategy.__init__(self, barFeed, cash)
 
     def onBars(self, bars):
         self.info("bla")
         logger.getLogger("custom").info("ble")
 
-
-def main():
-    bf = TestBarFeed(bar.Frequency.DAY)
-    bars = [
-        bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
+    @classmethod
+    def run_test(cls):
+        bf = MockBarFeed(bar.Frequency.DAY)
+        bars = [
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
         ]
-    bf.addBarsFromSequence("orcl", bars)
+        bf.addBarsFromSequence("orcl", bars)
 
-    strat = BacktestingStrategy(bf, 1000)
-    strat.run()
+        strat = MockStrategy(bf, 1000)
+        strat.run()
+
+
+class TestCase(common.TestCase):
+    # Check that strategy and custom logs have the proper datetime, this is, the bars date time.
+    def testBacktestingLog(self):
+        stdout = io.StringIO()
+        with redirect_stderr(stdout):
+            MockStrategy.run_test()
+
+        expectedLines = [
+            "2000-01-01 00:00:00 strategy [INFO] bla",
+            "2000-01-01 00:00:00 custom [INFO] ble",
+        ]
+        self.assertEqual([line.strip() for line in stdout.getvalue().split("\n") if line.strip() != ""], expectedLines)
