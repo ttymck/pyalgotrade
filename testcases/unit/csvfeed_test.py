@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,10 +24,10 @@ import os
 from . import common
 from . import feed_test
 
-from pyalgotrade.feed import csvfeed
-from pyalgotrade import dispatcher
-from pyalgotrade import marketsession
-from pyalgotrade.utils import dt
+from quantworks.feed import csvfeed
+from quantworks import dispatcher
+from quantworks import marketsession
+from quantworks.utils import dt
 
 
 class TestCase(common.TestCase):

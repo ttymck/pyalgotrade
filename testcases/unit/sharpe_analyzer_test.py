@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -23,13 +23,13 @@ import datetime
 from . import common
 from . import strategy_test
 
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import ninjatraderfeed
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade.stratanalyzer import sharpe
-from pyalgotrade.broker import backtesting
-from pyalgotrade import broker
-from pyalgotrade import marketsession
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import ninjatraderfeed
+from quantworks.barfeed import csvfeed
+from quantworks.stratanalyzer import sharpe
+from quantworks.broker import backtesting
+from quantworks import broker
+from quantworks import marketsession
 
 
 class SharpeRatioTestCase(common.TestCase):

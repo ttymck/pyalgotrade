@@ -15,7 +15,7 @@ doc/_build
 /data
 /dist
 /build
-/PyAlgoTrade.egg-info
+/QuantWorks.egg-info
 /notebooks
 
 /testcases/credentials.py

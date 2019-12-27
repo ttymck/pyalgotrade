@@ -1,7 +1,7 @@
 bar -- Instrument prices
 ========================
 
-.. automodule:: pyalgotrade.bar
+.. automodule:: quantworks.bar
     :members:
     :member-order: bysource
     :special-members:

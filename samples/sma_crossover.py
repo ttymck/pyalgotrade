@@ -1,6 +1,6 @@
-from pyalgotrade import strategy
-from pyalgotrade.technical import ma
-from pyalgotrade.technical import cross
+from quantworks import strategy
+from quantworks.technical import ma
+from quantworks.technical import cross
 
 
 class SMACrossOver(strategy.BacktestingStrategy):

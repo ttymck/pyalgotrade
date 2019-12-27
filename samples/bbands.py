@@ -1,11 +1,11 @@
 from __future__ import print_function
 
-from pyalgotrade import strategy
-from pyalgotrade import plotter
-from pyalgotrade.tools import quandl
-from pyalgotrade.technical import bollinger
-from pyalgotrade.stratanalyzer import sharpe
-from pyalgotrade import broker as basebroker
+from quantworks import strategy
+from quantworks import plotter
+from quantworks.tools import quandl
+from quantworks.technical import bollinger
+from quantworks.stratanalyzer import sharpe
+from quantworks import broker as basebroker
 
 
 class BBands(strategy.BacktestingStrategy):

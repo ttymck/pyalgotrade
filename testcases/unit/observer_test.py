@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -25,8 +25,8 @@ from six.moves import xrange
 
 from . import common
 
-from pyalgotrade import observer
-from pyalgotrade import dispatcher
+from quantworks import observer
+from quantworks import dispatcher
 
 
 class NonRealtimeFeed(observer.Subject):

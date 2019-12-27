@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import unittest
@@ -23,8 +23,8 @@ import threading
 import datetime
 import pytest
 
-from pyalgotrade.websocket import pusher
-from pyalgotrade.websocket import client
+from quantworks.websocket import pusher
+from quantworks.websocket import client
 
 
 class WebSocketClient(pusher.WebSocketClient):

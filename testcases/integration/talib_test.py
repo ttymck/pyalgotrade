@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -25,10 +25,10 @@ from six.moves import xrange
 
 from . import common
 
-from pyalgotrade.talibext import indicator
-from pyalgotrade import bar
-from pyalgotrade import dataseries
-from pyalgotrade.dataseries import bards
+from quantworks.talibext import indicator
+from quantworks import bar
+from quantworks import dataseries
+from quantworks.dataseries import bards
 
 
 # Market data used for regression tests (252 price bars) extracted from ta-lib/src/tools/ta_regtest/test_data.c

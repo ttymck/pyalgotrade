@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,16 +15,16 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
 
 from . import common
 
-from pyalgotrade import strategy
-from pyalgotrade import broker
-from pyalgotrade.barfeed import yahoofeed
+from quantworks import strategy
+from quantworks import broker
+from quantworks.barfeed import yahoofeed
 
 
 def get_by_datetime_or_date(dict_, dateTimeOrDate):

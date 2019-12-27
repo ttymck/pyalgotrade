@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,17 +15,17 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
 
 from . import common
 
-from pyalgotrade import barfeed
-from pyalgotrade.barfeed import common as bfcommon
-from pyalgotrade import bar
-from pyalgotrade import dispatcher
+from quantworks import barfeed
+from quantworks.barfeed import common as bfcommon
+from quantworks import bar
+from quantworks import dispatcher
 
 
 def check_base_barfeed(testCase, barFeed, barsHaveAdjClose):

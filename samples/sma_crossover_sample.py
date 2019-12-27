@@ -1,9 +1,9 @@
 from __future__ import print_function
 
 import sma_crossover
-from pyalgotrade import plotter
-from pyalgotrade.tools import quandl
-from pyalgotrade.stratanalyzer import sharpe
+from quantworks import plotter
+from quantworks.tools import quandl
+from quantworks.stratanalyzer import sharpe
 
 
 def main(plot):

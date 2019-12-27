@@ -3,16 +3,16 @@
 Tutorial
 ========
 
-The goal of this tutorial is to give you a quick introduction to PyAlgoTrade.
-As described in the introduction, the goal of PyAlgoTrade is to help you backtest stock trading strategies.
+The goal of this tutorial is to give you a quick introduction to QuantWorks.
+As described in the introduction, the goal of QuantWorks is to help you backtest stock trading strategies.
 Let's say you have an idea for a trading strategy and you'd like to evaluate it with historical data and see how it behaves,
-then PyAlgoTrade should allow you to do so with minimal effort.
+then QuantWorks should allow you to do so with minimal effort.
 
 Before I move on I would like to thank Pablo Jorge who helped reviewing the initial design and documentation.
 
 **This tutorial was developed on a UNIX environment, but the steps to adapt it to a Windows environment should be straightforward.**
 
-PyAlgoTrade has 6 main components:
+QuantWorks has 6 main components:
 
  * Strategies
  * Feeds
@@ -47,9 +47,9 @@ Optimizer
 Having said all that, the first thing that we'll need to test our strategies is some data.
 Let's use Oracle's stock prices for year 2000, which we'll download with the following command: ::
 
-    python -m "pyalgotrade.tools.quandl" --source-code="WIKI" --table-code="ORCL" --from-year=2000 --to-year=2000 --storage=. --force-download --frequency=daily
+    python -m "quantworks.tools.quandl" --source-code="WIKI" --table-code="ORCL" --from-year=2000 --to-year=2000 --storage=. --force-download --frequency=daily
 
-The pyalgotrade.tools.quandl tool downloads CSV formatted data from `Quandl <https://www.quandl.com/>`_. 
+The quantworks.tools.quandl tool downloads CSV formatted data from `Quandl <https://www.quandl.com/>`_. 
 The first few lines of ``WIKI-ORCL-2000-quandl.csv`` should look like this: ::
 
     Date,Open,High,Low,Close,Volume,Ex-Dividend,Split Ratio,Adj. Open,Adj. High,Adj. Low,Adj. Close,Adj. Volume
@@ -165,7 +165,7 @@ Long story short, **we need to go parallel**.
 
 Let's start by downloading 3 years of daily bars for 'IBM': ::
 
-    python -m "pyalgotrade.tools.quandl" --source-code="WIKI" --table-code="IBM" --from-year=2009 --to-year=2011 --storage=. --force-download --frequency=daily
+    python -m "quantworks.tools.quandl" --source-code="WIKI" --table-code="IBM" --from-year=2009 --to-year=2011 --storage=. --force-download --frequency=daily
 
 Save this code as rsi2.py:
 
@@ -181,17 +181,17 @@ The server code is doing 3 things:
  2. Loading the feed with the CSV files we downloaded.
  3. Running the server that will wait for incoming connections on port 5000.
 
-This is the worker script that uses the **pyalgotrade.optimizer.worker** module to run the strategy in parallel with
+This is the worker script that uses the **quantworks.optimizer.worker** module to run the strategy in parallel with
 the data supplied by the server:
 
 .. literalinclude:: ../samples/tutorial-optimizer-worker.py
 
 When you run the server and the client/s you'll see something like this on the server console: ::
 
-    2017-07-21 22:56:51,944 pyalgotrade.optimizer.server [INFO] Starting server
-    2017-07-21 22:56:51,944 pyalgotrade.optimizer.xmlrpcserver [INFO] Loading bars
-    2017-07-21 22:56:52,609 pyalgotrade.optimizer.xmlrpcserver [INFO] Started serving
-    2017-07-21 22:58:50,073 pyalgotrade.optimizer.xmlrpcserver [INFO] Best result so far 1261295.07089 with parameters ('ibm', 150, 5, 2, 83, 24)
+    2017-07-21 22:56:51,944 quantworks.optimizer.server [INFO] Starting server
+    2017-07-21 22:56:51,944 quantworks.optimizer.xmlrpcserver [INFO] Loading bars
+    2017-07-21 22:56:52,609 quantworks.optimizer.xmlrpcserver [INFO] Started serving
+    2017-07-21 22:58:50,073 quantworks.optimizer.xmlrpcserver [INFO] Best result so far 1261295.07089 with parameters ('ibm', 150, 5, 2, 83, 24)
     .
     .
 
@@ -212,7 +212,7 @@ and something like this on the worker/s console: ::
 
 Note that you should run **only one server and one or more workers**.
 
-If you just want to run strategies in parallel in your own desktop you can take advantage of the **pyalgotrade.optimizer.local**
+If you just want to run strategies in parallel in your own desktop you can take advantage of the **quantworks.optimizer.local**
 module like this:
 
 .. literalinclude:: ../samples/tutorial-optimizer-local.py
@@ -221,15 +221,15 @@ The code is doing 3 things:
 
  1. Declaring a generator function that yields different parameter combinations.
  2. Loading the feed with the CSV files we downloaded.
- 3. Using the **pyalgotrade.optimizer.local** module to run the strategy in parallel and find the best result.
+ 3. Using the **quantworks.optimizer.local** module to run the strategy in parallel and find the best result.
 
 When you run this code you should see something like this: ::
 
-    2017-07-21 22:59:26,921 pyalgotrade.optimizer.local [INFO] Starting server
-    2017-07-21 22:59:26,922 pyalgotrade.optimizer.xmlrpcserver [INFO] Loading bars
-    2017-07-21 22:59:26,922 pyalgotrade.optimizer.local [INFO] Starting workers
-    2017-07-21 22:59:27,642 pyalgotrade.optimizer.xmlrpcserver [INFO] Started serving
-    2017-07-21 23:01:14,306 pyalgotrade.optimizer.xmlrpcserver [INFO] Best result so far 1261295.07089 with parameters ('ibm', 150, 5, 2, 83, 24)
+    2017-07-21 22:59:26,921 quantworks.optimizer.local [INFO] Starting server
+    2017-07-21 22:59:26,922 quantworks.optimizer.xmlrpcserver [INFO] Loading bars
+    2017-07-21 22:59:26,922 quantworks.optimizer.local [INFO] Starting workers
+    2017-07-21 22:59:27,642 quantworks.optimizer.xmlrpcserver [INFO] Started serving
+    2017-07-21 23:01:14,306 quantworks.optimizer.xmlrpcserver [INFO] Best result so far 1261295.07089 with parameters ('ibm', 150, 5, 2, 83, 24)
     .
     .
 
@@ -237,7 +237,7 @@ When you run this code you should see something like this: ::
 Plotting
 --------
 
-PyAlgoTrade makes it very easy to plot a strategy execution.
+QuantWorks makes it very easy to plot a strategy execution.
 
 Save this as sma_crossover.py:
 
@@ -257,7 +257,7 @@ This is what the plot looks like:
 
 .. image:: ../samples/tutorial-5.png
 
-I hope you enjoyed this quick introduction. I'd recommend you to download PyAlgoTrade here: http://gbeced.github.io/pyalgotrade/downloads/index.html 
+I hope you enjoyed this quick introduction. I'd recommend you to download QuantWorks here: http://gbeced.github.io/quantworks/downloads/index.html 
 and get started writing you own strategies.
 
 You can also find more examples in the :ref:`samples-label` section.

@@ -1,7 +1,7 @@
 plotter -- Strategy plotter
 ===========================
 
-.. automodule:: pyalgotrade.plotter
+.. automodule:: quantworks.plotter
     :members: Subplot, InstrumentSubplot, StrategyPlotter
     :show-inheritance:
 

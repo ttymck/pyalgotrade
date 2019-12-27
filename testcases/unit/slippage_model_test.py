@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,17 +15,17 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import unittest
 
 from . import broker_backtesting_test
 
-from pyalgotrade import broker
-from pyalgotrade.broker import slippage
-from pyalgotrade.broker import backtesting
-from pyalgotrade import bar
+from quantworks import broker
+from quantworks.broker import slippage
+from quantworks.broker import backtesting
+from quantworks import bar
 
 
 class BaseTestCase(unittest.TestCase):

@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import sys
@@ -23,9 +23,9 @@ import logging
 
 from . import common
 
-from pyalgotrade.optimizer import local
-from pyalgotrade import strategy
-from pyalgotrade.barfeed import yahoofeed
+from quantworks.optimizer import local
+from quantworks import strategy
+from quantworks.barfeed import yahoofeed
 
 sys.path.append("samples")
 import sma_crossover

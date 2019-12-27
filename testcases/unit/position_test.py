@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,16 +24,16 @@ import pytz
 from . import common
 from . import strategy_test
 
-from pyalgotrade import bar
-from pyalgotrade import strategy
-from pyalgotrade.strategy import position
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade import barfeed
-from pyalgotrade.barfeed import membf
-from pyalgotrade.barfeed import ninjatraderfeed
-from pyalgotrade.utils import dt
-from pyalgotrade import marketsession
+from quantworks import bar
+from quantworks import strategy
+from quantworks.strategy import position
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import csvfeed
+from quantworks import barfeed
+from quantworks.barfeed import membf
+from quantworks.barfeed import ninjatraderfeed
+from quantworks.utils import dt
+from quantworks import marketsession
 
 
 def load_daily_barfeed(instrument):

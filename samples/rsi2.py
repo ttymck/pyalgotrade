@@ -1,7 +1,7 @@
-from pyalgotrade import strategy
-from pyalgotrade.technical import ma
-from pyalgotrade.technical import rsi
-from pyalgotrade.technical import cross
+from quantworks import strategy
+from quantworks.technical import ma
+from quantworks.technical import rsi
+from quantworks.technical import cross
 
 
 class RSI2(strategy.BacktestingStrategy):

@@ -3,7 +3,7 @@
 barfeed -- Bar providers
 ========================
 
-.. automodule:: pyalgotrade.barfeed
+.. automodule:: quantworks.barfeed
     :members: BaseBarFeed
     :member-order: bysource
     :special-members:
@@ -12,31 +12,31 @@ barfeed -- Bar providers
 
 CSV
 ---
-.. automodule:: pyalgotrade.barfeed.csvfeed
+.. automodule:: quantworks.barfeed.csvfeed
     :members: BarFeed, GenericBarFeed
     :show-inheritance:
 
 Yahoo! Finance
 --------------
-.. automodule:: pyalgotrade.barfeed.yahoofeed
+.. automodule:: quantworks.barfeed.yahoofeed
     :members: Feed
     :show-inheritance:
 
 Google Finance
 --------------
-.. automodule:: pyalgotrade.barfeed.googlefeed
+.. automodule:: quantworks.barfeed.googlefeed
     :members: Feed
     :show-inheritance:
 
 Quandl
 ------
-.. automodule:: pyalgotrade.barfeed.quandlfeed
+.. automodule:: quantworks.barfeed.quandlfeed
     :members: Feed
     :show-inheritance:
 
 Ninja Trader
 ------------
-.. automodule:: pyalgotrade.barfeed.ninjatraderfeed
+.. automodule:: quantworks.barfeed.ninjatraderfeed
     :members: Feed
     :show-inheritance:
 

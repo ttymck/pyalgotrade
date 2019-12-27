@@ -1,7 +1,7 @@
 technical -- Technical indicators
 =================================
 
-.. automodule:: pyalgotrade.technical
+.. automodule:: quantworks.technical
     :members: EventWindow, EventBasedFilter
     :show-inheritance:
 
@@ -19,69 +19,69 @@ The output should be:
 Moving Averages
 ---------------
 
-.. automodule:: pyalgotrade.technical.ma
+.. automodule:: quantworks.technical.ma
     :members: SMA, EMA, WMA
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.vwap
+.. automodule:: quantworks.technical.vwap
     :members: VWAP
     :show-inheritance:
 
 Momentum Indicators
 -------------------
 
-.. automodule:: pyalgotrade.technical.macd
+.. automodule:: quantworks.technical.macd
     :members: MACD
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.rsi
+.. automodule:: quantworks.technical.rsi
     :members: RSI
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.stoch
+.. automodule:: quantworks.technical.stoch
     :members: StochasticOscillator
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.roc
+.. automodule:: quantworks.technical.roc
     :members: RateOfChange
     :show-inheritance:
 
 Other Indicators
 ----------------
 
-.. automodule:: pyalgotrade.technical.atr
+.. automodule:: quantworks.technical.atr
     :members: ATR
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.bollinger
+.. automodule:: quantworks.technical.bollinger
     :members: BollingerBands
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.cross
+.. automodule:: quantworks.technical.cross
     :members: cross_above, cross_below
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.cumret
+.. automodule:: quantworks.technical.cumret
     :members: CumulativeReturn
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.highlow
+.. automodule:: quantworks.technical.highlow
     :members: High, Low
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.hurst
+.. automodule:: quantworks.technical.hurst
     :members: HurstExponent
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.linebreak
+.. automodule:: quantworks.technical.linebreak
     :members: Line, LineBreak
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.linreg
+.. automodule:: quantworks.technical.linreg
     :members: LeastSquaresRegression, Slope
     :show-inheritance:
 
-.. automodule:: pyalgotrade.technical.stats
+.. automodule:: quantworks.technical.stats
     :members: StdDev, ZScore
     :show-inheritance:
 

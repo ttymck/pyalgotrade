@@ -3,12 +3,12 @@ feed -- Basic feeds
 
 Feeds are time series data providing abstractions.
 When these are included in the event dispatch loop, they emit an event as new data is available.
-Feeds are also responsible for updating the :class:`pyalgotrade.dataseries.DataSeries` associated 
+Feeds are also responsible for updating the :class:`quantworks.dataseries.DataSeries` associated 
 with each piece of data that the feed provides.
 
 **This package has basic feeds. For bar feeds refer to the** :ref:`barfeed-label` **section.**
 
-.. automodule:: pyalgotrade.feed
+.. automodule:: quantworks.feed
     :members: BaseFeed
     :special-members:
     :exclude-members: __weakref__
@@ -17,7 +17,7 @@ with each piece of data that the feed provides.
 CSV support
 -----------
 
-.. automodule:: pyalgotrade.feed.csvfeed
+.. automodule:: quantworks.feed.csvfeed
     :members: Feed
     :special-members:
     :exclude-members: __weakref__

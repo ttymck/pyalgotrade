@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,14 +15,14 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 from . import common
 
-from pyalgotrade.technical import cross
-from pyalgotrade.technical import ma
-from pyalgotrade import dataseries
+from quantworks.technical import cross
+from quantworks.technical import ma
+from quantworks import dataseries
 
 
 class HelpersTestCase(common.TestCase):

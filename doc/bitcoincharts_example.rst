@@ -2,7 +2,7 @@ Bitcoin Charts example
 ======================
 
 Although it is absolutely possible to backtest a strategy with tick data as supplied by
-http://www.bitcoincharts.com/about/markets-api/ using :class:`pyalgotrade.bitcoincharts.barfeed.CSVTradeFeed`,
+http://www.bitcoincharts.com/about/markets-api/ using :class:`quantworks.bitcoincharts.barfeed.CSVTradeFeed`,
 you may want to to backtest using summarized bars at a different frequency to make backtesting faster.
 
 As of 12-Aug-2014, http://api.bitcoincharts.com/v1/csv/bitstampUSD.csv.gz has 4588830 events so we'll transform a portion of
@@ -23,7 +23,7 @@ It will take some time to execute, so be patient. The resampled file should look
     .
     .
 
-We can now take advantage of :class:`pyalgotrade.barfeed.csvfeed.GenericBarFeed` to load the resampled file and backtest a
+We can now take advantage of :class:`quantworks.barfeed.csvfeed.GenericBarFeed` to load the resampled file and backtest a
 Bitcoin strategy. We'll be using a VWAP momentum strategy for illustration purposes:
 
 .. literalinclude:: ../samples/bccharts_example_2.py

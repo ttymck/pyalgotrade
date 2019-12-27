@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,18 +15,18 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import sys
 sys.path.append("../..")
 
-import pyalgotrade.logger
+import quantworks.logger
 import lxml.html
 import symbolsxml
 
-# pyalgotrade.logger.file_log = "get_sp500_symbols.log"
-logger = pyalgotrade.logger.getLogger("get_sp500_symbols")
+# quantworks.logger.file_log = "get_sp500_symbols.log"
+logger = quantworks.logger.getLogger("get_sp500_symbols")
 
 TICKER_SYMBOL_COL = 0
 COMPANY_COL = 1

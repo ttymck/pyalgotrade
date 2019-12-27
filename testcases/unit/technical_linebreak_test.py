@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,18 +15,18 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
 
 from . import common
 
-from pyalgotrade.technical import linebreak
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade import dataseries
-from pyalgotrade import bar
-from pyalgotrade.dataseries import bards
+from quantworks.technical import linebreak
+from quantworks.barfeed import yahoofeed
+from quantworks import dataseries
+from quantworks import bar
+from quantworks.dataseries import bards
 
 
 class LineBreakTestCase(common.TestCase):

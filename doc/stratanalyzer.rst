@@ -3,31 +3,31 @@ stratanalyzer -- Strategy analyzers
 
 Strategy analyzers provide an extensible way to attach different calculations to strategy executions.
 
-.. automodule:: pyalgotrade.stratanalyzer
+.. automodule:: quantworks.stratanalyzer
     :members: StrategyAnalyzer
     :show-inheritance:
 
 Returns
 -------
-.. automodule:: pyalgotrade.stratanalyzer.returns
+.. automodule:: quantworks.stratanalyzer.returns
     :members: Returns
     :show-inheritance:
 
 Sharpe Ratio
 ------------
-.. automodule:: pyalgotrade.stratanalyzer.sharpe
+.. automodule:: quantworks.stratanalyzer.sharpe
     :members: SharpeRatio
     :show-inheritance:
 
 DrawDown
 --------
-.. automodule:: pyalgotrade.stratanalyzer.drawdown
+.. automodule:: quantworks.stratanalyzer.drawdown
     :members: DrawDown
     :show-inheritance:
 
 Trades
 ------
-.. automodule:: pyalgotrade.stratanalyzer.trades
+.. automodule:: quantworks.stratanalyzer.trades
     :members: Trades
     :member-order: bysource
     :show-inheritance:

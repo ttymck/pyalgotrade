@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# PyAlgoTrade documentation build configuration file, created by
+# QuantWorks documentation build configuration file, created by
 # sphinx-quickstart on Fri Nov  4 21:48:31 2011.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -43,7 +43,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyAlgoTrade'
+project = u'QuantWorks'
 copyright = u'2011-2014, Gabriel Martín Becedillas Ruiz'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -167,7 +167,7 @@ html_static_path = ['_static']
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'PyAlgoTradedoc'
+htmlhelp_basename = 'QuantWorksdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -186,7 +186,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'PyAlgoTrade.tex', u'PyAlgoTrade Documentation',
+  ('index', 'QuantWorks.tex', u'QuantWorks Documentation',
    u'Gabriel Martín Becedillas Ruiz', 'manual'),
 ]
 
@@ -216,7 +216,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'pyalgotrade', u'PyAlgoTrade Documentation',
+    ('index', 'quantworks', u'QuantWorks Documentation',
      [u'Gabriel Martín Becedillas Ruiz'], 1)
 ]
 
@@ -230,8 +230,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'PyAlgoTrade', u'PyAlgoTrade Documentation',
-   u'Gabriel Martín Becedillas Ruiz', 'PyAlgoTrade', 'One line description of project.',
+  ('index', 'QuantWorks', u'QuantWorks Documentation',
+   u'Gabriel Martín Becedillas Ruiz', 'QuantWorks', 'One line description of project.',
    'Miscellaneous'),
 ]
 

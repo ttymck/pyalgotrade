@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,9 +24,9 @@ from six.moves import xrange
 
 from . import common
 
-from pyalgotrade import utils
-from pyalgotrade.utils import collections
-from pyalgotrade.utils import dt
+from quantworks import utils
+from quantworks.utils import collections
+from quantworks.utils import dt
 
 
 class UtilsTestCase(common.TestCase):

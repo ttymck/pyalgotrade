@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import unittest
@@ -30,15 +30,15 @@ from six.moves import queue
 from .. import common as tc_common
 from .. import test_strategy
 
-from pyalgotrade import broker as basebroker
-from pyalgotrade.bitstamp import barfeed
-from pyalgotrade.bitstamp import broker
-from pyalgotrade.bitstamp import wsclient
-from pyalgotrade.bitstamp import httpclient
-from pyalgotrade.bitstamp import common
-from pyalgotrade.bitcoincharts import barfeed as btcbarfeed
-from pyalgotrade import strategy
-from pyalgotrade import dispatcher
+from quantworks import broker as basebroker
+from quantworks.bitstamp import barfeed
+from quantworks.bitstamp import broker
+from quantworks.bitstamp import wsclient
+from quantworks.bitstamp import httpclient
+from quantworks.bitstamp import common
+from quantworks.bitcoincharts import barfeed as btcbarfeed
+from quantworks import strategy
+from quantworks import dispatcher
 
 
 class WebSocketClientThreadMock(threading.Thread):

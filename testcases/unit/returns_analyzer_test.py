@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -25,11 +25,11 @@ from . import strategy_test
 from . import position_test
 from testcases import test_strategy
 
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade.stratanalyzer import returns
-from pyalgotrade import broker
-from pyalgotrade import marketsession
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import csvfeed
+from quantworks.stratanalyzer import returns
+from quantworks import broker
+from quantworks import marketsession
 
 
 class TimeWeightedReturnsTestCase(common.TestCase):

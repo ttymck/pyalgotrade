@@ -1,6 +1,6 @@
 import itertools
-from pyalgotrade.optimizer import local
-from pyalgotrade.barfeed import quandlfeed
+from quantworks.optimizer import local
+from quantworks.barfeed import quandlfeed
 import rsi2
 
 
