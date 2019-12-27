@@ -20,6 +20,7 @@
 
 import os
 import datetime
+import pytest
 import tempfile
 import shutil
 import subprocess
@@ -102,6 +103,7 @@ class ToolsTestCase(common.TestCase):
             # as time passes by.
             self.assertNotEqual(bf[instrument][-1].getAdjClose(), None)
 
+    @pytest.mark.skip(reason="404 Not Found")
     def testDownloadAndParseDailyNoAdjClose(self):
         with common.TmpDir() as tmpPath:
             instrument = "IWG"
@@ -209,6 +211,7 @@ class ToolsTestCase(common.TestCase):
             bf.loadAll()
             self.assertNotIn(instrument, bf)
 
+    @pytest.mark.skip(reason="404 Not Found")
     def testMapColumnNames(self):
         column_names = {
             "open": "Price",
