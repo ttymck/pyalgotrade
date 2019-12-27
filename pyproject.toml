@@ -23,6 +23,7 @@ tornado = "6.0.3"
 tweepy = "3.8.0"
 ws4py = "0.3.4"
 TA-Lib = { version = "^0.4.17", optional = true }
+coveralls = "^1.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"

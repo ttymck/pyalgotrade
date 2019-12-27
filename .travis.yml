@@ -1,6 +1,6 @@
 language: python
 python:
-  - "2.7"
+  - "3.7"
 
 env:
   global:
@@ -14,21 +14,14 @@ env:
 
 sudo: required
 
-services:
-  - docker
-
 before_install:
-  - docker pull gbecedillas/pyalgotrade:0.20-py27
-  - cp travis/Dockerfile .
-  - docker build -t pyalgotrade_testcases .
-  - sudo pip install coveralls
+  - sudo apt-get update
+  - python -m pip install poetry
 
 script:
-  - docker run --name testcases --env TWITTER_CONSUMER_KEY=$TWITTER_CONSUMER_KEY --env TWITTER_CONSUMER_SECRET=$TWITTER_CONSUMER_SECRET --env TWITTER_ACCESS_TOKEN=$TWITTER_ACCESS_TOKEN --env TWITTER_ACCESS_TOKEN_SECRET=$TWITTER_ACCESS_TOKEN_SECRET --env QUANDL_API_KEY=$QUANDL_API_KEY pyalgotrade_testcases /bin/bash -c "cd /tmp/pyalgotrade; ./run_tests.sh"
+  - export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+  - export PYTHONPATH=.
+  - poetry run tox -v
 
 after_success:
-  - docker cp testcases:/tmp/pyalgotrade/.coverage .
-  # .coverage file has absolute paths in it, so we need to put the source in the right path for coveralls to find it.
-  - mkdir /tmp/pyalgotrade
-  - docker cp testcases:/tmp/pyalgotrade/pyalgotrade /tmp/pyalgotrade/pyalgotrade
-  - coveralls
+  - poetry run coveralls

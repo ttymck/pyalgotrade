@@ -23,9 +23,9 @@ import datetime
 from pyalgotrade import strategy
 
 
-class TestStrategyMixin(object):
+class StrategyMixin(object):
     def __init__(self, *args, **kwargs):
-        super(TestStrategyMixin, self).__init__(*args, **kwargs)
+        super(StrategyMixin, self).__init__(*args, **kwargs)
         self.posExecutionInfo = []
         self.ordersUpdated = []
         self.orderExecutionInfo = []
@@ -65,11 +65,11 @@ class TestStrategyMixin(object):
             callable()
 
 
-class BaseStrategy(TestStrategyMixin, strategy.BaseStrategy):
+class BaseStrategy(StrategyMixin, strategy.BaseStrategy):
     def __init__(self, barFeed, broker):
         super(BaseStrategy, self).__init__(barFeed, broker)
 
 
-class BacktestingStrategy(TestStrategyMixin, strategy.BacktestingStrategy):
+class BacktestingStrategy(StrategyMixin, strategy.BacktestingStrategy):
     def __init__(self, barFeed, cash_or_brk=1000000):
         super(BacktestingStrategy, self).__init__(barFeed, cash_or_brk)
