@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 from contextlib import redirect_stderr
@@ -23,10 +23,10 @@ import datetime, io
 
 from testcases import common
 
-from pyalgotrade import strategy
-from pyalgotrade import bar
-from pyalgotrade import logger
-from pyalgotrade.barfeed import membf
+from quantworks import strategy
+from quantworks import bar
+from quantworks import logger
+from quantworks.barfeed import membf
 
 
 class MockBarFeed(membf.BarFeed):

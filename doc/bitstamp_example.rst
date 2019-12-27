@@ -11,10 +11,10 @@ in the :ref:`tutorial-label` section.
 
 The key things to highlight are:
 
- 1. We're using :class:`pyalgotrade.strategy.BaseStrategy` instead of :class:`pyalgotrade.strategy.BacktestingStrategy`
+ 1. We're using :class:`quantworks.strategy.BaseStrategy` instead of :class:`quantworks.strategy.BacktestingStrategy`
     as the base class. This is not a backtest.
  2. Trade events get notified via the call to **onBars**. No need to manually subscribe.
- 3. Order book update events are handled by manually subscribing to :class:`pyalgotrade.bitstamp.barfeed.LiveTradeFeed.getOrderBookUpdateEvent`.
+ 3. Order book update events are handled by manually subscribing to :class:`quantworks.bitstamp.barfeed.LiveTradeFeed.getOrderBookUpdateEvent`.
     This is needed to stay up to date with latest bid and ask prices.
 
 .. literalinclude:: ../samples/tutorial_bitstamp_1.py
@@ -130,8 +130,8 @@ The output should look like this: ::
     .
     .
 
-In order to live trade this strategy you should use :class:`pyalgotrade.bitstamp.broker.LiveBroker` instead of
-:class:`pyalgotrade.bitstamp.broker.PaperTradingBroker`.
+In order to live trade this strategy you should use :class:`quantworks.bitstamp.broker.LiveBroker` instead of
+:class:`quantworks.bitstamp.broker.PaperTradingBroker`.
 
 **Note that if you try to live trade this strategy you will probably loose money.**
 Before jumping into live trading, be sure to write your own strategy, backtest and paper trade it thoroughly

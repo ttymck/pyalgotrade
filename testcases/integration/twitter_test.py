@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import os
@@ -29,10 +29,10 @@ try:
 except:
     pass
 
-from pyalgotrade import dispatcher
+from quantworks import dispatcher
 
 try:
-    from pyalgotrade.twitter import feed as twitterfeed
+    from quantworks.twitter import feed as twitterfeed
 
 
     class TwitterFeedTestCase(common.TestCase):

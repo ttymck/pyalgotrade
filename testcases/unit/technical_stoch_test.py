@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,9 +24,9 @@ from six.moves import xrange
 
 from . import common
 
-from pyalgotrade.technical import stoch
-from pyalgotrade.dataseries import bards
-from pyalgotrade import bar
+from quantworks.technical import stoch
+from quantworks.dataseries import bards
+from quantworks import bar
 
 
 def values_equal(v1, v2):

@@ -1,4 +1,4 @@
-from pyalgotrade.optimizer import worker
+from quantworks.optimizer import worker
 import rsi2
 
 # The if __name__ == '__main__' part is necessary if running on Windows.

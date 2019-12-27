@@ -1,6 +1,6 @@
-from pyalgotrade.bitcoincharts import barfeed
-from pyalgotrade.tools import resample
-from pyalgotrade import bar
+from quantworks.bitcoincharts import barfeed
+from quantworks.tools import resample
+from quantworks import bar
 
 import datetime
 

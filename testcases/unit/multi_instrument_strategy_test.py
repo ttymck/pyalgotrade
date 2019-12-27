@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,18 +15,18 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 from . import common
 
-from pyalgotrade import bar
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import sqlitefeed
-from pyalgotrade import marketsession
-from pyalgotrade import strategy
-from pyalgotrade.technical import ma
-from pyalgotrade.technical import cross
+from quantworks import bar
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import sqlitefeed
+from quantworks import marketsession
+from quantworks import strategy
+from quantworks.technical import ma
+from quantworks.technical import cross
 
 
 class NikkeiSpyStrategy(strategy.BacktestingStrategy):

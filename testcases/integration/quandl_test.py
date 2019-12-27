@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import os
@@ -29,9 +29,9 @@ import six
 
 from .. import common
 
-from pyalgotrade.tools import quandl
-from pyalgotrade import bar
-from pyalgotrade.barfeed import quandlfeed
+from quantworks.tools import quandl
+from quantworks import bar
+from quantworks.barfeed import quandlfeed
 
 try:
     # This will get environment variables set.
@@ -297,7 +297,7 @@ class ToolsTestCase(common.TestCase):
         try:
             instrument = "ORCL"
             subprocess.call([
-                "python", "-m", "pyalgotrade.tools.quandl",
+                "python", "-m", "quantworks.tools.quandl",
                 "--source-code=WIKI",
                 "--table-code=%s" % instrument,
                 "--from-year=2010",
@@ -324,7 +324,7 @@ class ToolsTestCase(common.TestCase):
         try:
             instrument = "AAPL"
             subprocess.call([
-                "python", "-m", "pyalgotrade.tools.quandl",
+                "python", "-m", "quantworks.tools.quandl",
                 "--source-code=WIKI",
                 "--table-code=%s" % instrument,
                 "--from-year=2010",
@@ -352,7 +352,7 @@ class ToolsTestCase(common.TestCase):
             instrument = "inexistent"
             output = check_output(
                 [
-                    "python", "-m", "pyalgotrade.tools.quandl",
+                    "python", "-m", "quantworks.tools.quandl",
                     "--source-code=WIKI",
                     "--table-code=%s" % instrument,
                     "--from-year=2010",
@@ -371,7 +371,7 @@ class ToolsTestCase(common.TestCase):
                 instrument = "inexistent"
                 check_output(
                     [
-                        "python", "-m", "pyalgotrade.tools.quandl",
+                        "python", "-m", "quantworks.tools.quandl",
                         "--source-code=WIKI",
                         "--table-code=%s" % instrument,
                         "--from-year=2010",

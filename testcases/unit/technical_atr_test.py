@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,10 +24,10 @@ from six.moves import xrange
 
 from . import common
 
-from pyalgotrade.technical import atr
-from pyalgotrade import bar
-from pyalgotrade.dataseries import bards
-from pyalgotrade import dataseries
+from quantworks.technical import atr
+from quantworks import bar
+from quantworks.dataseries import bards
+from quantworks import dataseries
 
 
 class TestCase(common.TestCase):

@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import unittest
@@ -23,10 +23,10 @@ import datetime
 
 from . import broker_backtesting_test
 
-from pyalgotrade import broker
-from pyalgotrade.broker import fillstrategy
-from pyalgotrade.broker import backtesting
-from pyalgotrade import bar
+from quantworks import broker
+from quantworks.broker import fillstrategy
+from quantworks.broker import backtesting
+from quantworks import bar
 
 
 class BaseTestCase(unittest.TestCase):

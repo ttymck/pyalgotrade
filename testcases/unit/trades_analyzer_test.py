@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -30,11 +30,11 @@ from . import common
 from . import strategy_test
 from . import position_test
 
-from pyalgotrade.barfeed import ninjatraderfeed
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade.stratanalyzer import trades
-from pyalgotrade import broker
-from pyalgotrade.broker import backtesting
+from quantworks.barfeed import ninjatraderfeed
+from quantworks.barfeed import csvfeed
+from quantworks.stratanalyzer import trades
+from quantworks import broker
+from quantworks.broker import backtesting
 
 
 def buildUTCDateTime(year, month, day, hour, minute):

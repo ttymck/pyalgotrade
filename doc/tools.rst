@@ -4,7 +4,7 @@ Tools
 Quandl
 ------
 
-.. automodule:: pyalgotrade.tools.quandl
+.. automodule:: quantworks.tools.quandl
     :members:
     :show-inheritance:
 
@@ -12,7 +12,7 @@ Quandl
 BarFeed resampling
 ------------------
 
-.. automodule:: pyalgotrade.tools.resample
+.. automodule:: quantworks.tools.resample
     :members:
     :show-inheritance:
 

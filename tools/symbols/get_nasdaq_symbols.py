@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,20 +15,20 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import sys
 sys.path.append("../..")
 
-import pyalgotrade.logger
+import quantworks.logger
 import tempfile
 import urllib2
 import csv
 import symbolsxml
 
 
-logger = pyalgotrade.logger.getLogger("get_nasdaq_symbols")
+logger = quantworks.logger.getLogger("get_nasdaq_symbols")
 
 
 def main():

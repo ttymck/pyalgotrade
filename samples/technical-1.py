@@ -1,7 +1,7 @@
 from __future__ import print_function
 
-from pyalgotrade import dataseries
-from pyalgotrade import technical
+from quantworks import dataseries
+from quantworks import technical
 
 
 # An EventWindow is responsible for making calculations using a window of values.

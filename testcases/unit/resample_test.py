@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -23,18 +23,18 @@ import os
 
 from . import common
 
-from pyalgotrade.barfeed import ninjatraderfeed
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade.tools import resample
-from pyalgotrade import marketsession
-from pyalgotrade.utils import dt
-from pyalgotrade.dataseries import resampled as resampled_ds
-from pyalgotrade.barfeed import resampled as resampled_bf
-from pyalgotrade.dataseries import bards
-from pyalgotrade import bar
-from pyalgotrade import dispatcher
-from pyalgotrade import resamplebase
+from quantworks.barfeed import ninjatraderfeed
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import csvfeed
+from quantworks.tools import resample
+from quantworks import marketsession
+from quantworks.utils import dt
+from quantworks.dataseries import resampled as resampled_ds
+from quantworks.barfeed import resampled as resampled_bf
+from quantworks.dataseries import bards
+from quantworks import bar
+from quantworks import dispatcher
+from quantworks import resamplebase
 
 
 class IntraDayRange(common.TestCase):

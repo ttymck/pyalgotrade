@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import sys
@@ -23,16 +23,16 @@ import os
 import datetime
 
 sys.path.append(os.path.join("..", "symbols"))
-sys.path.append(os.path.join("..", ".."))  # For pyalgotrade
+sys.path.append(os.path.join("..", ".."))  # For quantworks
 
 import symbolsxml
 import merval_calendar
-import pyalgotrade.logger
+import quantworks.logger
 
-pyalgotrade.logger.file_log = "analyze_gaps.log"
-logger = pyalgotrade.logger.getLogger("analyze_gaps")
+quantworks.logger.file_log = "analyze_gaps.log"
+logger = quantworks.logger.getLogger("analyze_gaps")
 
-from pyalgotrade.barfeed import yahoofeed
+from quantworks.barfeed import yahoofeed
 
 
 storage = "data"

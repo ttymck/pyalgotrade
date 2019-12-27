@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -23,11 +23,11 @@ import datetime
 from . import common
 from . import strategy_test
 
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import membf
-from pyalgotrade.stratanalyzer import drawdown
-from pyalgotrade import broker
-from pyalgotrade import bar
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import membf
+from quantworks.stratanalyzer import drawdown
+from quantworks import broker
+from quantworks import bar
 
 
 def build_bars_from_closing_prices(closingPrices):

@@ -7,17 +7,17 @@ Buying and selling can be done in two ways:
 
     * Placing individual orders using any of the following methods:
 
-     * :meth:`pyalgotrade.strategy.BaseStrategy.marketOrder`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.limitOrder`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.stopOrder`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.stopLimitOrder`
+     * :meth:`quantworks.strategy.BaseStrategy.marketOrder`
+     * :meth:`quantworks.strategy.BaseStrategy.limitOrder`
+     * :meth:`quantworks.strategy.BaseStrategy.stopOrder`
+     * :meth:`quantworks.strategy.BaseStrategy.stopLimitOrder`
 
     * Using a higher level interface that wrap a pair of entry/exit orders:
 
-     * :meth:`pyalgotrade.strategy.BaseStrategy.enterLong`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.enterShort`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.enterLongLimit`
-     * :meth:`pyalgotrade.strategy.BaseStrategy.enterShortLimit`
+     * :meth:`quantworks.strategy.BaseStrategy.enterLong`
+     * :meth:`quantworks.strategy.BaseStrategy.enterShort`
+     * :meth:`quantworks.strategy.BaseStrategy.enterLongLimit`
+     * :meth:`quantworks.strategy.BaseStrategy.enterShortLimit`
 
 Positions are higher level abstractions for placing orders. They are escentially a pair of entry-exit orders and provide
 easier tracking for returns and PnL than using individual orders.
@@ -26,7 +26,7 @@ easier tracking for returns and PnL than using individual orders.
 Strategy
 --------
 
-.. automodule:: pyalgotrade.strategy
+.. automodule:: quantworks.strategy
     :members: BaseStrategy, BacktestingStrategy
     :show-inheritance:
     :member-order: bysource
@@ -34,7 +34,7 @@ Strategy
 Position
 --------
 
-.. automodule:: pyalgotrade.strategy.position
+.. automodule:: quantworks.strategy.position
     :members: Position
     :show-inheritance:
     :member-order: bysource

@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
@@ -24,10 +24,10 @@ from . import common
 from . import barfeed_test
 from . import feed_test
 
-from pyalgotrade.barfeed import ninjatraderfeed
-from pyalgotrade import marketsession
-from pyalgotrade import bar
-from pyalgotrade.utils import dt
+from quantworks.barfeed import ninjatraderfeed
+from quantworks import marketsession
+from quantworks import bar
+from quantworks.utils import dt
 
 
 class NinjaTraderTestCase(common.TestCase):

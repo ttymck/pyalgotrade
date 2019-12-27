@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,21 +15,21 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import os
 import sys
 
 sys.path.append(os.path.join("..", "symbols"))
-sys.path.append(os.path.join("..", ".."))  # For pyalgotrade
+sys.path.append(os.path.join("..", ".."))  # For quantworks
 
-import pyalgotrade.logger
+import quantworks.logger
 
-pyalgotrade.logger.file_log = "download_data.log"
-logger = pyalgotrade.logger.getLogger("download_data")
+quantworks.logger.file_log = "download_data.log"
+logger = quantworks.logger.getLogger("download_data")
 
-from pyalgotrade.tools import yahoofinance
+from quantworks.tools import yahoofinance
 import symbolsxml
 
 

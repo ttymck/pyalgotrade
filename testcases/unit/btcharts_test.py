@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,15 +15,15 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import datetime
 
 from . import common
 
-from pyalgotrade.bitcoincharts import barfeed
-from pyalgotrade.utils import dt
+from quantworks.bitcoincharts import barfeed
+from quantworks.utils import dt
 
 
 class TestCase(common.TestCase):

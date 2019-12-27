@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import os
@@ -25,10 +25,10 @@ from six.moves import xrange
 from . import common
 from . import feed_test
 
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.barfeed import sqlitefeed
-from pyalgotrade import bar
-from pyalgotrade import marketsession
+from quantworks.barfeed import yahoofeed
+from quantworks.barfeed import sqlitefeed
+from quantworks import bar
+from quantworks import marketsession
 
 
 class TemporarySQLiteFeed:

@@ -1,8 +1,8 @@
-from pyalgotrade.bitstamp import barfeed
-from pyalgotrade.bitstamp import broker
-from pyalgotrade import strategy
-from pyalgotrade.technical import ma
-from pyalgotrade.technical import cross
+from quantworks.bitstamp import barfeed
+from quantworks.bitstamp import broker
+from quantworks import strategy
+from quantworks.technical import ma
+from quantworks.technical import cross
 
 
 class Strategy(strategy.BaseStrategy):

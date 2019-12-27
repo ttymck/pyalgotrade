@@ -4,7 +4,7 @@ broker -- Order management classes
 Base module and classes
 ------------------------
 
-.. automodule:: pyalgotrade.broker
+.. automodule:: quantworks.broker
     :members: Order, MarketOrder, LimitOrder, StopOrder, StopLimitOrder, OrderExecutionInfo, Broker
     :member-order: bysource
     :show-inheritance:
@@ -12,14 +12,14 @@ Base module and classes
 Backtesting module and classes
 ------------------------------
 
-.. automodule:: pyalgotrade.broker.backtesting
+.. automodule:: quantworks.broker.backtesting
     :members: Commission, NoCommission, FixedPerTrade, TradePercentage, Broker
     :show-inheritance:
 
-.. automodule:: pyalgotrade.broker.slippage
+.. automodule:: quantworks.broker.slippage
     :members: SlippageModel, NoSlippage, VolumeShareSlippage
     :show-inheritance:
 
-.. automodule:: pyalgotrade.broker.fillstrategy
+.. automodule:: quantworks.broker.fillstrategy
     :members: FillStrategy, DefaultStrategy
     :show-inheritance:
