@@ -113,7 +113,7 @@ class NinjaTraderTestCase(common.TestCase):
         barfeed_test.check_base_barfeed(self, barFeed, False)
 
     def testInvalidFrequency(self):
-        with self.assertRaisesRegexp(Exception, "Invalid frequency.*"):
+        with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
             ninjatraderfeed.Feed(bar.Frequency.WEEK)
 
     def testReset(self):

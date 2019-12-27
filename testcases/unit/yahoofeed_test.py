@@ -96,15 +96,15 @@ class FeedTestCase(common.TestCase):
 
     def testDefaultInstrument(self):
         barFeed = yahoofeed.Feed()
-        self.assertEquals(barFeed.getDefaultInstrument(), None)
+        self.assertEqual(barFeed.getDefaultInstrument(), None)
         barFeed.addBarsFromCSV(FeedTestCase.TestInstrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
-        self.assertEquals(barFeed.getDefaultInstrument(), FeedTestCase.TestInstrument)
+        self.assertEqual(barFeed.getDefaultInstrument(), FeedTestCase.TestInstrument)
 
     def testDuplicateBars(self):
         barFeed = yahoofeed.Feed()
         barFeed.addBarsFromCSV(FeedTestCase.TestInstrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
         barFeed.addBarsFromCSV(FeedTestCase.TestInstrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
-        with self.assertRaisesRegexp(Exception, "Duplicate bars found for.*"):
+        with self.assertRaisesRegex(Exception, "Duplicate bars found for.*"):
             barFeed.loadAll()
 
     def testBaseBarFeed(self):
@@ -114,7 +114,7 @@ class FeedTestCase(common.TestCase):
         barfeed_test.check_base_barfeed(self, barFeed, True)
 
     def testInvalidFrequency(self):
-        with self.assertRaisesRegexp(Exception, "Invalid frequency.*"):
+        with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
             yahoofeed.Feed(frequency=bar.Frequency.MINUTE)
 
     def testBaseFeedInterface(self):

@@ -48,12 +48,12 @@ def us_equities_datetime(*args, **kwargs):
     return ret
 
 
-class TestBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 
 
-class BaseTestStrategy(strategy.BacktestingStrategy):
+class BaseStrategy(strategy.BacktestingStrategy):
     def __init__(self, barFeed, instrument, cash=1000000):
         strategy.BacktestingStrategy.__init__(self, barFeed, cash)
         self.instrument = instrument
@@ -84,9 +84,9 @@ class BaseTestStrategy(strategy.BacktestingStrategy):
         self.posExecutionInfo.append(position.getExitOrder().getExecutionInfo())
 
 
-class TestStrategy(BaseTestStrategy):
+class BaseTestStrategy(BaseStrategy):
     def __init__(self, barFeed, instrument, cash):
-        BaseTestStrategy.__init__(self, barFeed, instrument, cash)
+        BaseStrategy.__init__(self, barFeed, instrument, cash)
 
         self.__activePosition = None
         # Maps dates to a tuple of (method, params)
@@ -128,7 +128,7 @@ class TestStrategy(BaseTestStrategy):
 
     def onEnterOk(self, position):
         # print "Enter ok", position.getEntryOrder().getExecutionInfo().getDateTime()
-        BaseTestStrategy.onEnterOk(self, position)
+        BaseStrategy.onEnterOk(self, position)
         if self.__activePosition is None:
             self.__activePosition = position
             assert(position.isOpen())
@@ -137,7 +137,7 @@ class TestStrategy(BaseTestStrategy):
 
     def onEnterCanceled(self, position):
         # print "Enter canceled", position.getEntryOrder().getExecutionInfo().getDateTime()
-        BaseTestStrategy.onEnterCanceled(self, position)
+        BaseStrategy.onEnterCanceled(self, position)
         self.__activePosition = None
         assert(not position.isOpen())
         assert(len(position.getActiveOrders()) == 0)
@@ -145,7 +145,7 @@ class TestStrategy(BaseTestStrategy):
 
     def onExitOk(self, position):
         # print "Exit ok", position.getExitOrder().getExecutionInfo().getDateTime()
-        BaseTestStrategy.onExitOk(self, position)
+        BaseStrategy.onExitOk(self, position)
         self.__result += position.getReturn()
         self.__netProfit += position.getPnL()
         self.__activePosition = None
@@ -155,7 +155,7 @@ class TestStrategy(BaseTestStrategy):
 
     def onExitCanceled(self, position):
         # print "Exit canceled", position.getExitOrder().getExecutionInfo().getDateTime()
-        BaseTestStrategy.onExitCanceled(self, position)
+        BaseStrategy.onExitCanceled(self, position)
         assert(position.isOpen())
         assert(len(position.getActiveOrders()) == 0)
         assert(position.getShares() != 0)
@@ -177,7 +177,7 @@ class TestStrategy(BaseTestStrategy):
             meth(self.__activePosition, *args, **kwargs)
 
 
-class EnterAndExitStrategy(BaseTestStrategy):
+class EnterAndExitStrategy(BaseStrategy):
     def onStart(self):
         self.position = None
 
@@ -188,7 +188,7 @@ class EnterAndExitStrategy(BaseTestStrategy):
             self.position.exitMarket()
 
 
-class DoubleExitStrategy(BaseTestStrategy):
+class DoubleExitStrategy(BaseStrategy):
     def onStart(self):
         self.position = None
         self.doubleExit = False
@@ -206,7 +206,7 @@ class DoubleExitStrategy(BaseTestStrategy):
                 self.doubleExitFailed = True
 
 
-class CancelEntryStrategy(BaseTestStrategy):
+class CancelEntryStrategy(BaseStrategy):
     def onStart(self):
         self.position = None
 
@@ -216,7 +216,7 @@ class CancelEntryStrategy(BaseTestStrategy):
             self.position.cancelEntry()
 
 
-class ExitEntryNotFilledStrategy(BaseTestStrategy):
+class ExitEntryNotFilledStrategy(BaseStrategy):
     def onStart(self):
         self.position = None
 
@@ -226,7 +226,7 @@ class ExitEntryNotFilledStrategy(BaseTestStrategy):
             self.position.exitMarket()
 
 
-class ResubmitExitStrategy(BaseTestStrategy):
+class ResubmitExitStrategy(BaseStrategy):
     def onStart(self):
         self.position = None
         self.exitRequestCanceled = False
@@ -266,7 +266,7 @@ class BaseTestCase(common.TestCase):
         else:
             barFeed = self.loadDailyBarFeed()
 
-        strat = TestStrategy(barFeed, BaseTestCase.TestInstrument, 1000)
+        strat = BaseTestStrategy(barFeed, BaseTestCase.TestInstrument, 1000)
         return strat
 
 
@@ -466,7 +466,7 @@ class LongPosTestCase(BaseTestCase):
     def testUnrealized2(self):
         instrument = "orcl"
         barFeed = load_daily_barfeed(instrument)
-        strat = TestStrategy(barFeed, instrument, 1000)
+        strat = BaseTestStrategy(barFeed, instrument, 1000)
         strat.addPosEntry(datetime.date(2000, 12, 13), strat.enterLong, instrument, 1, False)  # Filled on 2000-12-14 at 29.25.
         strat.run()
 
@@ -477,7 +477,7 @@ class LongPosTestCase(BaseTestCase):
     def testUnrealizedAdjusted(self):
         instrument = "orcl"
         barFeed = load_daily_barfeed(instrument)
-        strat = TestStrategy(barFeed, instrument, 1000)
+        strat = BaseTestStrategy(barFeed, instrument, 1000)
         strat.setUseAdjustedValues(True)
         strat.addPosEntry(datetime.date(2000, 12, 13), strat.enterLong, instrument, 1, False)  # Filled on 2000-12-14 at 28.60
         strat.run()
@@ -532,7 +532,7 @@ class LongPosTestCase(BaseTestCase):
     def testPartialFillGTC1(self):
         # Open and close after entry has been fully filled.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -541,7 +541,7 @@ class LongPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLong, instrument, 4, True)
         strat.addPosExitMarket(datetime.datetime(2000, 1, 3))
         strat.run()
@@ -573,7 +573,7 @@ class LongPosTestCase(BaseTestCase):
     def testPartialFillGTC2(self):
         # Open and close after entry has been partially filled.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -582,7 +582,7 @@ class LongPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLong, instrument, 4, True)
         # Exit the position before the entry order gets completely filled.
         strat.addPosExitMarket(datetime.datetime(2000, 1, 2))
@@ -628,7 +628,7 @@ class LongPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -637,7 +637,7 @@ class LongPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat._setBroker(SkipCancelBroker(strat.getBroker()))
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLong, instrument, 4, True)
         # Exit the position before the entry order gets completely filled.
@@ -684,7 +684,7 @@ class LongPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -693,7 +693,7 @@ class LongPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat._setBroker(SkipFirstCancelBroker(strat.getBroker()))
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLong, instrument, 4, True)
         # Exit the position before the entry order gets completely filled.
@@ -1041,7 +1041,7 @@ class StopPosTestCase(BaseTestCase):
     def testPartialFillGTC1(self):
         # Open and close after entry has been fully filled.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -1051,7 +1051,7 @@ class StopPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLongStop, instrument, 12, 4, True)
         strat.addPosExitMarket(datetime.datetime(2000, 1, 4))
         strat.run()
@@ -1083,7 +1083,7 @@ class StopPosTestCase(BaseTestCase):
     def testPartialFillGTC2(self):
         # Open and close after entry has been partially filled.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -1093,7 +1093,7 @@ class StopPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLongStop, instrument, 12, 4, True)
         # Exit the position before the entry order gets completely filled.
         strat.addPosExitMarket(datetime.datetime(2000, 1, 3))
@@ -1139,7 +1139,7 @@ class StopPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -1149,7 +1149,7 @@ class StopPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat._setBroker(SkipCancelBroker(strat.getBroker()))
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLongStop, instrument, 12, 4, True)
         # Exit the position before the entry order gets completely filled.
@@ -1196,7 +1196,7 @@ class StopPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = TestBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Frequency.DAY)
         bars = [
             bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
             bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
@@ -1206,7 +1206,7 @@ class StopPosTestCase(BaseTestCase):
             bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
-        strat = TestStrategy(bf, instrument, 1000)
+        strat = BaseTestStrategy(bf, instrument, 1000)
         strat._setBroker(SkipFirstCancelBroker(strat.getBroker()))
         strat.addPosEntry(datetime.datetime(2000, 1, 1), strat.enterLongStop, instrument, 12, 4, True)
         # Exit the position before the entry order gets completely filled.

@@ -93,12 +93,12 @@ class LineBreakTestCase(common.TestCase):
         self.assertEqual(lineBreak[-1].isBlack(), True)
 
     def testInvalidDataSeries(self):
-        with self.assertRaisesRegexp(Exception, "barDataSeries must be a dataseries.bards.BarDataSeries instance"):
+        with self.assertRaisesRegex(Exception, "barDataSeries must be a dataseries.bards.BarDataSeries instance"):
             ds = dataseries.SequenceDataSeries()
             linebreak.LineBreak(ds, 3, maxLen=2)
 
     def testInvalidReversalLines(self):
-        with self.assertRaisesRegexp(Exception, "reversalLines must be greater than 1"):
+        with self.assertRaisesRegex(Exception, "reversalLines must be greater than 1"):
             barFeed = self.__getFeed()
             linebreak.LineBreak(barFeed[LineBreakTestCase.Instrument], 1, maxLen=2)
 
@@ -106,7 +106,7 @@ class LineBreakTestCase(common.TestCase):
         barFeed = self.__getFeed()
         lb = linebreak.LineBreak(barFeed[LineBreakTestCase.Instrument], 3, maxLen=4)
         lb.setMaxLen(3)
-        with self.assertRaisesRegexp(Exception, "maxLen can't be smaller than reversalLines"):
+        with self.assertRaisesRegex(Exception, "maxLen can't be smaller than reversalLines"):
             lb.setMaxLen(2)
 
     def testWhiteBlackReversal(self):

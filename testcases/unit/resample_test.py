@@ -268,7 +268,7 @@ class CSVResampleTestCase(common.TestCase):
         self.assertEqual(resampledBarDS[-1].getDateTime(), dt.as_utc(datetime.datetime(2011, 2, 1)))
 
     def testResampleBarFeedWithMultipleInstrumentsFails(self):
-        with self.assertRaisesRegexp(Exception, "Only barfeeds with 1 instrument can be resampled"):
+        with self.assertRaisesRegex(Exception, "Only barfeeds with 1 instrument can be resampled"):
             with common.TmpDir() as tmp_path:
                 feed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
                 feed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))

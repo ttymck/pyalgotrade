@@ -67,6 +67,6 @@ class TestCase(common.TestCase):
                 self.assertEqual(common.safe_round(atrDS[-1], 2), round(expected[i]/2, 2))
 
     def testInvalidDataSeries(self):
-        with self.assertRaisesRegexp(Exception, "barDataSeries must be a dataseries.bards.BarDataSeries instance"):
+        with self.assertRaisesRegex(Exception, "barDataSeries must be a dataseries.bards.BarDataSeries instance"):
             ds = dataseries.SequenceDataSeries()
             atr.ATR(ds, 14, True)

@@ -24,7 +24,7 @@ from pyalgotrade import technical
 from pyalgotrade import dataseries
 
 
-class TestEventWindow(technical.EventWindow):
+class MockEventWindow(technical.EventWindow):
     def __init__(self):
         technical.EventWindow.__init__(self, 1, skipNone=False, dtype=object)
 
@@ -32,15 +32,15 @@ class TestEventWindow(technical.EventWindow):
         return self.getValues()[-1]
 
 
-class TestFilter(technical.EventBasedFilter):
+class MockFilter(technical.EventBasedFilter):
     def __init__(self, dataSeries):
-        technical.EventBasedFilter.__init__(self, dataSeries, TestEventWindow())
+        technical.EventBasedFilter.__init__(self, dataSeries, MockEventWindow())
 
 
 class DataSeriesFilterTest(common.TestCase):
     def testInvalidPosNotCached(self):
         ds = dataseries.SequenceDataSeries()
-        testFilter = TestFilter(ds)
+        testFilter = MockFilter(ds)
         for i in range(10):
             ds.append(i)
             ds.append(None)  # Interleave Nones.
@@ -59,7 +59,7 @@ class DataSeriesFilterTest(common.TestCase):
 
     def testUnderlyingDataSeries(self):
         ds = dataseries.SequenceDataSeries()
-        testFilter = TestFilter(ds)
+        testFilter = MockFilter(ds)
         for i in range(10):
             ds.append(i)
             ds.append(None)

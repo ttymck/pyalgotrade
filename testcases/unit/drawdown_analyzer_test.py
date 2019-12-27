@@ -41,7 +41,7 @@ def build_bars_from_closing_prices(closingPrices):
     return ret
 
 
-class TestBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 
@@ -183,7 +183,7 @@ class AnalyzerTestCase(common.TestCase):
         barFeed = yahoofeed.Feed()
         barFeed.addBarsFromCSV("ige", common.get_data_file_path("sharpe-ratio-test-ige.csv"))
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("sharpe-ratio-test-spy.csv"))
-        strat = strategy_test.TestStrategy(barFeed, 1000)
+        strat = strategy_test.BaseStrategy(barFeed, 1000)
         strat.setBrokerOrdersGTC(True)
         strat.setUseAdjustedValues(True)
         stratAnalyzer = drawdown.DrawDown()
@@ -201,7 +201,7 @@ class AnalyzerTestCase(common.TestCase):
         # 'Quantitative Trading: How to Build Your Own Algorithmic Trading Business'
         barFeed = yahoofeed.Feed()
         barFeed.addBarsFromCSV("ige", common.get_data_file_path("sharpe-ratio-test-ige.csv"))
-        strat = strategy_test.TestStrategy(barFeed, initialCash)
+        strat = strategy_test.BaseStrategy(barFeed, initialCash)
         strat.setUseAdjustedValues(True)
         strat.setBrokerOrdersGTC(True)
         stratAnalyzer = drawdown.DrawDown()
@@ -229,11 +229,11 @@ class AnalyzerTestCase(common.TestCase):
         self.__testIGE_BrokerImpl(2)
 
     def __testManualImpl(self, closingPrices, cash):
-        barFeed = TestBarFeed(bar.Frequency.DAY)
+        barFeed = MockBarFeed(bar.Frequency.DAY)
         bars = build_bars_from_closing_prices(closingPrices)
         barFeed.addBarsFromSequence("orcl", bars)
 
-        strat = strategy_test.TestStrategy(barFeed, cash)
+        strat = strategy_test.BaseStrategy(barFeed, cash)
         stratAnalyzer = drawdown.DrawDown()
         strat.attachAnalyzer(stratAnalyzer)
 

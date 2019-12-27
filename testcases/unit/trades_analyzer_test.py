@@ -21,8 +21,10 @@
 import datetime
 import math
 from distutils import version
+import pytest
 import pytz
 import numpy
+import warnings
 
 from . import common
 from . import strategy_test
@@ -41,6 +43,7 @@ def buildUTCDateTime(year, month, day, hour, minute):
     return ret
 
 
+@pytest.mark.filterwarnings("ignore:.*:RuntimeWarning:numpy")
 class TradesAnalyzerTestCase(common.TestCase):
     TestInstrument = "spy"
 
@@ -53,11 +56,11 @@ class TradesAnalyzerTestCase(common.TestCase):
 
     def __createStrategy(self):
         barFeed = self.__loadBarFeed()
-        return strategy_test.TestStrategy(barFeed, 1000)
+        return strategy_test.BaseStrategy(barFeed, 1000)
 
     def __createPositionStrategy(self):
         barFeed = self.__loadBarFeed()
-        return position_test.TestStrategy(barFeed, TradesAnalyzerTestCase.TestInstrument, 1000)
+        return position_test.BaseTestStrategy(barFeed, TradesAnalyzerTestCase.TestInstrument, 1000)
 
     def testNoTrades(self):
         strat = self.__createStrategy()
@@ -108,11 +111,7 @@ class TradesAnalyzerTestCase(common.TestCase):
 
         self.assertTrue(stratAnalyzer.getUnprofitableCount() == 1)
         self.assertTrue(round(stratAnalyzer.getLosses().mean(), 2) == -0.04)
-        if version.LooseVersion(numpy.__version__) >= version.LooseVersion("1.6.2"):
-            self.assertTrue(math.isnan(stratAnalyzer.getLosses().std(ddof=1)))
-        else:
-            self.assertTrue(stratAnalyzer.getLosses().std(ddof=1) == 0)
-        self.assertTrue(stratAnalyzer.getLosses().std(ddof=0) == 0)
+        self.assertTrue(math.isnan(stratAnalyzer.getLosses().std(ddof=1)))
         self.assertEqual(stratAnalyzer.getNegativeReturns()[0], (127.16 - 127.2) / 127.2)
 
     def testSomeTrades(self):
@@ -148,11 +147,7 @@ class TradesAnalyzerTestCase(common.TestCase):
 
         self.assertTrue(stratAnalyzer.getUnprofitableCount() == 1)
         self.assertTrue(round(stratAnalyzer.getLosses().mean(), 2) == -0.04)
-        if version.LooseVersion(numpy.__version__) >= version.LooseVersion("1.6.2"):
-            self.assertTrue(math.isnan(stratAnalyzer.getLosses().std(ddof=1)))
-        else:
-            self.assertTrue(stratAnalyzer.getLosses().std(ddof=1) == 0)
-        self.assertTrue(stratAnalyzer.getLosses().std(ddof=0) == 0)
+        self.assertTrue(math.isnan(stratAnalyzer.getLosses().std(ddof=1)))
 
     def testSomeTradesWithCommissions(self):
         strat = self.__createStrategy()
