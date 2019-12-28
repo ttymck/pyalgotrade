@@ -2,6 +2,8 @@
 
 Tutorial
 ========
+*By Gabriel Martin Becedillas Ruiz*
+
 
 The goal of this tutorial is to give you a quick introduction to QuantWorks.
 As described in the introduction, the goal of QuantWorks is to help you backtest stock trading strategies.

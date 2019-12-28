@@ -2,8 +2,10 @@ QuantWorks
 ===========
 
 ![PyPI](https://img.shields.io/pypi/v/quantworks)
-![PyPI - License](https://img.shields.io/pypi/l/quantworks)
 ![Travis (.com)](https://img.shields.io/travis/com/ttymck/quantworks)
+[![Documentation Status](https://readthedocs.org/projects/quantworks/badge/?version=latest)](https://quantworks.readthedocs.io/en/latest/?badge=latest)
+![PyPI - License](https://img.shields.io/pypi/l/quantworks)
+
 <!-- [![Build Status](https://travis-ci.org/gbeced/pyalgotrade.png?branch=master)](https://travis-ci.org/gbeced/pyalgotrade)
 [![Coverage Status](https://coveralls.io/repos/gbeced/pyalgotrade/badge.svg?branch=master)](https://coveralls.io/r/gbeced/pyalgotrade?branch=master) -->
 
