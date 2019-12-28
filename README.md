@@ -18,6 +18,8 @@ To get started using QuantWorks, please take a look at the original `PyAlgoTrade
 Main Features
 -------------
 
+ * Python 3 development
+   * Python 2 support is **NOT** guaranteed in any capacity.
  * Event driven.
  * Supports Market, Limit, Stop and StopLimit orders.
  * Supports any type of time-series data in Pandas or CSV format (like Yahoo! Finance, Google Finance, Quandl and NinjaTrader), as well as database (i.e. sqlite).
