@@ -1,9 +1,18 @@
 [tool.poetry]
 name = "quantworks"
-version = "0.21.dev0"
+version = "0.21.rc0"
 description = "Python Algorithmic Trading Framework"
-authors = ["Gabriel Martin Becedillas Ruiz <pyalgotrade@gmail.com>", "Tyler M Kontra <tyler@tylerkontra.com>"]
-classifiers = ["Programming Language :: Python :: 3", "Operating System :: OS Independent"]
+authors = ["Tyler M Kontra <tyler@tylerkontra.com>", "Gabriel Martin Becedillas Ruiz <pyalgotrade@gmail.com>"]
+classifiers = [
+  "Programming Language :: Python :: 3", 
+  "Operating System :: OS Independent",
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "License :: OSI Approved :: Apache Software License",
+  "Topic :: Office/Business :: Financial",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
