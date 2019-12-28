@@ -17,6 +17,7 @@ doc/_build
 /build
 /QuantWorks.egg-info
 /notebooks
+.vscode
 
 /testcases/credentials.py
 .cache
