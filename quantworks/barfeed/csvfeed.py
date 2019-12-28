@@ -158,8 +158,8 @@ class GenericRowParser(RowParser):
         self.__adjCloseColName = columnNames["adj_close"]
         self.__columnNames = columnNames
 
-    def _parseDate(self, dateString):
-        ret = datetime.datetime.strptime(dateString, self.__dateTimeFormat)
+    def _parseDate(self, dateTime):
+        ret = datetime.datetime.strptime(dateTime, self.__dateTimeFormat)
 
         if self.__dailyBarTime is not None:
             ret = datetime.datetime.combine(ret, self.__dailyBarTime)
