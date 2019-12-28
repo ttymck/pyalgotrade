@@ -27,5 +27,5 @@ script:
   - export PYTHONPATH=.
   - poetry run tox -v
 
-after_success:
-  - poetry run coveralls
+# after_success:
+#   - poetry run coveralls
