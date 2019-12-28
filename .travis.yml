@@ -1,7 +1,9 @@
 language: python
 python:
   - '3.7'
-
+cache:
+  - "$HOME/.travis-cache"
+  
 env:
   global:
     - secure: "SJPwuOKJDiGgOB+VyhJ/i/3Hb8z0leDo7hdgTp3X9+9dAdPQlwXSnCKoOEjLqpCz9gkr0pw6PCEnyDMcZo9ig2IBKt2y1r2M1Oc6c1d201EI+Fe6RGsRyG1StqU9iNSPZ9UEK+ld4Oa1FspNlFy1msd3N6sgpRRAa7HTENsCMKTl7Sq+wPwGtmm6qACCZN2Eqtth1ZyvwW5+64xRJPBNLcxNMnU2IJCPdn4j7MFsVpTufWAcV3kghvue0y73pKQRKnLrNGANt33uocU/PaKLYpGa/D0loEbRglgmG1ufnPCs4XyvRBgVN2iK2hLVHeXQvOXkfaH4joQzf+6PG/2UzP9EG/hRSSsI+Ul11mxxXrljwNm3a6N3E/JR7xhXWn1bGckLyoMm9tButedjs9zKhCRQWgh6f63l0JugFG86FLdAL1OpNjP77kpT+xwlrYaXvteJvr+TYu2H6QvsUJnT0QuRu9ydQD5UbaelVVZk4M8XK0cmD33HKEpBXNBAQjrvVcQu5VGJeyWgMYMmrDwjP4UsframpU8kAQa+cFu/ZaK624onROoxzD8/Am5sLdesJM6LWj1iSJSfHlGJT/KcfW+wM6+3JPuyR0X9Foyv1EkxzzqMMyOUZ04/hN8X681qBhEk9rnpPNphNnYOrmzS1JNXTNXt2/Boea5B58JNVDU="
@@ -10,10 +12,14 @@ sudo: required
 
 before_install:
   - sudo apt-get update
-  - sudo apt-get install build-essential wget
-  - wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz
-  - tar -xvzf ta-lib-0.4.0-src.tar.gz
-  - cd ta-lib/ && ./configure --prefix=/usr LDFLAGS="-lm" && make && sudo make install && cd .. && rm -r ta-lib
+  - if [ ! -f "$HOME/.travis-cache/ta-lib" ]; then
+          sudo apt-get install build-essential wget;
+          wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz;
+          tar -xvzf ta-lib-0.4.0-src.tar.gz;
+          cd ta-lib/ && ./configure --prefix=/usr LDFLAGS="-lm" && make && sudo make install && cd .. && rm -r ta-lib;
+          mkdir -p $HOME/.travis-cache;
+          touch $HOME/.travis-cache/ta-lib;
+    fi
   - python -m pip install poetry
   - poetry install
 
