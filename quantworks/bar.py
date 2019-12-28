@@ -21,8 +21,6 @@
 
 import abc
 
-import six
-
 
 class Frequency(object):
 
@@ -47,8 +45,7 @@ class Frequency(object):
     MONTH = 24*60*60*31
 
 
-@six.add_metaclass(abc.ABCMeta)
-class Bar(object):
+class Bar(metaclass=abc.ABCMeta):
 
     """A Bar is a summary of the trading activity for a security in a given period.
 
@@ -118,6 +115,11 @@ class Bar(object):
 
 
 class BasicBar(Bar):
+
+    """Common bar class of OCHLV wih frequency and adjusted close if available.
+    Extra bar values are stored as a group under BasicBar.getExtraColumns()
+    """
+
     # Optimization to reduce memory footprint.
     __slots__ = (
         '__dateTime',
@@ -245,7 +247,7 @@ class BasicBar(Bar):
 
 class Bars(object):
 
-    """A group of :class:`Bar` objects.
+    """A point-in-time mapping of instrument -> :class:`Bar`.
 
     :param barDict: A map of instrument to :class:`Bar` objects.
     :type barDict: map.
@@ -261,7 +263,7 @@ class Bars(object):
         # Check that bar datetimes are in sync
         firstDateTime = None
         firstInstrument = None
-        for instrument, currentBar in six.iteritems(barDict):
+        for instrument, currentBar in barDict.items():
             if firstDateTime is None:
                 firstDateTime = currentBar.getDateTime()
                 firstInstrument = instrument

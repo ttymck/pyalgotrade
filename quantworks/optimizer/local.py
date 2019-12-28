@@ -84,7 +84,7 @@ def stop_process(p):
 
 def run_impl(strategyClass, barFeed, strategyParameters, batchSize, workerCount=None, logLevel=logging.ERROR, resultSinc=None):
     if workerCount is None:
-        workerCount = multiprocessing.cpu_count()
+        workerCount = min((1, multiprocessing.cpu_count() - 1))
     assert workerCount > 0, "No workers"
 
     ret = None

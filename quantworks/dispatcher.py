@@ -24,8 +24,9 @@ from quantworks import observer
 from quantworks import dispatchprio
 
 
-# This class is responsible for dispatching events from multiple subjects, synchronizing them if necessary.
 class Dispatcher(object):
+    """Responsible for dispatching events from multiple subjects, synchronizing them if necessary.
+    """
     def __init__(self):
         self.__subjects = []
         self.__stop = False
@@ -33,8 +34,9 @@ class Dispatcher(object):
         self.__idleEvent = observer.Event()
         self.__currDateTime = None
 
-    # Returns the current event datetime. It may be None for events from realtime subjects.
     def getCurrentDateTime(self):
+        """Returns the current event datetime. It may be None for events from realtime subjects.
+        """
         return self.__currDateTime
 
     def getStartEvent(self):
@@ -50,6 +52,8 @@ class Dispatcher(object):
         return self.__subjects
 
     def addSubject(self, subject):
+        """Adds the subject to the dispatcher accounting for priority
+        """
         # Skip the subject if it was already added.
         if subject in self.__subjects:
             return
@@ -68,18 +72,18 @@ class Dispatcher(object):
 
         subject.onDispatcherRegistered(self)
 
-    # Return True if events were dispatched.
     def __dispatchSubject(self, subject, currEventDateTime):
+        """Dispatch if the datetime is currEventDateTime or if its a realtime subject.
+        """
         ret = False
-        # Dispatch if the datetime is currEventDateTime of if its a realtime subject.
         if not subject.eof() and subject.peekDateTime() in (None, currEventDateTime):
             ret = subject.dispatch() is True
         return ret
 
-    # Returns a tuple with booleans
-    # 1: True if all subjects hit eof
-    # 2: True if at least one subject dispatched events.
     def __dispatch(self):
+        """Returns a tuple with booleans
+        (True if all subjects hit eof, True if at least one subject dispatched events.)
+        """
         smallestDateTime = None
         eof = True
         eventsDispatched = False
@@ -100,6 +104,9 @@ class Dispatcher(object):
         return eof, eventsDispatched
 
     def run(self):
+        """Start all subjects, run start event, then dispatch all subjects repeatedly until 
+        all eof. Emits idleEvent if no events dispatched in an interation.
+        """
         try:
             for subject in self.__subjects:
                 subject.start()
