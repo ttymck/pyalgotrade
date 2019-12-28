@@ -1,6 +1,6 @@
-from pyalgotrade import plotter
-from pyalgotrade.barfeed import quandlfeed
-from pyalgotrade.stratanalyzer import returns
+from quantworks import plotter
+from quantworks.barfeed import quandlfeed
+from quantworks.stratanalyzer import returns
 import sma_crossover
 
 # Load the bar feed from the CSV file

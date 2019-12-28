@@ -1,10 +1,10 @@
 from __future__ import print_function
 
-from pyalgotrade import strategy
-from pyalgotrade import plotter
-from pyalgotrade.tools import quandl
-from pyalgotrade.technical import vwap
-from pyalgotrade.stratanalyzer import sharpe
+from quantworks import strategy
+from quantworks import plotter
+from quantworks.tools import quandl
+from quantworks.technical import vwap
+from quantworks.stratanalyzer import sharpe
 
 
 class VWAPMomentum(strategy.BacktestingStrategy):

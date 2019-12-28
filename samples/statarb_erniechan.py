@@ -1,11 +1,11 @@
 from __future__ import print_function
 
-from pyalgotrade import strategy
-from pyalgotrade import dataseries
-from pyalgotrade.dataseries import aligned
-from pyalgotrade import plotter
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.stratanalyzer import sharpe
+from quantworks import strategy
+from quantworks import dataseries
+from quantworks.dataseries import aligned
+from quantworks import plotter
+from quantworks.barfeed import yahoofeed
+from quantworks.stratanalyzer import sharpe
 
 import numpy as np
 import statsmodels.api as sm

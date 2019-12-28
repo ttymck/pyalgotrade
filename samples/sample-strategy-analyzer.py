@@ -1,10 +1,10 @@
 from __future__ import print_function
 
-from pyalgotrade.barfeed import yahoofeed
-from pyalgotrade.stratanalyzer import returns
-from pyalgotrade.stratanalyzer import sharpe
-from pyalgotrade.stratanalyzer import drawdown
-from pyalgotrade.stratanalyzer import trades
+from quantworks.barfeed import yahoofeed
+from quantworks.stratanalyzer import returns
+from quantworks.stratanalyzer import sharpe
+from quantworks.stratanalyzer import drawdown
+from quantworks.stratanalyzer import trades
 
 from . import sma_crossover
 

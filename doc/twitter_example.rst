@@ -17,9 +17,9 @@ Then you'll need to create an access token under the "Your access token" section
 
 The key things to highlight are:
 
- 1. We're using :class:`pyalgotrade.strategy.BaseStrategy` instead of :class:`pyalgotrade.strategy.BacktestingStrategy`
+ 1. We're using :class:`quantworks.strategy.BaseStrategy` instead of :class:`quantworks.strategy.BacktestingStrategy`
     as the base class. This is not a backtest.
- 2. The :class:`pyalgotrade.twitter.feed.TwitterFeed` instance has to be included in the strategy event dispatch loop
+ 2. The :class:`quantworks.twitter.feed.TwitterFeed` instance has to be included in the strategy event dispatch loop
     before running the strategy.
 
 .. literalinclude:: ../samples/tutorial_twitter_bitstamp.py

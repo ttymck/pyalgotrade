@@ -1,8 +1,8 @@
 from __future__ import print_function
 
-from pyalgotrade import strategy
-from pyalgotrade.barfeed import quandlfeed
-from pyalgotrade.technical import ma
+from quantworks import strategy
+from quantworks.barfeed import quandlfeed
+from quantworks.technical import ma
 
 
 class MyStrategy(strategy.BacktestingStrategy):

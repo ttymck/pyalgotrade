@@ -4,6 +4,6 @@ bitcoincharts -- Bitcoin Charts reference
 Feeds
 -----
 
-.. automodule:: pyalgotrade.bitcoincharts.barfeed
+.. automodule:: quantworks.bitcoincharts.barfeed
     :members:
     :show-inheritance:

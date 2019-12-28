@@ -1,4 +1,4 @@
-# PyAlgoTrade
+# QuantWorks
 #
 # Copyright 2011-2018 Gabriel Martin Becedillas Ruiz
 #
@@ -15,7 +15,7 @@
 # limitations under the License.
 
 """
-.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>
+.. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
 import csv
@@ -24,13 +24,16 @@ import shutil
 import subprocess
 import tempfile
 import unittest
+import sys
+from contextlib import contextmanager
+from io import StringIO
 
 # Force matplotlib to not use any Xwindows backend.
 import matplotlib
 matplotlib.use('Agg')
 from six.moves import xrange
 
-from pyalgotrade import dataseries
+from quantworks import dataseries
 
 
 class RunResults(object):

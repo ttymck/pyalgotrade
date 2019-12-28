@@ -1,10 +1,10 @@
 from __future__ import print_function
 
-from pyalgotrade import eventprofiler
-from pyalgotrade.technical import stats
-from pyalgotrade.technical import roc
-from pyalgotrade.technical import ma
-from pyalgotrade.tools import quandl
+from quantworks import eventprofiler
+from quantworks.technical import stats
+from quantworks.technical import roc
+from quantworks.technical import ma
+from quantworks.tools import quandl
 
 # Event inspired on an example from Ernie Chan's book:
 # 'Algorithmic Trading: Winning Strategies and Their Rationale'

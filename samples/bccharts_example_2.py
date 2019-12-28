@@ -1,10 +1,10 @@
-from pyalgotrade import bar
-from pyalgotrade import strategy
-from pyalgotrade import plotter
-from pyalgotrade.technical import vwap
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade.bitstamp import broker
-from pyalgotrade import broker as basebroker
+from quantworks import bar
+from quantworks import strategy
+from quantworks import plotter
+from quantworks.technical import vwap
+from quantworks.barfeed import csvfeed
+from quantworks.bitstamp import broker
+from quantworks import broker as basebroker
 
 
 class VWAPMomentum(strategy.BacktestingStrategy):

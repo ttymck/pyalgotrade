@@ -1,6 +1,6 @@
 import itertools
-from pyalgotrade.optimizer import server
-from pyalgotrade.barfeed import quandlfeed
+from quantworks.optimizer import server
+from quantworks.barfeed import quandlfeed
 
 
 def parameters_generator():

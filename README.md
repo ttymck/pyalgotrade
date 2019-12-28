@@ -1,38 +1,44 @@
-PyAlgoTrade
+QuantWorks
 ===========
 
-[![Build Status](https://travis-ci.org/gbeced/pyalgotrade.png?branch=master)](https://travis-ci.org/gbeced/pyalgotrade)
-[![Coverage Status](https://coveralls.io/repos/gbeced/pyalgotrade/badge.svg?branch=master)](https://coveralls.io/r/gbeced/pyalgotrade?branch=master)
+<!-- [![Build Status](https://travis-ci.org/gbeced/pyalgotrade.png?branch=master)](https://travis-ci.org/gbeced/pyalgotrade)
+[![Coverage Status](https://coveralls.io/repos/gbeced/pyalgotrade/badge.svg?branch=master)](https://coveralls.io/r/gbeced/pyalgotrade?branch=master) -->
 
 
-PyAlgoTrade is an **event driven algorithmic trading** Python library. Although the initial focus
-was on **backtesting**, **paper trading** is now possible using:
+QuantWorks is an **event driven algorithmic trading** framework. It is a fork of [PyAlgoTrade](https://gbeced.github.io/pyalgotrade/) (see [Motivation](#motivation)). 
 
- * [Bitstamp](https://www.bitstamp.net/) for Bitcoins
+QuantWorks provides a Python API for **strategy** authoring, **backtesting**, **paper trading**, and of course **live trading** via the `Broker` interface.
 
-and **live trading** is now possible using:
+To get started using QuantWorks, please take a look at the original `PyAlgoTrade` [tutorial](http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html) and the [full documentation](http://gbeced.github.io/pyalgotrade/docs/v0.20/html/index.html).
 
- * [Bitstamp](https://www.bitstamp.net/) for Bitcoins
-
-To get started with PyAlgoTrade take a look at the [tutorial](http://gbeced.github.io/pyalgotrade/docs/v0.20/html/tutorial.html) and the [full documentation](http://gbeced.github.io/pyalgotrade/docs/v0.20/html/index.html).
 
 Main Features
 -------------
 
  * Event driven.
  * Supports Market, Limit, Stop and StopLimit orders.
- * Supports any type of time-series data in CSV format like Yahoo! Finance, Google Finance, Quandl and NinjaTrader.
- * Bitcoin trading support through [Bitstamp](https://www.bitstamp.net/).
+ * Supports any type of time-series data in Pandas or CSV format (like Yahoo! Finance, Google Finance, Quandl and NinjaTrader), as well as database (i.e. sqlite).
  * Technical indicators and filters like SMA, WMA, EMA, RSI, Bollinger Bands, Hurst exponent and others.
  * Performance metrics like Sharpe ratio and drawdown analysis.
- * Handling Twitter events in realtime.
  * Event profiler.
  * TA-Lib integration.
 
-Installation
+
+Motivation
+----------
+
+QuantWorks is a fork of `PyAlgoTrade` by [@gbeced](https://github.com/gbeced). This project aims to be:
+
+ * **Modern**: first-class **Python 3** development ([Python 2 is EOL as of 2020](https://pythonclock.org/))
+ * **Extensible**: as a framework, robust extension support is a must, and we encourage users of QuantWorks to give back by publishing their extensions (see [Extensions](#extensions))
+ * **Easy to Develop**: state-of-the-art tooling (pytest, poetry, travis) and approachable design principles should make it easy for newcomers to contribute.
+ * **Open**: as a fork of an Apache 2.0 license project, QuantWorks maintains the spirit of FOSS development. **CONTRIBUTING.md forthcoming**
+
+
+Development
 ------------
 
-PyAlgoTrade is developed and tested using Python 2.7/3.7 and depends on:
+QuantWorks is developed and tested using 3.7 and depends on:
 
  * [NumPy and SciPy](http://numpy.scipy.org/).
  * [pytz](http://pytz.sourceforge.net/).
@@ -43,8 +49,16 @@ PyAlgoTrade is developed and tested using Python 2.7/3.7 and depends on:
  * [tornado](http://www.tornadoweb.org/en/stable/) for Bitstamp support.
  * [tweepy](https://github.com/tweepy/tweepy) for Twitter support.
 
-You can install PyAlgoTrade using pip like this:
+Developer ergonomics are provided by 
+ 
+ * poetry
+ * pytest
+ * tox
+ * travis-ci
 
-```
-pip install pyalgotrade
-```
+
+Extensions 
+----------
+
+- [Bitstamp](https://www.bitstamp.net/) (bitcoin) live trading is implemented by the `quantworks-bitstamp` package (pending)
+- Twitter real-time feeds are supported via the `quantworks-twitter` package (pending)

@@ -1,7 +1,7 @@
 marketsession -- Market sessions
 ================================
 
-.. automodule:: pyalgotrade.marketsession
+.. automodule:: quantworks.marketsession
     :members:
     :member-order: bysource
     :show-inheritance:

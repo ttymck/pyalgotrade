@@ -1,7 +1,7 @@
-from pyalgotrade import strategy
-from pyalgotrade.bitstamp import barfeed
-from pyalgotrade.bitstamp import broker
-from pyalgotrade.twitter import feed as twitterfeed
+from quantworks import strategy
+from quantworks.bitstamp import barfeed
+from quantworks.bitstamp import broker
+from quantworks.twitter import feed as twitterfeed
 
 
 class Strategy(strategy.BaseStrategy):

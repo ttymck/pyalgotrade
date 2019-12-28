@@ -8,7 +8,7 @@ and the future over a certain lookback period.
 
 **The goal of this tool is to help you quickly validate an idea, before moving forward with the backtesting process.**
 
-.. automodule:: pyalgotrade.eventprofiler
+.. automodule:: quantworks.eventprofiler
     :members:
     :member-order: bysource
     :show-inheritance:
