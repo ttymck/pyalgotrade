@@ -1,5 +1,6 @@
-# PyAlgoTrade
+# QuantWorks
 #
+# Copyright 2019 Tyler M Kontra
 # Copyright 2011-2015 Gabriel Martin Becedillas Ruiz
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +19,16 @@
 .. moduleauthor:: Alex McFarlane <alexander.mcfarlane@physics.org>, Tyler Kontra <tyler@tylerkontra.com>
 """
 
-from pyalgotrade.utils import dt
-from pyalgotrade.barfeed import membf
-from pyalgotrade.barfeed import csvfeed
-from pyalgotrade import bar
+from quantworks.utils import dt
+from quantworks.barfeed import membf
+from quantworks.barfeed import csvfeed
+from quantworks import bar
 
 import datetime
 
 
 class BarFeed(membf.BarFeed):
-    """Base class for Pandas DataFrame based :class:`pyalgotrade.barfeed.BarFeed`.
+    """Base class for Pandas DataFrame based :class:`quantworks.barfeed.BarFeed`.
 
     .. note::
         This is a base class and should not be used directly.
@@ -51,6 +52,14 @@ class BarFeed(membf.BarFeed):
     def setBarFilter(self, barFilter):
         self.__barFilter = barFilter
 
+    def _addBars(self, instrument, bar_list): 
+        loadedBars = filter(
+            lambda bar_: (bar_ is not None) and
+                (self.__barFilter is None or self.__barFilter.includeBar(bar_)),
+            bar_list
+        )
+        self.addBarsFromSequence(instrument, loadedBars)
+
 
 class Feed(BarFeed):
     """A BarFeed that loads bars from a custom feed that has the following columns:
@@ -60,10 +69,10 @@ class Feed(BarFeed):
         2015-08-14 09:06:00  0.00690  0.00690  0.00690  0.00690  1.346117       9567
     
 
-    :param frequency: The frequency of the bars. Check :class:`pyalgotrade.bar.Frequency`.
-    :param timezone: The default timezone to use to localize bars. Check :mod:`pyalgotrade.marketsession`.
+    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Frequency`.
+    :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
-    :param maxLen: The maximum number of values that the :class:`pyalgotrade.dataseries.bards.BarDataSeries` will hold.
+    :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
         Once a bounded length is full, when new items are added, a corresponding number of items are discarded from the
         opposite end. If None then dataseries.DEFAULT_MAX_LEN is used.
     :type maxLen: int.
@@ -122,6 +131,13 @@ class Feed(BarFeed):
     def setBarClass(self, barClass):
         self.__barClass = barClass
 
+    def __localize_dt(self, dateTime):
+        # Localize the datetime if a timezone was given.
+        if self.__timezone:
+            return dt.localize(dateTime, self.__timezone)
+        else:
+            return dateTime
+
     def addBarsFromDataFrame(self, instrument, df, timezone=None):
         """Loads bars for a given instrument from a Pandas DataFrame.
         The instrument gets registered in the bar feed.
@@ -130,7 +146,7 @@ class Feed(BarFeed):
         :type instrument: string.
         :param df: The pandas DataFrame
         :type df: pd.DataFrame
-        :param timezone: The timezone to use to localize bars. Check :mod:`pyalgotrade.marketsession`.
+        :param timezone: The timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
         :type timezone: A pytz timezone.
         """
 
@@ -147,25 +163,21 @@ class Feed(BarFeed):
             raise ValueError('Missing required columns: {}'.format(repr(missing_columns)))
 
         # Convert DataFrame row(s) to Bar(s)
-        loadedBars = df.apply(
+        loadedBars = map(
           lambda row: bar.BasicBar(
-            row[self.__columnNames['datetime']],
+            self.__localize_dt(row[self.__columnNames['datetime']]),
             row[self.__columnNames['open']],
-            row[self.__columnNames['close']],
             row[self.__columnNames['high']],
             row[self.__columnNames['low']],
+            row[self.__columnNames['close']],
             row[self.__columnNames['volume']],
             row[self.__columnNames['adj_close']],
             self.getFrequency(),
-            extra = row[set(row.columns).difference(self.__columnNames.values())] 
-          )
+            extra = {key: row[key] for key in set(row.keys()).difference(self.__columnNames.values())}
+          ),
+          df.to_dict(orient='record')
         )
-        loadedBars = filter(
-            lambda bar_: (bar_ is not None) and
-                (self.__barFilter is None or self.__barFilter.includeBar(bar_)),
-            loadedBars
-        )
-        self.addBarsFromSequence(instrument, loadedBars)
+        self._addBars(instrument, loadedBars)
 
         if df_has_adj_close:
             self.__haveAdjClose = True

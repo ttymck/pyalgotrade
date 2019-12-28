@@ -29,6 +29,7 @@ coveralls = "^1.9"
 pytest = "^5.3"
 tox = "^3.14"
 pytest-cov = "^2.8"
+pandas = "^0.25.3"
 
 [tool.poetry.extras]
 TALib = ["cython", "TA-Lib"]
