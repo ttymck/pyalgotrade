@@ -1,8 +1,6 @@
 language: python
 python:
   - '3.7'
-cache:
-  - "$HOME/.travis-cache"
   
 env:
   global:
@@ -13,13 +11,11 @@ sudo: required
 before_install:
   - sudo apt-get update
   - set -e
-  - if [ ! -f "$HOME/.travis-cache/ta-lib" ]; then
+  - if [ ! -f /usr/lib/libta_lib.so ]; then
           sudo apt-get install build-essential wget;
           wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz;
           tar -xvzf ta-lib-0.4.0-src.tar.gz;
           cd ta-lib/ && ./configure --prefix=/usr LDFLAGS="-lm" && make && sudo make install && cd .. && rm -r ta-lib;
-          mkdir -p $HOME/.travis-cache;
-          touch $HOME/.travis-cache/ta-lib;
     fi
   - python -m pip install poetry
   - poetry install
