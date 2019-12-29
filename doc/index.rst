@@ -17,8 +17,6 @@ Contents:
     code
     tools
     eventprofiler
-    bitcoin
-    twitter
     talib
     compinvpart1
     samples

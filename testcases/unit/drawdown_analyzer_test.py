@@ -41,7 +41,7 @@ def build_bars_from_closing_prices(closingPrices):
     return ret
 
 
-class MockBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BaseMemoryBarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 

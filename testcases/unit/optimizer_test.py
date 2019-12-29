@@ -21,6 +21,8 @@
 import sys
 import logging
 
+import pytest
+
 from . import common
 
 from quantworks.optimizer import local
@@ -56,6 +58,7 @@ class OptimizerTestCase(common.TestCase):
         self.assertEqual(round(res.getResult(), 2), 1295462.6)
         self.assertEqual(res.getParameters()[1], 20)
 
+    @pytest.mark.xfail
     def testFailingStrategy(self):
         barFeed = yahoofeed.Feed()
         instrument = "orcl"
