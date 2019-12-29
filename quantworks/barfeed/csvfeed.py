@@ -19,6 +19,7 @@
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
+import abc
 import datetime
 
 import pytz
@@ -30,30 +31,54 @@ from quantworks.barfeed import membf
 from quantworks import bar
 
 
-# Interface for csv row parsers.
-class RowParser(object):
-    def parseBar(self, csvRowDict):
+
+class RowParser(metaclass=abc.ABCMeta):
+
+    """Interface for serializing row of data into :class:`quantworks.bar.Bar`
+    """
+
+    @abc.abstractmethod
+    def parseBar(self, csvRow: dict) -> bar.Bar:
+        """Parses a single row of data into the desired :class:`quantworks.bar.Bar` object.
+        """
         raise NotImplementedError()
 
+    @abc.abstractmethod
     def getFieldNames(self):
         raise NotImplementedError()
 
+    @abc.abstractmethod
     def getDelimiter(self):
         raise NotImplementedError()
 
 
-# Interface for bar filters.
-class BarFilter(object):
-    def includeBar(self, bar_):
+class BarFilter(metaclass=abc.ABCMeta):
+
+    @abc.abstractmethod
+    def includeBar(self, bar_: bar.Bar) -> bool:
+        """Determine whether to include the bar or filter it out.
+        :return: True if bar should be included, False if bar should be excluded.
+        :rtype: bool
+        """
         raise NotImplementedError()
 
 
 class DateRangeFilter(BarFilter):
+
+    """A simple date bounded, between `fromDate` and `toDate`, exclusive.
+    Both `fromDate` and `toDate` are optional.
+
+    :param fromDate: the earliest possible timestamp for bars, exclusive, defaults to None
+    :type fromDate: datetime.datetime
+    :param toDate: the latest possible timestamp for bars, exclusive, defaults to None
+    :type toDate: datetime.datetime
+    """
     def __init__(self, fromDate=None, toDate=None):
+
         self.__fromDate = fromDate
         self.__toDate = toDate
 
-    def includeBar(self, bar_):
+    def includeBar(self, bar_: bar.Bar) -> bool:
         if self.__toDate and bar_.getDateTime() > self.__toDate:
             return False
         if self.__fromDate and bar_.getDateTime() < self.__fromDate:
@@ -61,10 +86,12 @@ class DateRangeFilter(BarFilter):
         return True
 
 
-# US Equities Regular Trading Hours filter
-# Monday ~ Friday
-# 9:30 ~ 16 (GMT-5)
 class USEquitiesRTH(DateRangeFilter):
+    
+    """US Equities Regular Trading Hours filter
+    Monday ~ Friday - 9:30 ~ 16:00 (GMT-5, US/Eastern)
+    """
+
     timezone = pytz.timezone("US/Eastern")
 
     def __init__(self, fromDate=None, toDate=None):
@@ -74,6 +101,7 @@ class USEquitiesRTH(DateRangeFilter):
         self.__toTime = datetime.time(16, 0, 0)
 
     def includeBar(self, bar_):
+        # filter by instant in time
         ret = super(USEquitiesRTH, self).includeBar(bar_)
         if ret:
             # Check day of week
@@ -81,7 +109,7 @@ class USEquitiesRTH(DateRangeFilter):
             if barDay > 4:
                 return False
 
-            # Check time
+            # Check time of day
             barTime = dt.localize(bar_.getDateTime(), USEquitiesRTH.timezone).time()
             if barTime < self.__fromTime:
                 return False
@@ -90,7 +118,8 @@ class USEquitiesRTH(DateRangeFilter):
         return ret
 
 
-class BarFeed(membf.BarFeed):
+class BarFeed(membf.BaseMemoryBarFeed):
+
     """Base class for CSV file based :class:`quantworks.barfeed.BarFeed`.
 
     .. note::
@@ -141,7 +170,29 @@ class BarFeed(membf.BarFeed):
 
 
 class GenericRowParser(RowParser):
-    def __init__(self, columnNames, dateTimeFormat, dailyBarTime, frequency, timezone, barClass=bar.BasicBar):
+
+    """Parses arbitrary row of serialized data into :class:`quantworks.bar.BasicBar` class specified by `barClass` param.
+
+    :param columNames: mapping of :class:`quantworks.bar.BasicBar` slots names to data row keys
+    :type columnNames: dict
+    :param dateTimeFormat: the format string to parse datetime values
+    :type dateTimeFormat: str
+    :param dailyBarTime: the time of day to apply to daily bars
+    :type dailyBarTime: datetime.time
+    :param frequency: the bar frequency
+    :type frequency: :class:`quantworks.bar.Frequency`
+    :param timezone: the bar timezone
+    :type timezone: :class:`pytz.timezone`
+    :param barClass: the :class:`quantworks.bar.BasicBar` to construct from data rows, defaults to :class:`quantworks.bar.BasicBar`
+    :type barClass: :class:`quantworks.bar.BasicBar` or subclass
+    """
+
+    def __init__(
+        self, columnNames: dict, 
+        dateTimeFormat: str, dailyBarTime: datetime.time,
+        frequency: bar.Frequency, timezone: pytz.timezone, 
+        barClass=bar.BasicBar
+    ):
         self.__dateTimeFormat = dateTimeFormat
         self.__dailyBarTime = dailyBarTime
         self.__frequency = frequency
@@ -211,12 +262,13 @@ class GenericBarFeed(BarFeed):
         2013-01-01 13:59:00,13.51001,13.56,13.51,13.56,273.88014126,13.51001
 
     :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Frequency`.
+    :type frequency: :class:`quantworks.bar.Frequency`
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
-    :type timezone: A pytz timezone.
+    :type timezone: :class:`pytz.timezone`
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
         Once a bounded length is full, when new items are added, a corresponding number of items are discarded from the
-        opposite end. If None then dataseries.DEFAULT_MAX_LEN is used.
-    :type maxLen: int.
+        opposite end. If None or invalid (negative), then dataseries.DEFAULT_MAX_LEN is used.
+    :type maxLen: int
 
     .. note::
         * The CSV file **must** have the column names in the first row.

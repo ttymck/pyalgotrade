@@ -82,7 +82,7 @@ class RowParser(csvfeed.RowParser):
         adjClose = float(csvRowDict["Adj Close"])
 
         if self.__sanitize:
-            open_, high, low, close = common.sanitize_ohlc(open_, high, low, close)
+            open_, high, low, close = common.sanitizeOhlc(open_, high, low, close)
 
         return self.__barClass(dateTime, open_, high, low, close, volume, adjClose, self.__frequency)
 

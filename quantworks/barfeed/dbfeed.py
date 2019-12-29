@@ -19,11 +19,15 @@
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
+import abc
 
-class Database(object):
+class Database(metaclass=abc.ABCMeta):
+    
+    """Interface for database backed feeds.
+    """
+
     def addBars(self, bars, frequency):
-        for instrument in bars.getInstruments():
-            bar = bars.getBar(instrument)
+        for instrument, bar in bars.items():
             self.addBar(instrument, bar, frequency)
 
     def addBarsFromFeed(self, feed):
@@ -31,8 +35,10 @@ class Database(object):
             if bars:
                 self.addBars(bars, feed.getFrequency())
 
+    @abc.abstractmethod
     def addBar(self, instrument, bar, frequency):
         raise NotImplementedError()
 
+    @abc.abstractmethod
     def getBars(self, instrument, frequency, timezone=None, fromDateTime=None, toDateTime=None):
         raise NotImplementedError()

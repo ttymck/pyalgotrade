@@ -32,9 +32,14 @@ def normalize_instrument(instrument):
     return instrument.upper()
 
 
-# SQLite DB.
-# Timestamps are stored in UTC.
 class Database(dbfeed.Database):
+    
+    """SQLite DB on filesystem. Timestamps are stored in UTC.
+    
+    :param dbFilePath: the local filepath of the database
+    :type dbFilePath: :class:`pathlib.Path` or path-like object
+    """
+    
     def __init__(self, dbFilePath):
         self.__instrumentIds = {}
 
@@ -140,7 +145,18 @@ class Database(dbfeed.Database):
         self.__connection = None
 
 
-class Feed(membf.BarFeed):
+class Feed(membf.BaseMemoryBarFeed):
+
+    """A sqlite-database-backed feed.
+
+    :param dbFilePath: the sqlite file path
+    :type dbFilePath: :class:`pathlib.Path` or path-like object
+    :param frequency: the bar frequency
+    :type frequency: :class:`quantworks.bar.Frequency`
+    :param maxLen: the maximum length of the in-memory barfeed, see :class:`quantworks.barfeed.BaseBarFeed`
+    :type maxLen: int
+    """
+
     def __init__(self, dbFilePath, frequency, maxLen=None):
         super(Feed, self).__init__(frequency, maxLen)
 

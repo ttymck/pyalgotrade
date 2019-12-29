@@ -19,6 +19,7 @@
 .. moduleauthor:: Gabriel Martin Becedillas Ruiz <gabriel.becedillas@gmail.com>, Tyler M Kontra <tyler@tylerkontra.com@gmail.com>
 """
 
+import datetime
 import six
 
 from quantworks import barfeed
@@ -26,16 +27,17 @@ from quantworks import bar
 from quantworks import utils
 
 
-# A non real-time BarFeed responsible for:
-# - Holding bars in memory.
-# - Aligning them with respect to time.
-#
-# Subclasses should:
-# - Forward the call to start() if they override it.
+class BaseMemoryBarFeed(barfeed.BaseBarFeed):
+    
+    """A non real-time BarFeed responsible for:
+    - Holding bars in memory.
+    - Aligning them with respect to time.
+    Subclasses should:
+    - Forward the call to start() if they override it.
+    """
 
-class BarFeed(barfeed.BaseBarFeed):
     def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
+        super(BaseMemoryBarFeed, self).__init__(frequency, maxLen)
 
         self.__bars = {}
         self.__nextPos = {}
@@ -47,13 +49,13 @@ class BarFeed(barfeed.BaseBarFeed):
         for instrument in self.__bars.keys():
             self.__nextPos.setdefault(instrument, 0)
         self.__currDateTime = None
-        super(BarFeed, self).reset()
+        super(BaseMemoryBarFeed, self).reset()
 
     def getCurrentDateTime(self):
         return self.__currDateTime
 
     def start(self):
-        super(BarFeed, self).start()
+        super(BaseMemoryBarFeed, self).start()
         self.__started = True
 
     def stop(self):
@@ -118,3 +120,38 @@ class BarFeed(barfeed.BaseBarFeed):
     def loadAll(self):
         for dateTime, bars in self:
             pass
+
+
+class SimpleBarFeed(BaseMemoryBarFeed):
+    """Base class for Iterable[Bar] based :class:`quantworks.barfeed.BarFeed`.
+
+    .. note::
+        This is a base class and should not be used directly.
+    """
+
+    def __init__(self, frequency, maxLen=None):
+        super(SimpleBarFeed, self).__init__(frequency, maxLen)
+
+        self.__barFilter = None
+        self.__dailyTime = datetime.time(0, 0, 0)
+
+    def getDailyBarTime(self):
+        return self.__dailyTime
+
+    def setDailyBarTime(self, time):
+        self.__dailyTime = time
+
+    def getBarFilter(self):
+        return self.__barFilter
+
+    def setBarFilter(self, barFilter):
+        self.__barFilter = barFilter
+
+    def _addBars(self, instrument, loadedBars):
+        loadedBars = filter(
+            lambda bar_: (bar_ is not None) and
+                (self.__barFilter is None or self.__barFilter.includeBar(bar_)),
+            loadedBars
+        )
+        self.addBarsFromSequence(instrument, loadedBars)
+

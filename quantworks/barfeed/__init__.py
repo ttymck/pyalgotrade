@@ -22,7 +22,7 @@
 import abc
 
 from quantworks import bar
-from quantworks.dataseries import bards
+from quantworks.dataseries.bards import BarDataSeries
 from quantworks import feed
 from quantworks import dispatchprio
 
@@ -32,7 +32,7 @@ Frequency = bar.Frequency
 
 
 class BaseBarFeed(feed.BaseFeed):
-    """Base class for :class:`quantworks.bar.Bar` providing feeds.
+    """Base class for a feed providing :class:`quantworks.bar.Bar`.
 
     :param frequency: The bars frequency. Valid values defined in :class:`quantworks.bar.Frequency`.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -66,17 +66,18 @@ class BaseBarFeed(feed.BaseFeed):
         for instrument in self.getRegisteredInstruments():
             self[instrument].setUseAdjustedValues(useAdjusted)
 
-    # Return the datetime for the current bars.
     @abc.abstractmethod
     def getCurrentDateTime(self):
+        """Return the datetime for the current bars.
+        """
         raise NotImplementedError()
 
-    # Return True if bars provided have adjusted close values.
     @abc.abstractmethod
     def barsHaveAdjClose(self):
+        """Return True if bars provided have adjusted close values.
+        """
         raise NotImplementedError()
 
-    # Subclasses should implement this and return a quantworks.bar.Bars or None if there are no bars.
     @abc.abstractmethod
     def getNextBars(self):
         """Override to return the next :class:`quantworks.bar.Bars` in the feed or None if there are no bars.
@@ -87,7 +88,7 @@ class BaseBarFeed(feed.BaseFeed):
         raise NotImplementedError()
 
     def createDataSeries(self, key, maxLen):
-        ret = bards.BarDataSeries(maxLen)
+        ret = BarDataSeries(maxLen)
         ret.setUseAdjustedValues(self.__useAdjustedValues)
         return ret
 
@@ -153,9 +154,10 @@ class BaseBarFeed(feed.BaseFeed):
         return dispatchprio.BAR_FEED
 
 
-# This class is used by the optimizer module. The barfeed is already built on the server side,
-# and the bars are sent back to workers.
 class OptimizerBarFeed(BaseBarFeed):
+    """This class is used by the optimizer module. 
+    The barfeed is already built on the server side, and the bars are sent back to workers.
+    """
     def __init__(self, frequency, instruments, bars, maxLen=None):
         super(OptimizerBarFeed, self).__init__(frequency, maxLen)
         for instrument in instruments:

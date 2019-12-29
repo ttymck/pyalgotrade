@@ -20,7 +20,7 @@
 """
 
 
-def sanitize_ohlc(open_, high, low, close):
+def sanitizeOhlc(open_, high, low, close):
     if low > open_:
         low = open_
     if low > close:

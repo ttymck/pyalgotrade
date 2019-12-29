@@ -27,41 +27,7 @@ from quantworks import bar
 import datetime
 
 
-class BarFeed(membf.BarFeed):
-    """Base class for Pandas DataFrame based :class:`quantworks.barfeed.BarFeed`.
-
-    .. note::
-        This is a base class and should not be used directly.
-    """
-
-    def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
-
-        self.__barFilter = None
-        self.__dailyTime = datetime.time(0, 0, 0)
-
-    def getDailyBarTime(self):
-        return self.__dailyTime
-
-    def setDailyBarTime(self, time):
-        self.__dailyTime = time
-
-    def getBarFilter(self):
-        return self.__barFilter
-
-    def setBarFilter(self, barFilter):
-        self.__barFilter = barFilter
-
-    def _addBars(self, instrument, bar_list): 
-        loadedBars = filter(
-            lambda bar_: (bar_ is not None) and
-                (self.__barFilter is None or self.__barFilter.includeBar(bar_)),
-            bar_list
-        )
-        self.addBarsFromSequence(instrument, loadedBars)
-
-
-class Feed(BarFeed):
+class Feed(membf.SimpleBarFeed):
     """A BarFeed that loads bars from a custom feed that has the following columns:
     ::
 
