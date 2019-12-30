@@ -243,7 +243,7 @@ class DefaultStrategy(FillStrategy):
         for instrument in bars.getInstruments():
             bar = bars[instrument]
             # Reset the volume available for each instrument.
-            if bar.getFrequency() == quantworks.bar.Frequency.TRADE:
+            if bar.getInterval() == quantworks.bar.Interval.TRADE:
                 volumeLeft[instrument] = bar.getVolume()
             elif self.__volumeLimit is not None:
                 # We can't round here because there is no order to request the instrument traits.
@@ -337,7 +337,7 @@ class DefaultStrategy(FillStrategy):
         assert price is not None
 
         # Don't slip prices when the bar represents the trading activity of a single trade.
-        if bar.getFrequency() != quantworks.bar.Frequency.TRADE:
+        if bar.getInterval() != quantworks.bar.Interval.TRADE:
             price = self.__slippageModel.calculatePrice(
                 order, price, fillSize, bar, self.__volumeUsed[order.getInstrument()]
             )
@@ -393,7 +393,7 @@ class DefaultStrategy(FillStrategy):
             assert price is not None
 
             # Don't slip prices when the bar represents the trading activity of a single trade.
-            if bar.getFrequency() != quantworks.bar.Frequency.TRADE:
+            if bar.getInterval() != quantworks.bar.Interval.TRADE:
                 price = self.__slippageModel.calculatePrice(
                     order, price, fillSize, bar, self.__volumeUsed[order.getInstrument()]
                 )

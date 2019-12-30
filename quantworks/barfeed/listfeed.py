@@ -69,7 +69,7 @@ class Feed(BarFeed):
         2015-08-14 09:06:00  0.00690  0.00690  0.00690  0.00690  1.346117       9567
     
 
-    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Frequency`.
+    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Interval`.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -171,7 +171,7 @@ class Feed(BarFeed):
             row[self.__columnNames['close']],
             row[self.__columnNames['volume']],
             row[self.__columnNames['adj_close']],
-            self.getFrequency(),
+            self.getInterval(),
             extra = {key: row[key] for key in set(row.keys()).difference(self.__columnNames.values())}
           ),
           list_of_dicts

@@ -32,13 +32,13 @@ from quantworks.utils import dt
 
 class NinjaTraderTestCase(common.TestCase):
     def __loadIntradayBarFeed(self, timeZone=None):
-        ret = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE, timeZone)
+        ret = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE, timeZone)
         ret.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
         ret.loadAll()
         return ret
 
     def testBaseFeedInterface(self):
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
         feed_test.tstBaseFeedInterface(self, barFeed)
 
@@ -62,13 +62,13 @@ class NinjaTraderTestCase(common.TestCase):
 
     def testWithIntegerTimezone(self):
         try:
-            barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE, -3)
+            barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE, -3)
             self.assertTrue(False, "Exception expected")
         except Exception as e:
             self.assertTrue(str(e).find("timezone as an int parameter is not supported anymore") == 0)
 
         try:
-            barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+            barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
             barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"), -5)
             self.assertTrue(False, "Exception expected")
         except Exception as e:
@@ -85,7 +85,7 @@ class NinjaTraderTestCase(common.TestCase):
             dt.localize(datetime.datetime(2011, 3, 11, 9, 31), timezone): 129.72,
             dt.localize(datetime.datetime(2011, 3, 11, 16), timezone): 130.84,
         }
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE, timezone)
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE, timezone)
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011-03.csv"))
         for dateTime, bars in barFeed:
             price = prices.get(bars.getDateTime(), None)
@@ -93,7 +93,7 @@ class NinjaTraderTestCase(common.TestCase):
                 self.assertTrue(price == bars.getBar("spy").getClose())
 
     def testBounded(self):
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE, maxLen=2)
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE, maxLen=2)
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011-03.csv"))
         barFeed.loadAll()
 
@@ -108,17 +108,17 @@ class NinjaTraderTestCase(common.TestCase):
         self.assertEqual(len(barDS.getAdjCloseDataSeries()), 2)
 
     def testBaseBarFeed(self):
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
         barfeed_test.check_base_barfeed(self, barFeed, False)
 
-    def testInvalidFrequency(self):
+    def testInvalidInterval(self):
         with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
-            ninjatraderfeed.Feed(bar.Frequency.WEEK)
+            ninjatraderfeed.Feed(bar.Interval.WEEK)
 
     def testReset(self):
         instrument = "spy"
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
         barFeed.addBarsFromCSV(instrument, common.get_data_file_path("nt-spy-minute-2011.csv"))
 
         barFeed.loadAll()

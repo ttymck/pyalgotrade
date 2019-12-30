@@ -39,7 +39,7 @@ from quantworks import resamplebase
 
 class IntraDayRange(common.TestCase):
     def __testMinuteRangeImpl(self, timezone=None):
-        freq = bar.Frequency.MINUTE
+        freq = bar.Interval.MINUTE
 
         begin = datetime.datetime(2011, 1, 1, 1, 1)
         end = datetime.datetime(2011, 1, 1, 1, 2)
@@ -71,7 +71,7 @@ class IntraDayRange(common.TestCase):
         self.assertEqual(r.getEnding(), end)
 
     def __testHourRangeImpl(self, timezone=None):
-        freq = bar.Frequency.HOUR
+        freq = bar.Interval.HOUR
 
         begin = datetime.datetime(2011, 1, 1, 16)
         end = datetime.datetime(2011, 1, 1, 17)
@@ -107,7 +107,7 @@ class IntraDayRange(common.TestCase):
 
 class DayRange(common.TestCase):
     def __testImpl(self, timezone=None):
-        freq = bar.Frequency.DAY
+        freq = bar.Interval.DAY
 
         begin = datetime.datetime(2011, 1, 1)
         end = datetime.datetime(2011, 1, 2)
@@ -131,7 +131,7 @@ class DayRange(common.TestCase):
 
 class MonthRange(common.TestCase):
     def test31Days(self):
-        freq = bar.Frequency.MONTH
+        freq = bar.Interval.MONTH
         begin = datetime.datetime(2011, 1, 1)
         r = resamplebase.build_range(begin + datetime.timedelta(hours=5, minutes=25), freq)
         self.assertEqual(r.getBeginning(), begin)
@@ -141,17 +141,17 @@ class MonthRange(common.TestCase):
         self.assertEqual(r.getEnding(), datetime.datetime(2011, 2, 1))
 
     def test28Days(self):
-        freq = bar.Frequency.MONTH
+        freq = bar.Interval.MONTH
         begin = datetime.datetime(2011, 2, 1)
         r = resamplebase.build_range(begin + datetime.timedelta(hours=5, minutes=25), freq)
         self.assertEqual(r.getBeginning(), begin)
-        for i in range(freq - bar.Frequency.DAY*3):
+        for i in range(freq - bar.Interval.DAY*3):
             self.assertTrue(r.belongs(begin + datetime.timedelta(seconds=i)))
         self.assertFalse(r.belongs(begin + datetime.timedelta(seconds=freq+1)))
         self.assertEqual(r.getEnding(), datetime.datetime(2011, 3, 1))
 
     def testDecember(self):
-        freq = bar.Frequency.MONTH
+        freq = bar.Interval.MONTH
         begin = datetime.datetime(2011, 12, 1)
         r = resamplebase.build_range(begin + datetime.timedelta(hours=5, minutes=25), freq)
         self.assertEqual(r.getBeginning(), begin)
@@ -165,12 +165,12 @@ class DataSeriesTestCase(common.TestCase):
 
     def testResample(self):
         barDs = bards.BarDataSeries()
-        resampledDS = resampled_ds.ResampledDataSeries(barDs.getCloseDataSeries(), bar.Frequency.MINUTE, sum)
-        resampledBarDS = resampled_ds.ResampledBarDataSeries(barDs, bar.Frequency.MINUTE)
+        resampledDS = resampled_ds.ResampledDataSeries(barDs.getCloseDataSeries(), bar.Interval.MINUTE, sum)
+        resampledBarDS = resampled_ds.ResampledBarDataSeries(barDs, bar.Interval.MINUTE)
 
-        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 1, 1), 2.1, 3, 1, 2, 10, 1, bar.Frequency.SECOND))
-        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 1, 2), 2, 3, 1, 2.3, 10, 2, bar.Frequency.SECOND))
-        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 2, 1), 2, 3, 1, 2, 10, 2, bar.Frequency.SECOND))
+        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 1, 1), 2.1, 3, 1, 2, 10, 1, bar.Interval.SECOND))
+        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 1, 2), 2, 3, 1, 2.3, 10, 2, bar.Interval.SECOND))
+        barDs.append(bar.BasicBar(datetime.datetime(2011, 1, 1, 1, 2, 1), 2, 3, 1, 2, 10, 2, bar.Interval.SECOND))
 
         self.assertEqual(len(resampledBarDS), 1)
         self.assertEqual(resampledBarDS[0].getDateTime(), datetime.datetime(2011, 1, 1, 1, 1))
@@ -197,10 +197,10 @@ class DataSeriesTestCase(common.TestCase):
 
     def testCheckNow(self):
         barDs = bards.BarDataSeries()
-        resampledBarDS = resampled_ds.ResampledBarDataSeries(barDs, bar.Frequency.MINUTE)
+        resampledBarDS = resampled_ds.ResampledBarDataSeries(barDs, bar.Interval.MINUTE)
 
         barDateTime = datetime.datetime(2014, 7, 7, 22, 46, 28, 10000)
-        barDs.append(bar.BasicBar(barDateTime, 2.1, 3, 1, 2, 10, 1, bar.Frequency.MINUTE))
+        barDs.append(bar.BasicBar(barDateTime, 2.1, 3, 1, 2, 10, 1, bar.Interval.MINUTE))
         self.assertEqual(len(resampledBarDS), 0)
 
         resampledBarDS.checkNow(barDateTime + datetime.timedelta(minutes=1))
@@ -218,15 +218,15 @@ class CSVResampleTestCase(common.TestCase):
     def testResampleNinjaTraderHour(self):
         with common.TmpDir() as tmp_path:
             # Resample.
-            feed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+            feed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
             feed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
-            resampledBarDS = resampled_ds.ResampledBarDataSeries(feed["spy"], bar.Frequency.HOUR)
+            resampledBarDS = resampled_ds.ResampledBarDataSeries(feed["spy"], bar.Interval.HOUR)
             resampledFile = os.path.join(tmp_path, "hour-nt-spy-minute-2011.csv")
-            resample.resample_to_csv(feed, bar.Frequency.HOUR, resampledFile)
+            resample.resample_to_csv(feed, bar.Interval.HOUR, resampledFile)
             resampledBarDS.pushLast()  # Need to manually push the last stot since time didn't change.
 
             # Load the resampled file.
-            feed = csvfeed.GenericBarFeed(bar.Frequency.HOUR, marketsession.USEquities.getTimezone())
+            feed = csvfeed.GenericBarFeed(bar.Interval.HOUR, marketsession.USEquities.getTimezone())
             feed.addBarsFromCSV("spy", resampledFile)
             feed.loadAll()
 
@@ -247,15 +247,15 @@ class CSVResampleTestCase(common.TestCase):
     def testResampleNinjaTraderDay(self):
         with common.TmpDir() as tmp_path:
             # Resample.
-            feed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+            feed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
             feed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
-            resampledBarDS = resampled_ds.ResampledBarDataSeries(feed["spy"], bar.Frequency.DAY)
+            resampledBarDS = resampled_ds.ResampledBarDataSeries(feed["spy"], bar.Interval.DAY)
             resampledFile = os.path.join(tmp_path, "day-nt-spy-minute-2011.csv")
-            resample.resample_to_csv(feed, bar.Frequency.DAY, resampledFile)
+            resample.resample_to_csv(feed, bar.Interval.DAY, resampledFile)
             resampledBarDS.pushLast()  # Need to manually push the last stot since time didn't change.
 
             # Load the resampled file.
-            feed = csvfeed.GenericBarFeed(bar.Frequency.DAY)
+            feed = csvfeed.GenericBarFeed(bar.Interval.DAY)
             feed.addBarsFromCSV("spy", resampledFile, marketsession.USEquities.getTimezone())
             feed.loadAll()
 
@@ -270,10 +270,10 @@ class CSVResampleTestCase(common.TestCase):
     def testResampleBarFeedWithMultipleInstrumentsFails(self):
         with self.assertRaisesRegex(Exception, "Only barfeeds with 1 instrument can be resampled"):
             with common.TmpDir() as tmp_path:
-                feed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+                feed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
                 feed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
                 feed.addBarsFromCSV("spb", common.get_data_file_path("nt-spy-minute-2011.csv"))
-                resample.resample_to_csv(feed, bar.Frequency.HOUR, os.path.join(tmp_path, "any.csv"))
+                resample.resample_to_csv(feed, bar.Interval.HOUR, os.path.join(tmp_path, "any.csv"))
 
 
 class BarFeedTestCase(common.TestCase):
@@ -282,7 +282,7 @@ class BarFeedTestCase(common.TestCase):
         barFeed = yahoofeed.Feed()
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("spy-2010-yahoofinance.csv"))
         barFeed.addBarsFromCSV("nikkei", common.get_data_file_path("nikkei-2010-yahoofinance.csv"))
-        resampledBarFeed = resampled_bf.ResampledBarFeed(barFeed, bar.Frequency.MONTH)
+        resampledBarFeed = resampled_bf.ResampledBarFeed(barFeed, bar.Interval.MONTH)
 
         disp = dispatcher.Dispatcher()
         disp.addSubject(barFeed)

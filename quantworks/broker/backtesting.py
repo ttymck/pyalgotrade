@@ -426,7 +426,7 @@ class Broker(broker.Broker):
         # before waiting for the next bar.
         if not order.getGoodTillCanceled():
             expired = False
-            if self.__barFeed.getFrequency() >= quantworks.bar.Frequency.DAY:
+            if self.__barFeed.getInterval() >= quantworks.bar.Interval.DAY:
                 expired = bar_.getDateTime().date() >= order.getAcceptedDateTime().date()
 
             # Cancel the order if it will expire in the next bar.

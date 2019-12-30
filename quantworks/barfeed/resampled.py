@@ -74,14 +74,14 @@ class ResampledBarFeed(barfeed.BaseBarFeed):
 
     def __onNewValues(self, dateTime, value):
         if self.__range is None:
-            self.__range = resamplebase.build_range(dateTime, self.getFrequency())
-            self.__grouper = BarsGrouper(self.__range.getBeginning(), value, self.getFrequency())
+            self.__range = resamplebase.build_range(dateTime, self.getInterval())
+            self.__grouper = BarsGrouper(self.__range.getBeginning(), value, self.getInterval())
         elif self.__range.belongs(dateTime):
             self.__grouper.addValue(value)
         else:
             self.__values.append(self.__grouper.getGrouped())
-            self.__range = resamplebase.build_range(dateTime, self.getFrequency())
-            self.__grouper = BarsGrouper(self.__range.getBeginning(), value, self.getFrequency())
+            self.__range = resamplebase.build_range(dateTime, self.getInterval())
+            self.__grouper = BarsGrouper(self.__range.getBeginning(), value, self.getInterval())
 
     def getCurrentDateTime(self):
         return self.__barFeed.getCurrentDateTime()

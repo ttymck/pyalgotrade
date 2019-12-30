@@ -36,7 +36,7 @@ class NoSlippageTestCase(BaseTestCase):
     def setUp(self):
         BaseTestCase.setUp(self)
         self.slippage = slippage.NoSlippage()
-        self.barsBuilder = broker_backtesting_test.BarsBuilder(BaseTestCase.TestInstrument, bar.Frequency.DAY)
+        self.barsBuilder = broker_backtesting_test.BarsBuilder(BaseTestCase.TestInstrument, bar.Interval.DAY)
 
     def __test_impl(self, action):
         order = backtesting.MarketOrder(
@@ -66,7 +66,7 @@ class VolumeShareSlippageTestCase(BaseTestCase):
         BaseTestCase.setUp(self)
         self.priceImpact = 0.1
         self.slippage = slippage.VolumeShareSlippage(self.priceImpact)
-        self.barsBuilder = broker_backtesting_test.BarsBuilder(BaseTestCase.TestInstrument, bar.Frequency.DAY)
+        self.barsBuilder = broker_backtesting_test.BarsBuilder(BaseTestCase.TestInstrument, bar.Interval.DAY)
 
     def __test_impl(self, action):
         order = backtesting.MarketOrder(

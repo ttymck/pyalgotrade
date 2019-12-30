@@ -48,7 +48,7 @@ class TradesAnalyzerTestCase(common.TestCase):
     TestInstrument = "spy"
 
     def __loadBarFeed(self):
-        ret = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE)
+        ret = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE)
         barFilter = csvfeed.USEquitiesRTH()
         ret.setBarFilter(barFilter)
         ret.addBarsFromCSV(TradesAnalyzerTestCase.TestInstrument, common.get_data_file_path("nt-spy-minute-2011.csv"))

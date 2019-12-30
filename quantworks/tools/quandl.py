@@ -91,7 +91,7 @@ def download_weekly_bars(sourceCode, tableCode, year, csvFile, authToken=None):
     f.close()
 
 
-def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.Frequency.DAY, timezone=None,
+def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.Interval.DAY, timezone=None,
                skipErrors=False, authToken=None, columnNames={}, forceDownload=False,
                skipMalformedBars=False
                ):
@@ -108,7 +108,7 @@ def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.
     :type toYear: int.
     :param storage: The path were the files will be loaded from, or downloaded to.
     :type storage: string.
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Frequency.DAY** or **quantworks.bar.Frequency.WEEK**
+    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.DAY** or **quantworks.bar.Interval.WEEK**
         are supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
@@ -150,10 +150,10 @@ def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.
             if not os.path.exists(fileName) or forceDownload:
                 logger.info("Downloading %s %d to %s" % (tableCode, year, fileName))
                 try:
-                    if frequency == bar.Frequency.DAY:
+                    if frequency == bar.Interval.DAY:
                         download_daily_bars(sourceCode, tableCode, year, fileName, authToken)
                     else:
-                        assert frequency == bar.Frequency.WEEK, "Invalid frequency"
+                        assert frequency == bar.Interval.WEEK, "Invalid frequency"
                         download_weekly_bars(sourceCode, tableCode, year, fileName, authToken)
                 except Exception as e:
                     if skipErrors:

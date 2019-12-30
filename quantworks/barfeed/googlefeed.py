@@ -99,7 +99,7 @@ class RowParser(csvfeed.RowParser):
 class Feed(csvfeed.BarFeed):
     """A :class:`quantworks.barfeed.csvfeed.BarFeed` that loads bars from CSV files downloaded from Google Finance.
 
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Frequency.DAY** is currently supported.
+    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.DAY** is currently supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -115,8 +115,8 @@ class Feed(csvfeed.BarFeed):
             * If any of the instruments loaded are in different timezones, then the timezone parameter must be set.
     """
 
-    def __init__(self, frequency=bar.Frequency.DAY, timezone=None, maxLen=None):
-        if frequency not in [bar.Frequency.DAY]:
+    def __init__(self, frequency=bar.Interval.DAY, timezone=None, maxLen=None):
+        if frequency not in [bar.Interval.DAY]:
             raise Exception("Invalid frequency.")
 
         super(Feed, self).__init__(frequency, maxLen)
@@ -147,5 +147,5 @@ class Feed(csvfeed.BarFeed):
         if timezone is None:
             timezone = self.__timezone
 
-        rowParser = RowParser(self.getDailyBarTime(), self.getFrequency(), timezone, self.__sanitizeBars)
+        rowParser = RowParser(self.getDailyBarTime(), self.getInterval(), timezone, self.__sanitizeBars)
         super(Feed, self).addBarsFromCSV(instrument, path, rowParser, skipMalformedBars=skipMalformedBars)

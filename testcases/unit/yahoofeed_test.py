@@ -79,7 +79,7 @@ class FeedTestCase(common.TestCase):
     TestInstrument = "orcl"
 
     def __parseDate(self, date):
-        parser = yahoofeed.RowParser(datetime.time(23, 59), bar.Frequency.DAY)
+        parser = yahoofeed.RowParser(datetime.time(23, 59), bar.Interval.DAY)
         row = {
             "Date": date,
             "Close": 0,
@@ -113,9 +113,9 @@ class FeedTestCase(common.TestCase):
         barFeed.addBarsFromCSV(FeedTestCase.TestInstrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
         barfeed_test.check_base_barfeed(self, barFeed, True)
 
-    def testInvalidFrequency(self):
+    def testInvalidInterval(self):
         with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
-            yahoofeed.Feed(frequency=bar.Frequency.MINUTE)
+            yahoofeed.Feed(frequency=bar.Interval.MINUTE)
 
     def testBaseFeedInterface(self):
         barFeed = yahoofeed.Feed()

@@ -250,7 +250,7 @@ class BaseTestCase(common.TestCase):
         fromDay = 3
         toDay = 3
         barFilter = csvfeed.USEquitiesRTH(us_equities_datetime(2011, fromMonth, fromDay, 00, 00), us_equities_datetime(2011, toMonth, toDay, 23, 59))
-        barFeed = ninjatraderfeed.Feed(barfeed.Frequency.MINUTE)
+        barFeed = ninjatraderfeed.Feed(barfeed.Interval.MINUTE)
         barFeed.setBarFilter(barFilter)
         barFeed.addBarsFromCSV(BaseTestCase.TestInstrument, common.get_data_file_path("nt-spy-minute-2011.csv"))
         return barFeed
@@ -532,13 +532,13 @@ class LongPosTestCase(BaseTestCase):
     def testPartialFillGTC1(self):
         # Open and close after entry has been fully filled.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -573,13 +573,13 @@ class LongPosTestCase(BaseTestCase):
     def testPartialFillGTC2(self):
         # Open and close after entry has been partially filled.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -628,13 +628,13 @@ class LongPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -684,13 +684,13 @@ class LongPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -1041,14 +1041,14 @@ class StopPosTestCase(BaseTestCase):
     def testPartialFillGTC1(self):
         # Open and close after entry has been fully filled.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -1083,14 +1083,14 @@ class StopPosTestCase(BaseTestCase):
     def testPartialFillGTC2(self):
         # Open and close after entry has been partially filled.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -1139,14 +1139,14 @@ class StopPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)
@@ -1196,14 +1196,14 @@ class StopPosTestCase(BaseTestCase):
         # The idea is to simulate a real scenario where cancelation gets submited but the order gets
         # filled before the cancelation gets processed.
         instrument = "orcl"
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Frequency.DAY),
-            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 2), 11, 11, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 3), 12, 12, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 4), 13, 13, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 5), 14, 14, 10, 10, 10, 10, bar.Interval.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 6), 15, 15, 10, 10, 10, 10, bar.Interval.DAY),
             ]
         bf.addBarsFromSequence(instrument, bars)
         strat = BaseTestStrategy(bf, instrument, 1000)

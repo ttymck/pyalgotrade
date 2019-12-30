@@ -210,7 +210,7 @@ class GenericBarFeed(BarFeed):
         Date Time,Open,High,Low,Close,Volume,Adj Close
         2013-01-01 13:59:00,13.51001,13.56,13.51,13.56,273.88014126,13.51001
 
-    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Frequency`.
+    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Interval`.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -288,7 +288,7 @@ class GenericBarFeed(BarFeed):
             timezone = self.__timezone
 
         rowParser = GenericRowParser(
-            self.__columnNames, self.__dateTimeFormat, self.getDailyBarTime(), self.getFrequency(),
+            self.__columnNames, self.__dateTimeFormat, self.getDailyBarTime(), self.getInterval(),
             timezone, self.__barClass
         )
 

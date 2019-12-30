@@ -61,8 +61,8 @@ class Worker(object):
         ret = serialization.loads(ret)
         return ret
 
-    def getBarsFrequency(self):
-        ret = retry_on_network_error(self.__server.getBarsFrequency)
+    def getBarsInterval(self):
+        ret = retry_on_network_error(self.__server.getBarsInterval)
         ret = int(ret)
         return ret
 
@@ -111,7 +111,7 @@ class Worker(object):
             self.getLogger().info("Started running")
             # Get the instruments and bars.
             instruments, bars = self.getInstrumentsAndBars()
-            barsFreq = self.getBarsFrequency()
+            barsFreq = self.getBarsInterval()
 
             # Process jobs
             job = self.getNextJob()

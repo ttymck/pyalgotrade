@@ -123,9 +123,9 @@ class ResampledBarDataSeries(bards.BarDataSeries, DSResampler):
 
     .. note::
         * Supported resampling frequencies are:
-            * Less than bar.Frequency.DAY
-            * bar.Frequency.DAY
-            * bar.Frequency.MONTH
+            * Less than bar.Interval.DAY
+            * bar.Interval.DAY
+            * bar.Interval.MONTH
     """
 
     def __init__(self, dataSeries, frequency, maxLen=None):

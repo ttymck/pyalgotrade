@@ -57,7 +57,7 @@ class SQLiteFeedTestCase(common.TestCase):
     dbName = "SQLiteFeedTestCase.sqlite"
 
     def testBaseFeedInterface(self):
-        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Frequency.DAY)
+        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Interval.DAY)
         with tmpFeed:
             # Load bars using a Yahoo! feed.
             yahooFeed = yahoofeed.Feed()
@@ -73,7 +73,7 @@ class SQLiteFeedTestCase(common.TestCase):
             feed_test.tstBaseFeedInterface(self, sqliteFeed)
 
     def testLoadDailyBars(self):
-        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Frequency.DAY)
+        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Interval.DAY)
         with tmpFeed:
             # Load bars using a Yahoo! feed.
             yahooFeed = yahoofeed.Feed()
@@ -102,7 +102,7 @@ class SQLiteFeedTestCase(common.TestCase):
                 self.assertEqual(yahooDS[i].getAdjClose(), sqliteDS[i].getAdjClose())
 
     def testBounded(self):
-        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Frequency.DAY, maxLen=2)
+        tmpFeed = TemporarySQLiteFeed(SQLiteFeedTestCase.dbName, bar.Interval.DAY, maxLen=2)
         with tmpFeed:
             # Load bars using a Yahoo! feed.
             yahooFeed = yahoofeed.Feed(maxLen=1)

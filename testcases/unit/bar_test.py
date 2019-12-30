@@ -30,28 +30,28 @@ from quantworks import bar
 class BasicBarTestCase(common.TestCase):
     def testInvalidConstruction(self):
         with self.assertRaises(Exception):
-            bar.BasicBar(datetime.datetime.now(), 2, 1, 1, 1, 1, 1, bar.Frequency.DAY)
+            bar.BasicBar(datetime.datetime.now(), 2, 1, 1, 1, 1, 1, bar.Interval.DAY)
         with self.assertRaises(Exception):
-            bar.BasicBar(datetime.datetime.now(), 1, 1, 1, 2, 1, 1, bar.Frequency.DAY)
+            bar.BasicBar(datetime.datetime.now(), 1, 1, 1, 2, 1, 1, bar.Interval.DAY)
         with self.assertRaises(Exception):
-            bar.BasicBar(datetime.datetime.now(), 1, 2, 1.5, 1, 1, 1, bar.Frequency.DAY)
+            bar.BasicBar(datetime.datetime.now(), 1, 2, 1.5, 1, 1, 1, bar.Interval.DAY)
         with self.assertRaises(Exception):
-            bar.BasicBar(datetime.datetime.now(), 2, 2, 1.5, 1, 1, 1, bar.Frequency.DAY)
+            bar.BasicBar(datetime.datetime.now(), 2, 2, 1.5, 1, 1, 1, bar.Interval.DAY)
         with self.assertRaises(Exception):
-            bar.BasicBar(datetime.datetime.now(), 1, 1, 1.5, 1, 1, 1, bar.Frequency.DAY)
+            bar.BasicBar(datetime.datetime.now(), 1, 1, 1.5, 1, 1, 1, bar.Interval.DAY)
 
     def testTypicalPrice(self):
-        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Frequency.DAY)
+        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Interval.DAY)
         self.assertEqual(b.getTypicalPrice(), (3 + 1 + 2.1) / 3)
 
     def testGetPrice(self):
-        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Frequency.DAY)
+        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Interval.DAY)
         self.assertEqual(b.getPrice(), b.getClose())
         b.setUseAdjustedValue(True)
         self.assertEqual(b.getPrice(), b.getAdjClose())
 
     def testPickle(self):
-        b1 = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Frequency.DAY)
+        b1 = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Interval.DAY)
         b2 = cPickle.loads(cPickle.dumps(b1))
         self.assertEqual(b1.getDateTime(), b2.getDateTime())
         self.assertEqual(b1.getOpen(), b2.getOpen())
@@ -60,7 +60,7 @@ class BasicBarTestCase(common.TestCase):
         self.assertEqual(b1.getClose(), b2.getClose())
         self.assertEqual(b1.getVolume(), b2.getVolume())
         self.assertEqual(b1.getAdjClose(), b2.getAdjClose())
-        self.assertEqual(b1.getFrequency(), b2.getFrequency())
+        self.assertEqual(b1.getInterval(), b2.getInterval())
         self.assertEqual(b1.getPrice(), b2.getPrice())
         self.assertEqual(b1.getOpen(True), b2.getOpen(True))
         self.assertEqual(b1.getHigh(True), b2.getHigh(True))
@@ -68,7 +68,7 @@ class BasicBarTestCase(common.TestCase):
         self.assertEqual(b1.getClose(True), b2.getClose(True))
 
     def testNoAdjClose(self):
-        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, None, bar.Frequency.DAY)
+        b = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, None, bar.Interval.DAY)
         with self.assertRaises(Exception):
             b.setUseAdjustedValue(True)
         with self.assertRaises(Exception):
@@ -87,15 +87,15 @@ class BarsTestCase(common.TestCase):
             bar.Bars({})
 
     def testInvalidDateTimes(self):
-        b1 = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Frequency.DAY)
-        b2 = bar.BasicBar(datetime.datetime.now() + datetime.timedelta(days=1), 2, 3, 1, 2.1, 10, 5, bar.Frequency.DAY)
+        b1 = bar.BasicBar(datetime.datetime.now(), 2, 3, 1, 2.1, 10, 5, bar.Interval.DAY)
+        b2 = bar.BasicBar(datetime.datetime.now() + datetime.timedelta(days=1), 2, 3, 1, 2.1, 10, 5, bar.Interval.DAY)
         with self.assertRaises(Exception):
             bar.Bars({"a": b1, "b": b2})
 
     def testBasic(self):
         dt = datetime.datetime.now()
-        b1 = bar.BasicBar(dt, 1, 1, 1, 1, 10, 1, bar.Frequency.DAY)
-        b2 = bar.BasicBar(dt, 2, 2, 2, 2, 10, 2, bar.Frequency.DAY)
+        b1 = bar.BasicBar(dt, 1, 1, 1, 1, 10, 1, bar.Interval.DAY)
+        b2 = bar.BasicBar(dt, 2, 2, 2, 2, 10, 2, bar.Interval.DAY)
         bars = bar.Bars({"a": b1, "b": b2})
         self.assertEqual(bars["a"].getClose(), 1)
         self.assertEqual(bars["b"].getClose(), 2)

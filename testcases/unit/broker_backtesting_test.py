@@ -44,15 +44,15 @@ class BarsBuilder(object):
         self.__instrument = instrument
         self.__frequency = frequency
         self.__nextDateTime = datetime.datetime(2011, 1, 1)
-        if frequency == bar.Frequency.TRADE:
+        if frequency == bar.Interval.TRADE:
             self.__delta = datetime.timedelta(milliseconds=1)
-        elif frequency == bar.Frequency.SECOND:
+        elif frequency == bar.Interval.SECOND:
             self.__delta = datetime.timedelta(seconds=1)
-        elif frequency == bar.Frequency.MINUTE:
+        elif frequency == bar.Interval.MINUTE:
             self.__delta = datetime.timedelta(minutes=1)
-        elif frequency == bar.Frequency.HOUR:
+        elif frequency == bar.Interval.HOUR:
             self.__delta = datetime.timedelta(hours=1)
-        elif frequency == bar.Frequency.DAY:
+        elif frequency == bar.Interval.DAY:
             self.__delta = datetime.timedelta(days=1)
         else:
             raise Exception("Invalid frequency")
@@ -159,7 +159,7 @@ class BrokerTestCase(BaseTestCase):
     def testOneCancelsAnother(self):
         orders = {}
 
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         def onOrderEvent(broker_, orderEvent):
@@ -202,7 +202,7 @@ class BrokerTestCase(BaseTestCase):
             if orderEvent.getEventType() != broker.OrderEvent.Type.SUBMITTED:
                 activeOrders.append(len(brk.getActiveOrders()))
 
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         brk.getOrderUpdatedEvent().subscribe(onOrderEvent)
@@ -237,7 +237,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(activeOrders[3], 0)  # Second order gets filled, zero orders are active.
 
     def testVolumeLimitMinuteBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         order = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 3)
@@ -260,7 +260,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testVolumeLimitTradeBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.TRADE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.TRADE)
         brk = self.buildBroker(1000, barFeed)
 
         # Try with different order types.
@@ -289,7 +289,7 @@ class BrokerTestCase(BaseTestCase):
         def onOrderEvent(broker, orderEvent):
             orderStates.append(order.getState())
 
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
         brk.getOrderUpdatedEvent().subscribe(onOrderEvent)
 
@@ -304,7 +304,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertTrue(broker.Order.State.CANCELED in orderStates)
 
     def testSkipOrderSubmittedDuringEvent(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
         ordersUpdated = []
 
@@ -343,7 +343,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertTrue(firstOrder.isAccepted())
 
     def testPartialFillAndCancel(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.DAY)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.DAY)
         brk = self.buildBroker(1000, barFeed)
         cb = OrderUpdateCallback(brk)
 
@@ -368,7 +368,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(cb.events[3].getEventType(), broker.OrderEvent.Type.CANCELED)
 
     def testVolumeLimitPerBar1(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         order1 = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 2)
@@ -407,7 +407,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(order2.getExecutionInfo().getCommission(), 0)
 
     def testVolumeLimitPerBar2(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         order1 = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 1)
@@ -438,7 +438,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(order2.getExecutionInfo().getCommission(), 0)
 
     def testGetActiveOrders(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         order1 = brk.createMarketOrder(broker.Order.Action.BUY, "ins1", 1)
@@ -456,7 +456,7 @@ class BrokerTestCase(BaseTestCase):
         self.assertEqual(len(brk.getActiveOrders("ins3")), 0)
 
     def testSetShares(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
         brk.setShares("btc", 100, 50)
         self.assertEqual(brk.getShares("btc"), 100)
@@ -465,7 +465,7 @@ class BrokerTestCase(BaseTestCase):
 
 class MarketOrderTestCase(BaseTestCase):
     def testGetPositions(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         cash = 1000000
         brk = backtesting.Broker(cash, barFeed)
 
@@ -488,7 +488,7 @@ class MarketOrderTestCase(BaseTestCase):
             def getInstrumentTraits(self, instrument):
                 return DecimalTraits(2)
 
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         cash = 1000000
         brk = Broker(cash, barFeed)
 
@@ -529,7 +529,7 @@ class MarketOrderTestCase(BaseTestCase):
             def getInstrumentTraits(self, instrument):
                 return DecimalTraits(quantityPresicion)
 
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         cash = 1000000
         brk = Broker(cash, barFeed)
 
@@ -571,7 +571,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(round(brk.getFillStrategy().getVolumeLeft()[BaseTestCase.TestInstrument], quantityPresicion), round((volume*maxFill) - (1-filledSoFar), quantityPresicion))
 
     def testBuySellPartial(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy
@@ -637,7 +637,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testBuyAndSell(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(11, barFeed)
 
         # Buy
@@ -681,7 +681,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testFailToBuy(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(5, barFeed)
 
         order = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 1)
@@ -718,7 +718,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 1)
 
     def testBuy_GTC(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(5, barFeed)
 
         order = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 1)
@@ -757,7 +757,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testBuyAndSellInTwoSteps(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(20.4, barFeed)
 
         # Buy
@@ -815,7 +815,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testPortfolioValue(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(11, barFeed)
 
         # Buy
@@ -841,7 +841,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(brk.getEquity(), 1 + 1)
 
     def testBuyWithCommission(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1020, barFeed, commission=backtesting.FixedPerTrade(10))
 
         # Buy
@@ -862,7 +862,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testSellShort_1(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Short sell
@@ -906,7 +906,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertTrue(brk.getShares(BaseTestCase.TestInstrument) == 0)
 
     def testSellShort_2(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Short sell 1
@@ -971,7 +971,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertTrue(brk.getEquity() == 1000 + 50 + 50)
 
     def testSellShort_3(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(100, barFeed)
 
         # Buy 1
@@ -1025,7 +1025,7 @@ class MarketOrderTestCase(BaseTestCase):
     def testSellShortWithCommission(self):
         sharePrice = 100
         commission = 10
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1010, barFeed, commission=backtesting.FixedPerTrade(commission))
 
         # Sell 10 shares
@@ -1061,7 +1061,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertTrue(brk.getCash() == sharePrice - commission)
 
     def testCancel(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(100, barFeed)
 
         order = brk.createMarketOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 1)
@@ -1081,7 +1081,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertTrue(order.isCanceled())
 
     def testTradePercentageWithPartialFills(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
         commPercentage = 0.1
         brk.setCommission(backtesting.TradePercentage(0.1))
@@ -1124,7 +1124,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 12*3*commPercentage)
 
     def testFixedPerTradeWithPartialFills(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
         brk.setCommission(backtesting.FixedPerTrade(1.2))
 
@@ -1166,7 +1166,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testDailyMarketOnClose(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.DAY)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.DAY)
         cash = 1000000
         brk = backtesting.Broker(cash, barFeed)
 
@@ -1185,7 +1185,7 @@ class MarketOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getQuantity(), 2)
 
     def testIntradayMarketOnClose(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         cash = 1000000
         brk = backtesting.Broker(cash, barFeed)
 
@@ -1195,7 +1195,7 @@ class MarketOrderTestCase(BaseTestCase):
 
 class LimitOrderTestCase(BaseTestCase):
     def testBuySellPartial(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy
@@ -1261,7 +1261,7 @@ class LimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testBuyAndSell_HitTargetPrice(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(20, barFeed)
 
         # Buy
@@ -1305,7 +1305,7 @@ class LimitOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testBuyAndSell_GetBetterPrice(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(20, barFeed)
 
         # Buy
@@ -1349,7 +1349,7 @@ class LimitOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testBuyAndSell_GappingBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(20, barFeed)
 
         # Buy. Bar is below the target price.
@@ -1393,7 +1393,7 @@ class LimitOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testFailToBuy(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(5, barFeed)
 
         order = brk.createLimitOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 5, 1)
@@ -1430,7 +1430,7 @@ class LimitOrderTestCase(BaseTestCase):
         self.assertTrue(cb.eventCount == 1)
 
     def testBuy_GTC(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(10, barFeed)
 
         order = brk.createLimitOrder(broker.Order.Action.BUY, BaseTestCase.TestInstrument, 4, 2)
@@ -1471,7 +1471,7 @@ class LimitOrderTestCase(BaseTestCase):
 
 class StopOrderTestCase(BaseTestCase):
     def testStopHitWithoutVolume(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15.
@@ -1490,7 +1490,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo(), None)
 
     def testBuySellPartial_ActivateAndThenFill(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15.
@@ -1593,7 +1593,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testBuySellPartial_ActivateAndFill(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15.
@@ -1678,7 +1678,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testLongPosStopLoss(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy
@@ -1729,7 +1729,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testLongPosStopLoss_GappingBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy
@@ -1780,7 +1780,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testShortPosStopLoss(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Sell short
@@ -1830,7 +1830,7 @@ class StopOrderTestCase(BaseTestCase):
         self.assertEqual(cb.eventCount, 3)
 
     def testShortPosStopLoss_GappingBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Sell short
@@ -1883,7 +1883,7 @@ class StopOrderTestCase(BaseTestCase):
 
 class StopLimitOrderTestCase(BaseTestCase):
     def testStopHitWithoutVolume(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15. Buy <= 17.
@@ -1902,7 +1902,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo(), None)
 
     def testRegressionBarGapsAboveStop(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15. Buy <= 17.
@@ -1922,7 +1922,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testBuySellPartial_ActivateAndThenFill(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15. Buy <= 17.
@@ -2043,7 +2043,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testBuySellPartial_ActivateAndFill(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(1000, barFeed)
 
         # Buy. Stop >= 15. Buy <= 17.
@@ -2132,7 +2132,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getExecutionInfo().getCommission(), 0)
 
     def testFillOpen(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 10. Buy <= 12.
@@ -2200,7 +2200,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testFillOpen_GappingBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 10. Buy <= 12.
@@ -2266,7 +2266,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testFillLimit(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 10. Buy <= 12.
@@ -2332,7 +2332,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testHitStopAndLimit(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 10. Buy <= 12.
@@ -2370,7 +2370,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testInvertedPrices_FillOpen(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 12. Buy <= 10.
@@ -2436,7 +2436,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testInvertedPrices_FillOpen_GappingBars(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 12. Buy <= 10.
@@ -2502,7 +2502,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testInvertedPrices_FillLimit(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 12. Buy <= 10.
@@ -2568,7 +2568,7 @@ class StopLimitOrderTestCase(BaseTestCase):
         self.assertEqual(order.getRemaining(), 0)
 
     def testInvertedPrices_HitStopAndLimit(self):
-        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Frequency.MINUTE)
+        barFeed = self.buildBarFeed(BaseTestCase.TestInstrument, bar.Interval.MINUTE)
         brk = self.buildBroker(15, barFeed)
 
         # Buy. Stop >= 12. Buy <= 10.

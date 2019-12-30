@@ -54,9 +54,9 @@ def parse_datetime(dateTime):
     return datetime.datetime(year, month, day, hour, minute, sec)
 
 
-class Frequency(object):
-    MINUTE = quantworks.bar.Frequency.MINUTE
-    DAILY = quantworks.bar.Frequency.DAY
+class Interval(object):
+    MINUTE = quantworks.bar.Interval.MINUTE
+    DAILY = quantworks.bar.Interval.DAY
 
 
 class RowParser(csvfeed.RowParser):
@@ -67,9 +67,9 @@ class RowParser(csvfeed.RowParser):
 
     def __parseDateTime(self, dateTime):
         ret = None
-        if self.__frequency == quantworks.bar.Frequency.MINUTE:
+        if self.__frequency == quantworks.bar.Interval.MINUTE:
             ret = parse_datetime(dateTime)
-        elif self.__frequency == quantworks.bar.Frequency.DAY:
+        elif self.__frequency == quantworks.bar.Interval.DAY:
             ret = datetime.datetime.strptime(dateTime, "%Y%m%d")
             # Time on CSV files is empty. If told to set one, do it.
             if self.__dailyBarTime is not None:
@@ -104,7 +104,7 @@ class RowParser(csvfeed.RowParser):
 class Feed(csvfeed.BarFeed):
     """A :class:`quantworks.barfeed.csvfeed.BarFeed` that loads bars from CSV files exported from NinjaTrader.
 
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Frequency.MINUTE** or **quantworks.bar.Frequency.DAY**
+    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.MINUTE** or **quantworks.bar.Interval.DAY**
         are supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
@@ -118,7 +118,7 @@ class Feed(csvfeed.BarFeed):
         if isinstance(timezone, int):
             raise Exception("timezone as an int parameter is not supported anymore. Please use a pytz timezone instead.")
 
-        if frequency not in [bar.Frequency.MINUTE, bar.Frequency.DAY]:
+        if frequency not in [bar.Interval.MINUTE, bar.Interval.DAY]:
             raise Exception("Invalid frequency.")
 
         super(Feed, self).__init__(frequency, maxLen)
@@ -146,5 +146,5 @@ class Feed(csvfeed.BarFeed):
         if timezone is None:
             timezone = self.__timezone
 
-        rowParser = RowParser(self.getFrequency(), self.getDailyBarTime(), timezone)
+        rowParser = RowParser(self.getInterval(), self.getDailyBarTime(), timezone)
         super(Feed, self).addBarsFromCSV(instrument, path, rowParser)

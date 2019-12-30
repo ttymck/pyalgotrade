@@ -35,7 +35,7 @@ def build_bars_from_closing_prices(closingPrices):
 
     nextDateTime = datetime.datetime.now()
     for closePrice in closingPrices:
-        bar_ = bar.BasicBar(nextDateTime, closePrice, closePrice, closePrice, closePrice, closePrice, closePrice, bar.Frequency.DAY)
+        bar_ = bar.BasicBar(nextDateTime, closePrice, closePrice, closePrice, closePrice, closePrice, closePrice, bar.Interval.DAY)
         ret.append(bar_)
         nextDateTime = nextDateTime + datetime.timedelta(days=1)
     return ret
@@ -229,7 +229,7 @@ class AnalyzerTestCase(common.TestCase):
         self.__testIGE_BrokerImpl(2)
 
     def __testManualImpl(self, closingPrices, cash):
-        barFeed = MockBarFeed(bar.Frequency.DAY)
+        barFeed = MockBarFeed(bar.Interval.DAY)
         bars = build_bars_from_closing_prices(closingPrices)
         barFeed.addBarsFromSequence("orcl", bars)
 

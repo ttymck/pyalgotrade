@@ -45,9 +45,9 @@ class MockStrategy(strategy.BacktestingStrategy):
 
     @classmethod
     def run_test(cls):
-        bf = MockBarFeed(bar.Frequency.DAY)
+        bf = MockBarFeed(bar.Interval.DAY)
         bars = [
-            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Frequency.DAY),
+            bar.BasicBar(datetime.datetime(2000, 1, 1), 10, 10, 10, 10, 10, 10, bar.Interval.DAY),
         ]
         bf.addBarsFromSequence("orcl", bars)
 

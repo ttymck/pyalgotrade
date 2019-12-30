@@ -27,14 +27,14 @@ from quantworks import feed
 from quantworks import dispatchprio
 
 
-# This is only for backward compatibility since Frequency used to be defined here and not in bar.py.
-Frequency = bar.Frequency
+# This is only for backward compatibility since Interval used to be defined here and not in bar.py.
+Interval = bar.Interval
 
 
 class BaseBarFeed(feed.BaseFeed):
     """Base class for :class:`quantworks.bar.Bar` providing feeds.
 
-    :param frequency: The bars frequency. Valid values defined in :class:`quantworks.bar.Frequency`.
+    :param frequency: The bars frequency. Valid values defined in :class:`quantworks.bar.Interval`.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
         Once a bounded length is full, when new items are added, a corresponding number of items are discarded
         from the opposite end. If None then dataseries.DEFAULT_MAX_LEN is used.
@@ -112,11 +112,11 @@ class BaseBarFeed(feed.BaseFeed):
                 self.__lastBars[instrument] = bars[instrument]
         return (dateTime, bars)
 
-    def getFrequency(self):
+    def getInterval(self):
         return self.__frequency
 
     def isIntraday(self):
-        return self.__frequency < bar.Frequency.DAY
+        return self.__frequency < bar.Interval.DAY
 
     def getCurrentBars(self):
         """Returns the current :class:`quantworks.bar.Bars`."""

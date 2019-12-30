@@ -24,17 +24,17 @@ import abc
 import six
 
 
-class Frequency(object):
+class Interval(object):
 
     """Enum like class for bar frequencies. Valid values are:
 
-    * **Frequency.TRADE**: The bar represents a single trade.
-    * **Frequency.SECOND**: The bar summarizes the trading activity during 1 second.
-    * **Frequency.MINUTE**: The bar summarizes the trading activity during 1 minute.
-    * **Frequency.HOUR**: The bar summarizes the trading activity during 1 hour.
-    * **Frequency.DAY**: The bar summarizes the trading activity during 1 day.
-    * **Frequency.WEEK**: The bar summarizes the trading activity during 1 week.
-    * **Frequency.MONTH**: The bar summarizes the trading activity during 1 month.
+    * **Interval.TRADE**: The bar represents a single trade.
+    * **Interval.SECOND**: The bar summarizes the trading activity during 1 second.
+    * **Interval.MINUTE**: The bar summarizes the trading activity during 1 minute.
+    * **Interval.HOUR**: The bar summarizes the trading activity during 1 hour.
+    * **Interval.DAY**: The bar summarizes the trading activity during 1 day.
+    * **Interval.WEEK**: The bar summarizes the trading activity during 1 week.
+    * **Interval.MONTH**: The bar summarizes the trading activity during 1 month.
     """
 
     # It is important for frequency values to get bigger for bigger windows.
@@ -100,7 +100,7 @@ class Bar(object):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def getFrequency(self):
+    def getInterval(self):
         """The bar's period."""
         raise NotImplementedError()
 
@@ -230,7 +230,7 @@ class BasicBar(Bar):
     def getAdjClose(self):
         return self.__adjClose
 
-    def getFrequency(self):
+    def getInterval(self):
         return self.__frequency
 
     def getPrice(self):

@@ -27,7 +27,7 @@ from . import common
 from . import feed_test
 
 from quantworks import barfeed
-from quantworks.barfeed import Frequency
+from quantworks.barfeed import Interval
 from quantworks.barfeed import common as bfcommon
 from quantworks.barfeed import pandasfeed
 from quantworks import bar
@@ -57,7 +57,7 @@ class PandasFeedTestCase(common.TestCase):
             "Volume": [i**2 for i in idx],
             "Adj Close": [i*2 for i in idx],
           }
-        ret = pandasfeed.Feed(Frequency.MINUTE, timezone, maxLen)
+        ret = pandasfeed.Feed(Interval.MINUTE, timezone, maxLen)
         sampleDataFrame = pd.DataFrame(data)
         ret.addBarsFromDataFrame("tst", sampleDataFrame, timezone)
         ret.loadAll()

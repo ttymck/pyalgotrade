@@ -29,7 +29,7 @@ class Database(object):
     def addBarsFromFeed(self, feed):
         for dateTime, bars in feed:
             if bars:
-                self.addBars(bars, feed.getFrequency())
+                self.addBars(bars, feed.getInterval())
 
     def addBar(self, instrument, bar, frequency):
         raise NotImplementedError()

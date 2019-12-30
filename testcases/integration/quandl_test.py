@@ -130,7 +130,7 @@ class ToolsTestCase(common.TestCase):
             instrument = "AAPL"
             path = os.path.join(tmpPath, "quandl-aapl-weekly-2010.csv")
             quandl.download_weekly_bars("WIKI", instrument, 2010, path, authToken=QUANDL_API_KEY)
-            bf = quandlfeed.Feed(frequency=bar.Frequency.WEEK)
+            bf = quandlfeed.Feed(frequency=bar.Interval.WEEK)
             bf.addBarsFromCSV(instrument, path)
             bf.loadAll()
             # Quandl used to report 2010-1-3 as the first week of 2010.
@@ -148,9 +148,9 @@ class ToolsTestCase(common.TestCase):
             # as time passes by.
             self.assertNotEqual(bf[instrument][-1].getAdjClose(), None)
 
-    def testInvalidFrequency(self):
+    def testInvalidInterval(self):
         with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
-            quandlfeed.Feed(frequency=bar.Frequency.MINUTE)
+            quandlfeed.Feed(frequency=bar.Interval.MINUTE)
 
     def testBuildFeedDaily(self):
         with common.TmpDir() as tmpPath:
@@ -172,7 +172,7 @@ class ToolsTestCase(common.TestCase):
         with common.TmpDir() as tmpPath:
             instrument = "AAPL"
             bf = quandl.build_feed(
-                "WIKI", [instrument], 2010, 2010, tmpPath, bar.Frequency.WEEK,
+                "WIKI", [instrument], 2010, 2010, tmpPath, bar.Interval.WEEK,
                 authToken=QUANDL_API_KEY
             )
             bf.loadAll()
@@ -198,14 +198,14 @@ class ToolsTestCase(common.TestCase):
         with self.assertRaisesRegex(Exception, "404 Client Error: Not Found"):
             with common.TmpDir() as tmpPath:
                 quandl.build_feed(
-                    instrument, [instrument], 2010, 2010, tmpPath, bar.Frequency.WEEK,
+                    instrument, [instrument], 2010, 2010, tmpPath, bar.Interval.WEEK,
                     authToken=QUANDL_API_KEY
                 )
 
         # Skip errors.
         with common.TmpDir() as tmpPath:
             bf = quandl.build_feed(
-                instrument, [instrument], 2010, 2010, tmpPath, bar.Frequency.WEEK, skipErrors=True,
+                instrument, [instrument], 2010, 2010, tmpPath, bar.Interval.WEEK, skipErrors=True,
                 authToken=QUANDL_API_KEY
             )
             bf.loadAll()

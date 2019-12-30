@@ -153,5 +153,5 @@ class Feed(membf.BarFeed):
         return self.__db
 
     def loadBars(self, instrument, timezone=None, fromDateTime=None, toDateTime=None):
-        bars = self.__db.getBars(instrument, self.getFrequency(), timezone, fromDateTime, toDateTime)
+        bars = self.__db.getBars(instrument, self.getInterval(), timezone, fromDateTime, toDateTime)
         self.addBarsFromSequence(instrument, bars)

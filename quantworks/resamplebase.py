@@ -47,7 +47,7 @@ class IntraDayRange(TimeRange):
         super(IntraDayRange, self).__init__()
         assert isinstance(frequency, int)
         assert frequency > 1
-        assert frequency < bar.Frequency.DAY
+        assert frequency < bar.Interval.DAY
 
         ts = int(dt.datetime_to_timestamp(dateTime))
         slot = int(ts / frequency)
@@ -114,11 +114,11 @@ def is_valid_frequency(frequency):
     assert(isinstance(frequency, int))
     assert(frequency > 1)
 
-    if frequency < bar.Frequency.DAY:
+    if frequency < bar.Interval.DAY:
         ret = True
-    elif frequency == bar.Frequency.DAY:
+    elif frequency == bar.Interval.DAY:
         ret = True
-    elif frequency == bar.Frequency.MONTH:
+    elif frequency == bar.Interval.MONTH:
         ret = True
     else:
         ret = False
@@ -129,11 +129,11 @@ def build_range(dateTime, frequency):
     assert(isinstance(frequency, int))
     assert(frequency > 1)
 
-    if frequency < bar.Frequency.DAY:
+    if frequency < bar.Interval.DAY:
         ret = IntraDayRange(dateTime, frequency)
-    elif frequency == bar.Frequency.DAY:
+    elif frequency == bar.Interval.DAY:
         ret = DayRange(dateTime)
-    elif frequency == bar.Frequency.MONTH:
+    elif frequency == bar.Interval.MONTH:
         ret = MonthRange(dateTime)
     else:
         raise Exception("Unsupported frequency")

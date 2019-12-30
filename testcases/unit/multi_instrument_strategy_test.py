@@ -87,13 +87,13 @@ class TestCase(common.TestCase):
         self.__testDifferentTimezonesImpl(feed)
 
     def testDifferentTimezones_DBFeed(self):
-        feed = sqlitefeed.Feed(common.get_data_file_path("multiinstrument.sqlite"), bar.Frequency.DAY)
+        feed = sqlitefeed.Feed(common.get_data_file_path("multiinstrument.sqlite"), bar.Interval.DAY)
         feed.loadBars("^n225")
         feed.loadBars("spy")
         self.__testDifferentTimezonesImpl(feed)
 
     def testDifferentTimezones_DBFeed_LocalizedBars(self):
-        feed = sqlitefeed.Feed(common.get_data_file_path("multiinstrument.sqlite"), bar.Frequency.DAY)
+        feed = sqlitefeed.Feed(common.get_data_file_path("multiinstrument.sqlite"), bar.Interval.DAY)
         feed.loadBars("^n225", marketsession.TSE.getTimezone())
         feed.loadBars("spy", marketsession.USEquities.getTimezone())
         self.__testDifferentTimezonesImpl(feed)

@@ -94,14 +94,14 @@ class Server(xmlrpc_server.SimpleXMLRPCServer):
 
         self.register_introspection_functions()
         self.register_function(self.getInstrumentsAndBars, 'getInstrumentsAndBars')
-        self.register_function(self.getBarsFrequency, 'getBarsFrequency')
+        self.register_function(self.getBarsInterval, 'getBarsInterval')
         self.register_function(self.getNextJob, 'getNextJob')
         self.register_function(self.pushJobResults, 'pushJobResults')
 
     def getInstrumentsAndBars(self):
         return self.__instrumentsAndBars
 
-    def getBarsFrequency(self):
+    def getBarsInterval(self):
         return str(self.__barsFreq)
 
     def getNextJob(self):
@@ -162,7 +162,7 @@ class Server(xmlrpc_server.SimpleXMLRPCServer):
                 loadedBars.append(bars)
             instruments = self.__barFeed.getRegisteredInstruments()
             self.__instrumentsAndBars = serialization.dumps((instruments, loadedBars))
-            self.__barsFreq = self.__barFeed.getFrequency()
+            self.__barsFreq = self.__barFeed.getInterval()
 
             if self.__autoStopThread:
                 self.__autoStopThread.start()

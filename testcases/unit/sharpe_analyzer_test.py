@@ -118,7 +118,7 @@ class SharpeRatioTestCase(common.TestCase):
         self.assertEqual(round(stratAnalyzer.getSharpeRatio(0.04, True), 6), 0.776443)
 
     def testIntraDay(self):
-        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Frequency.MINUTE, marketsession.USEquities.getTimezone())
+        barFeed = ninjatraderfeed.Feed(ninjatraderfeed.Interval.MINUTE, marketsession.USEquities.getTimezone())
         barFeed.setBarFilter(csvfeed.USEquitiesRTH())
         barFeed.addBarsFromCSV("spy", common.get_data_file_path("nt-spy-minute-2011.csv"))
         strat = strategy_test.BaseStrategy(barFeed, 1000)
