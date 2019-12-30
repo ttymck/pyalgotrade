@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "quantworks"
-version = "0.21rc2"
+version = "0.21"
 description = "Python Algorithmic Trading Framework"
 authors = ["Tyler M Kontra <tyler@tylerkontra.com>", "Gabriel Martin Becedillas Ruiz <pyalgotrade@gmail.com>"]
 classifiers = [
