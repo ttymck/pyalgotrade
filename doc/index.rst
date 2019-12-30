@@ -14,14 +14,13 @@ Contents:
     intro
     migrating
     tutorial
-    code
+    api_toc
     tools
     eventprofiler
-    bitcoin
-    twitter
     talib
     compinvpart1
     samples
+    contributing
 
 Indices and tables
 ==================

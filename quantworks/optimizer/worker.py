@@ -26,6 +26,7 @@ import retrying
 from six.moves import xmlrpc_client
 
 import quantworks.logger
+from quantworks.bar import Frequency
 from quantworks import barfeed
 from quantworks.optimizer import serialization
 
@@ -63,7 +64,7 @@ class Worker(object):
 
     def getBarsFrequency(self):
         ret = retry_on_network_error(self.__server.getBarsFrequency)
-        ret = int(ret)
+        ret = serialization.loads(ret)
         return ret
 
     def getNextJob(self):

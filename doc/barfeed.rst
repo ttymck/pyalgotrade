@@ -40,3 +40,9 @@ Ninja Trader
     :members: Feed
     :show-inheritance:
 
+SQLite
+-------
+.. automodule:: quantworks.barfeed.sqlitefeed
+    :members: Feed
+    :show-inheritance:
+

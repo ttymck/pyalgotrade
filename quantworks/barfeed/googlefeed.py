@@ -90,7 +90,7 @@ class RowParser(csvfeed.RowParser):
         adjClose = None
 
         if self.__sanitize:
-            open_, high, low, close = common.sanitize_ohlc(open_, high, low, close)
+            open_, high, low, close = common.sanitizeOhlc(open_, high, low, close)
 
         return bar.BasicBar(dateTime, open_, high, low, close, volume,
                             adjClose, self.__frequency)

@@ -31,11 +31,14 @@ DEFAULT_MAX_LEN = 1024
 
 
 def get_checked_max_len(maxLen):
+    """Default maxLen if negative or none given
+    """
     if maxLen is None:
-        maxLen = DEFAULT_MAX_LEN
-    if not maxLen > 0:
-        raise Exception("Invalid maximum length")
-    return maxLen
+        return DEFAULT_MAX_LEN
+    elif maxLen <= 0:
+        return DEFAULT_MAX_LEN
+    else:
+        return maxLen
 
 
 # It is important to inherit object to get __getitem__ to work properly.

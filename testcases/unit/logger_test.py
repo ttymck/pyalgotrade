@@ -29,7 +29,7 @@ from quantworks import logger
 from quantworks.barfeed import membf
 
 
-class MockBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BaseMemoryBarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 

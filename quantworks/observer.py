@@ -41,7 +41,7 @@ class Event(object):
         assert not self.__emitting
         self.__handlers.remove(handler)
 
-    def __applyChanges(self):
+    def __applyDeferred(self):
         assert not self.__emitting
         for action, param in self.__deferred:
             action(param)
@@ -67,11 +67,10 @@ class Event(object):
         finally:
             self.__emitting -= 1
             if not self.__emitting:
-                self.__applyChanges()
+                self.__applyDeferred()
 
 
-@six.add_metaclass(abc.ABCMeta)
-class Subject(object):
+class Subject(metaclass=abc.ABCMeta):
 
     def __init__(self):
         self.__dispatchPrio = dispatchprio.LAST
@@ -91,21 +90,24 @@ class Subject(object):
     def join(self):
         raise NotImplementedError()
 
-    # Return True if there are not more events to dispatch.
     @abc.abstractmethod
-    def eof(self):
+    def eof(self) -> bool:
+        """Return True if there are not more events to dispatch.
+        """
         raise NotImplementedError()
 
-    # Dispatch events. If True is returned, it means that at least one event was dispatched.
     @abc.abstractmethod
-    def dispatch(self):
+    def dispatch(self) -> bool:
+        """Dispatch events. If True is returned, it means that at least one event was dispatched.
+        """
         raise NotImplementedError()
 
     @abc.abstractmethod
     def peekDateTime(self):
-        # Return the datetime for the next event.
-        # This is needed to properly synchronize non-realtime subjects.
-        # Return None since this is a realtime subject.
+        """Return the datetime for the next event.
+        This is needed to properly synchronize non-realtime subjects.
+        Return None if this is a realtime subject.
+        """
         raise NotImplementedError()
 
     def getDispatchPriority(self):
@@ -117,5 +119,6 @@ class Subject(object):
         self.__dispatchPrio = dispatchPrio
 
     def onDispatcherRegistered(self, dispatcher):
-        # Called when the subject is registered with a dispatcher.
+        """Called when the subject is registered with a dispatcher
+        """
         pass

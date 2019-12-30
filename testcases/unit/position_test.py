@@ -48,7 +48,7 @@ def us_equities_datetime(*args, **kwargs):
     return ret
 
 
-class MockBarFeed(membf.BarFeed):
+class MockBarFeed(membf.BaseMemoryBarFeed):
     def barsHaveAdjClose(self):
         raise NotImplementedError()
 

@@ -29,7 +29,7 @@ def feed_iterator(feed):
     feed.start()
     try:
         while not feed.eof():
-            yield feed.getNextValuesAndUpdateDS()
+            yield feed.getNextValuesAndUpdateDataSeries()
     finally:
         feed.stop()
         feed.join()
@@ -50,11 +50,9 @@ class BaseFeed(observer.Subject):
     def __init__(self, maxLen):
         super(BaseFeed, self).__init__()
 
-        maxLen = dataseries.get_checked_max_len(maxLen)
-
         self.__ds = {}
         self.__event = observer.Event()
-        self.__maxLen = maxLen
+        self.__maxLen = dataseries.get_checked_max_len(maxLen)
 
     def reset(self):
         keys = list(self.__ds.keys())
@@ -62,23 +60,24 @@ class BaseFeed(observer.Subject):
         for key in keys:
             self.registerDataSeries(key)
 
-    # Subclasses should implement this and return the appropriate dataseries for the given key.
     @abc.abstractmethod
     def createDataSeries(self, key, maxLen):
+        """Return the appropriate dataseries for the given key.
+        """
         raise NotImplementedError()
 
-    # Subclasses should implement this and return a tuple with two elements:
-    # 1: datetime.datetime.
-    # 2: dictionary or dict-like object.
     @abc.abstractmethod
-    def getNextValues(self):
+    def getNextValues(self) -> tuple:
+        """Return tuple of datetime and dict
+        returns: (datetime.datetime, dict)
+        """
         raise NotImplementedError()
 
     def registerDataSeries(self, key):
         if key not in self.__ds:
             self.__ds[key] = self.createDataSeries(key, self.__maxLen)
 
-    def getNextValuesAndUpdateDS(self):
+    def getNextValuesAndUpdateDataSeries(self):
         dateTime, values = self.getNextValues()
         if dateTime is not None:
             for key, value in values.items():
@@ -104,7 +103,7 @@ class BaseFeed(observer.Subject):
         return self.__event
 
     def dispatch(self):
-        dateTime, values = self.getNextValuesAndUpdateDS()
+        dateTime, values = self.getNextValuesAndUpdateDataSeries()
         if dateTime is not None:
             self.__event.emit(dateTime, values)
         return dateTime is not None

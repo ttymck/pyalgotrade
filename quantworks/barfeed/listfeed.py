@@ -27,41 +27,7 @@ from quantworks import bar
 import datetime
 
 
-class BarFeed(membf.BarFeed):
-    """Base class for Iterable[Dict] based :class:`quantworks.barfeed.BarFeed`.
-
-    .. note::
-        This is a base class and should not be used directly.
-    """
-
-    def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
-
-        self.__barFilter = None
-        self.__dailyTime = datetime.time(0, 0, 0)
-
-    def getDailyBarTime(self):
-        return self.__dailyTime
-
-    def setDailyBarTime(self, time):
-        self.__dailyTime = time
-
-    def getBarFilter(self):
-        return self.__barFilter
-
-    def setBarFilter(self, barFilter):
-        self.__barFilter = barFilter
-
-    def _addBarsFromListofDicts(self, instrument, loadedBars):
-        loadedBars = filter(
-            lambda bar_: (bar_ is not None) and
-                (self.__barFilter is None or self.__barFilter.includeBar(bar_)),
-            loadedBars
-        )
-        self.addBarsFromSequence(instrument, loadedBars)
-
-
-class Feed(BarFeed):
+class Feed(membf.SimpleBarFeed):
     """A BarFeed that loads bars from a custom feed that has the following columns:
     ::
 
@@ -161,6 +127,13 @@ class Feed(BarFeed):
 
         dicts_have_adj_close = self.__columnNames['adj_close'] in list_of_dicts[0].keys()
 
+        missing_columns = [
+            col for col in self.__columnNames.values()
+            if col not in list_of_dicts[0].keys()
+        ]
+        if missing_columns:
+            raise ValueError('Missing required columns: {}'.format(repr(missing_columns)))
+
         # Convert dicts to Bar(s)
         loadedBars = map(
           lambda row: bar.BasicBar(
@@ -177,15 +150,7 @@ class Feed(BarFeed):
           list_of_dicts
         )
 
-        missing_columns = [
-            col for col in self.__columnNames.values()
-            if col not in list_of_dicts[0].keys()
-        ]
-        if missing_columns:
-            raise ValueError('Missing required columns: {}'.format(repr(missing_columns)))
-
-        super(Feed, self)._addBarsFromListofDicts(
-            instrument, loadedBars)
+        super(Feed, self)._addBars(instrument, loadedBars)
 
         if dicts_have_adj_close:
             self.__haveAdjClose = True

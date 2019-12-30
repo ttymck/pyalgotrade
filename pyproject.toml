@@ -29,7 +29,6 @@ six = "1.13.0"
 tornado = "6.0.3"
 ws4py = "0.3.4"
 TA-Lib = { version = "^0.4.17", optional = true }
-coveralls = "^1.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"
@@ -37,6 +36,10 @@ tox = "^3.14"
 pytest-cov = "^2.8"
 pandas = "^0.25.3"
 doc8 = "^0.8.0"
+coveralls = "^1.9"
+rope = "^0.14.0"
+sphinx = "^2.3.1"
+
 
 [tool.poetry.extras]
 TALib = ["cython", "TA-Lib"]

@@ -1,4 +1,4 @@
-Documentation for the code
+API Documentation
 ==========================
 
 Contents:

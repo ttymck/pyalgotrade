@@ -83,8 +83,8 @@ class OptimizerBarFeedTestCase(common.TestCase):
 
 class CommonTestCase(common.TestCase):
     def testSanitize(self):
-        self.assertEqual(bfcommon.sanitize_ohlc(10, 12, 9, 10), (10, 12, 9, 10))
-        self.assertEqual(bfcommon.sanitize_ohlc(10, 12, 9, 13), (10, 13, 9, 13))
-        self.assertEqual(bfcommon.sanitize_ohlc(10, 9, 9, 10), (10, 10, 9, 10))
-        self.assertEqual(bfcommon.sanitize_ohlc(10, 12, 11, 10), (10, 12, 10, 10))
-        self.assertEqual(bfcommon.sanitize_ohlc(10, 12, 10, 9), (10, 12, 9, 9))
+        self.assertEqual(bfcommon.sanitizeOhlc(10, 12, 9, 10), (10, 12, 9, 10))
+        self.assertEqual(bfcommon.sanitizeOhlc(10, 12, 9, 13), (10, 13, 9, 13))
+        self.assertEqual(bfcommon.sanitizeOhlc(10, 9, 9, 10), (10, 10, 9, 10))
+        self.assertEqual(bfcommon.sanitizeOhlc(10, 12, 11, 10), (10, 12, 10, 10))
+        self.assertEqual(bfcommon.sanitizeOhlc(10, 12, 10, 9), (10, 12, 9, 9))
