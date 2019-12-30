@@ -29,8 +29,7 @@ from quantworks.optimizer import local
 from quantworks import strategy
 from quantworks.barfeed import yahoofeed
 
-sys.path.append("samples")
-import sma_crossover
+from quantworks.examples import sma_crossover
 
 
 def parameters_generator(instrument, smaFirst, smaLast):
@@ -65,3 +64,6 @@ class OptimizerTestCase(common.TestCase):
         barFeed.addBarsFromCSV(instrument, common.get_data_file_path("orcl-2000-yahoofinance.csv"))
         res = local.run(FailingStrategy, barFeed, parameters_generator(instrument, 5, 100), logLevel=logging.DEBUG)
         self.assertIsNone(res)
+
+if __name__ == "__main__":
+    OptimizerTestCase().testLocal()
