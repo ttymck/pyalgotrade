@@ -14,12 +14,13 @@ Contents:
     intro
     migrating
     tutorial
-    code
+    api_toc
     tools
     eventprofiler
     talib
     compinvpart1
     samples
+    contributing
 
 Indices and tables
 ==================

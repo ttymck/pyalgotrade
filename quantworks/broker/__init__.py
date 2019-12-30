@@ -170,8 +170,10 @@ class Order(object):
 #        assert(False)
 
     def _setQuantity(self, quantity):
-        assert self.__quantity is None, "Can only change the quantity if it was undefined"
-        assert quantity > 0, "Invalid quantity"
+        if not self.__quantity is None:
+            raise AttributeError("Can only change the quantity if it was undefined")
+        if not quantity > 0:
+            raise ValueError("Invalid quantity")
         self.__quantity = quantity
 
     def getInstrumentTraits(self):
