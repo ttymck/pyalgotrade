@@ -102,7 +102,7 @@ class Server(xmlrpc_server.SimpleXMLRPCServer):
         return self.__instrumentsAndBars
 
     def getBarsFrequency(self):
-        return str(self.__barsFreq)
+        return serialization.dumps(self.__barsFreq)
 
     def getNextJob(self):
         ret = None
