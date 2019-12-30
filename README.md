@@ -67,5 +67,5 @@ Developer ergonomics are provided by
 Extensions 
 ----------
 
-- [Bitstamp](https://www.bitstamp.net/) (bitcoin) live trading is implemented by the `quantworks-bitstamp` package (pending)
-- Twitter real-time feeds are supported via the `quantworks-twitter` package (pending)
+- [Bitstamp](https://www.bitstamp.net/) (bitcoin) live trading is implemented by the `quantworks-bitstamp` package (https://pypi.org/project/quantworks-bitcoin/)
+- Twitter real-time feeds are supported via the `quantworks-twitter` package (https://pypi.org/project/quantworks-twitter/)

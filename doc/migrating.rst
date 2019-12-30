@@ -10,11 +10,11 @@ Changes
 -------
 
 - convert all ``pyalgotrade`` imports to ``quantworks``
-- BitcoinCharts & Bitstamp
+- `BitcoinCharts & Bitstamp <https://pypi.org/project/quantworks-bitcoin/>`_
     - ``pip install quantworks-bitcoin``
     - convert ``pyalgotrade.bitstamp`` imports to ``quantworks.ext.bitstamp``
     - and ``pyalgotrade.bitcoincharts`` to ``quantworks.ext.bitcoincharts``
-- Twitter
+- `Twitter <https://pypi.org/project/quantworks-twitter/>`_
     - ``pip install quantworks-twitter``
     - convert ``pyalgotrade.twitter`` imports to ``quantworks.ext.twitter``
 
