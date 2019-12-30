@@ -57,7 +57,7 @@ class CSVFileWriter(object):
         self.__file.close()
 
 
-def resample_impl(barFeed, frequency, csvFile):
+def resample_impl(barFeed, interval, csvFile):
     instruments = barFeed.getRegisteredInstruments()
     if len(instruments) != 1:
         raise Exception("Only barfeeds with 1 instrument can be resampled")
@@ -68,7 +68,7 @@ def resample_impl(barFeed, frequency, csvFile):
         csvWriter.writeBar(value)
 
     insrumentDS = barFeed[instruments[0]]
-    resampledDS = resampled.ResampledBarDataSeries(insrumentDS, frequency)
+    resampledDS = resampled.ResampledBarDataSeries(insrumentDS, interval)
     resampledDS.getNewValueEvent().subscribe(on_bar)
 
     # Process all bars.
@@ -80,8 +80,8 @@ def resample_impl(barFeed, frequency, csvFile):
     csvWriter.close()
 
 
-def resample_to_csv(barFeed, frequency, csvFile):
-    """Resample a BarFeed into a CSV file grouping bars by a certain frequency.
+def resample_to_csv(barFeed, interval, csvFile):
+    """Resample a BarFeed into a CSV file grouping bars by a certain interval.
     The resulting file can be loaded using :class:`quantworks.barfeed.csvfeed.GenericBarFeed`.
     The CSV file will have the following format:
     ::
@@ -92,7 +92,7 @@ def resample_to_csv(barFeed, frequency, csvFile):
 
     :param barFeed: The bar feed that will provide the bars. It should only hold bars from a single instrument.
     :type barFeed: :class:`quantworks.barfeed.BarFeed`
-    :param frequency: The grouping frequency in seconds. Must be > 0.
+    :param interval: The grouping interval in seconds. Must be > 0.
     :param csvFile: The path to the CSV file to write.
     :type csvFile: string.
 
@@ -105,5 +105,5 @@ def resample_to_csv(barFeed, frequency, csvFile):
             * bar.Interval.MONTH
     """
 
-    assert frequency > 0, "Invalid frequency"
-    resample_impl(barFeed, frequency, csvFile)
+    assert interval > 0, "Invalid interval"
+    resample_impl(barFeed, interval, csvFile)

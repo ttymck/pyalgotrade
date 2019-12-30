@@ -26,7 +26,7 @@ from quantworks import bar
 class Feed(csvfeed.GenericBarFeed):
     """A :class:`quantworks.barfeed.csvfeed.BarFeed` that loads bars from CSV files downloaded from Quandl.
 
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.DAY** or **quantworks.bar.Interval.WEEK**
+    :param interval: The interval of the bars. Only **quantworks.bar.Interval.DAY** or **quantworks.bar.Interval.WEEK**
         are supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
@@ -42,11 +42,11 @@ class Feed(csvfeed.GenericBarFeed):
             * If any of the instruments loaded are in different timezones, then the timezone parameter must be set.
     """
 
-    def __init__(self, frequency=bar.Interval.DAY, timezone=None, maxLen=None):
-        if frequency not in [bar.Interval.DAY, bar.Interval.WEEK]:
-            raise Exception("Invalid frequency")
+    def __init__(self, interval=bar.Interval.DAY, timezone=None, maxLen=None):
+        if interval not in [bar.Interval.DAY, bar.Interval.WEEK]:
+            raise Exception("Invalid interval")
 
-        super(Feed, self).__init__(frequency, timezone, maxLen)
+        super(Feed, self).__init__(interval, timezone, maxLen)
 
         self.setDateTimeFormat("%Y-%m-%d")
         self.setColumnName("datetime", "Date")

@@ -32,17 +32,17 @@ from quantworks import marketsession
 
 
 class TemporarySQLiteFeed:
-    def __init__(self, dbFilePath, frequency, maxLen=None):
+    def __init__(self, dbFilePath, interval, maxLen=None):
         if os.path.exists(dbFilePath):
             raise Exception("File exists")
 
         self.__dbFilePath = dbFilePath
-        self.__frequency = frequency
+        self.__interval = interval
         self.__feed = None
         self.__maxLen = maxLen
 
     def __enter__(self):
-        self.__feed = sqlitefeed.Feed(self.__dbFilePath, self.__frequency, maxLen=self.__maxLen)
+        self.__feed = sqlitefeed.Feed(self.__dbFilePath, self.__interval, maxLen=self.__maxLen)
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.__feed.getDatabase().disconnect()  # This is for the feed to release the file and get it deleted.

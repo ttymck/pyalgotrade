@@ -34,7 +34,7 @@ Interval = bar.Interval
 class BaseBarFeed(feed.BaseFeed):
     """Base class for :class:`quantworks.bar.Bar` providing feeds.
 
-    :param frequency: The bars frequency. Valid values defined in :class:`quantworks.bar.Interval`.
+    :param interval: The bars interval. Valid values defined in :class:`quantworks.bar.Interval`.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
         Once a bounded length is full, when new items are added, a corresponding number of items are discarded
         from the opposite end. If None then dataseries.DEFAULT_MAX_LEN is used.
@@ -44,9 +44,9 @@ class BaseBarFeed(feed.BaseFeed):
         This is a base class and should not be used directly.
     """
 
-    def __init__(self, frequency, maxLen=None):
+    def __init__(self, interval, maxLen=None):
         super(BaseBarFeed, self).__init__(maxLen)
-        self.__frequency = frequency
+        self.__interval = interval
         self.__useAdjustedValues = False
         self.__defaultInstrument = None
         self.__currentBars = None
@@ -113,10 +113,10 @@ class BaseBarFeed(feed.BaseFeed):
         return (dateTime, bars)
 
     def getInterval(self):
-        return self.__frequency
+        return self.__interval
 
     def isIntraday(self):
-        return self.__frequency < bar.Interval.DAY
+        return self.__interval < bar.Interval.DAY
 
     def getCurrentBars(self):
         """Returns the current :class:`quantworks.bar.Bars`."""
@@ -156,8 +156,8 @@ class BaseBarFeed(feed.BaseFeed):
 # This class is used by the optimizer module. The barfeed is already built on the server side,
 # and the bars are sent back to workers.
 class OptimizerBarFeed(BaseBarFeed):
-    def __init__(self, frequency, instruments, bars, maxLen=None):
-        super(OptimizerBarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, instruments, bars, maxLen=None):
+        super(OptimizerBarFeed, self).__init__(interval, maxLen)
         for instrument in instruments:
             self.registerInstrument(instrument)
         self.__bars = bars

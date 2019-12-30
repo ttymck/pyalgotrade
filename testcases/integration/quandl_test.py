@@ -130,7 +130,7 @@ class ToolsTestCase(common.TestCase):
             instrument = "AAPL"
             path = os.path.join(tmpPath, "quandl-aapl-weekly-2010.csv")
             quandl.download_weekly_bars("WIKI", instrument, 2010, path, authToken=QUANDL_API_KEY)
-            bf = quandlfeed.Feed(frequency=bar.Interval.WEEK)
+            bf = quandlfeed.Feed(interval=bar.Interval.WEEK)
             bf.addBarsFromCSV(instrument, path)
             bf.loadAll()
             # Quandl used to report 2010-1-3 as the first week of 2010.
@@ -149,8 +149,8 @@ class ToolsTestCase(common.TestCase):
             self.assertNotEqual(bf[instrument][-1].getAdjClose(), None)
 
     def testInvalidInterval(self):
-        with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
-            quandlfeed.Feed(frequency=bar.Interval.MINUTE)
+        with self.assertRaisesRegex(Exception, "Invalid interval.*"):
+            quandlfeed.Feed(interval=bar.Interval.MINUTE)
 
     def testBuildFeedDaily(self):
         with common.TmpDir() as tmpPath:
@@ -330,7 +330,7 @@ class ToolsTestCase(common.TestCase):
                 "--from-year=2010",
                 "--to-year=2010",
                 "--storage=%s" % tmpPath,
-                "--frequency=weekly",
+                "--interval=weekly",
                 "--auth-token=%s" % QUANDL_API_KEY
             ])
             bf = quandlfeed.Feed()
@@ -358,7 +358,7 @@ class ToolsTestCase(common.TestCase):
                     "--from-year=2010",
                     "--to-year=2010",
                     "--storage=%s" % tmpPath,
-                    "--frequency=daily",
+                    "--interval=daily",
                     "--ignore-errors"
                 ],
                 stderr=subprocess.STDOUT
@@ -377,7 +377,7 @@ class ToolsTestCase(common.TestCase):
                         "--from-year=2010",
                         "--to-year=2010",
                         "--storage=%s" % tmpPath,
-                        "--frequency=daily"
+                        "--interval=daily"
                     ],
                     stderr=subprocess.STDOUT
                 )

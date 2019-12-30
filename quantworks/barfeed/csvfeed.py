@@ -97,8 +97,8 @@ class BarFeed(membf.BarFeed):
         This is a base class and should not be used directly.
     """
 
-    def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, maxLen=None):
+        super(BarFeed, self).__init__(interval, maxLen)
 
         self.__barFilter = None
         self.__dailyTime = datetime.time(0, 0, 0)
@@ -141,10 +141,10 @@ class BarFeed(membf.BarFeed):
 
 
 class GenericRowParser(RowParser):
-    def __init__(self, columnNames, dateTimeFormat, dailyBarTime, frequency, timezone, barClass=bar.BasicBar):
+    def __init__(self, columnNames, dateTimeFormat, dailyBarTime, interval, timezone, barClass=bar.BasicBar):
         self.__dateTimeFormat = dateTimeFormat
         self.__dailyBarTime = dailyBarTime
-        self.__frequency = frequency
+        self.__interval = interval
         self.__timezone = timezone
         self.__haveAdjClose = False
         self.__barClass = barClass
@@ -199,7 +199,7 @@ class GenericRowParser(RowParser):
                 extra[k] = csvutils.float_or_string(v)
 
         return self.__barClass(
-            dateTime, open_, high, low, close, volume, adjClose, self.__frequency, extra=extra
+            dateTime, open_, high, low, close, volume, adjClose, self.__interval, extra=extra
         )
 
 
@@ -210,7 +210,7 @@ class GenericBarFeed(BarFeed):
         Date Time,Open,High,Low,Close,Volume,Adj Close
         2013-01-01 13:59:00,13.51001,13.56,13.51,13.56,273.88014126,13.51001
 
-    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Interval`.
+    :param interval: The interval of the bars. Check :class:`quantworks.bar.Interval`.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -227,8 +227,8 @@ class GenericBarFeed(BarFeed):
          * If any of the instruments loaded are in different timezones, then the timezone parameter should be set.
     """
 
-    def __init__(self, frequency, timezone=None, maxLen=None):
-        super(GenericBarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, timezone=None, maxLen=None):
+        super(GenericBarFeed, self).__init__(interval, maxLen)
 
         self.__timezone = timezone
         # Assume bars don't have adjusted close. This will be set to True after

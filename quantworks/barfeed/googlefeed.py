@@ -57,9 +57,9 @@ def parse_date(date):
 
 
 class RowParser(csvfeed.RowParser):
-    def __init__(self, dailyBarTime, frequency, timezone=None, sanitize=False):
+    def __init__(self, dailyBarTime, interval, timezone=None, sanitize=False):
         self.__dailyBarTime = dailyBarTime
-        self.__frequency = frequency
+        self.__interval = interval
         self.__timezone = timezone
         self.__sanitize = sanitize
 
@@ -93,13 +93,13 @@ class RowParser(csvfeed.RowParser):
             open_, high, low, close = common.sanitize_ohlc(open_, high, low, close)
 
         return bar.BasicBar(dateTime, open_, high, low, close, volume,
-                            adjClose, self.__frequency)
+                            adjClose, self.__interval)
 
 
 class Feed(csvfeed.BarFeed):
     """A :class:`quantworks.barfeed.csvfeed.BarFeed` that loads bars from CSV files downloaded from Google Finance.
 
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.DAY** is currently supported.
+    :param interval: The interval of the bars. Only **quantworks.bar.Interval.DAY** is currently supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -115,11 +115,11 @@ class Feed(csvfeed.BarFeed):
             * If any of the instruments loaded are in different timezones, then the timezone parameter must be set.
     """
 
-    def __init__(self, frequency=bar.Interval.DAY, timezone=None, maxLen=None):
-        if frequency not in [bar.Interval.DAY]:
-            raise Exception("Invalid frequency.")
+    def __init__(self, interval=bar.Interval.DAY, timezone=None, maxLen=None):
+        if interval not in [bar.Interval.DAY]:
+            raise Exception("Invalid interval.")
 
-        super(Feed, self).__init__(frequency, maxLen)
+        super(Feed, self).__init__(interval, maxLen)
 
         self.__timezone = timezone
         self.__sanitizeBars = False

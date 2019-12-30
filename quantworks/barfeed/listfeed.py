@@ -34,8 +34,8 @@ class BarFeed(membf.BarFeed):
         This is a base class and should not be used directly.
     """
 
-    def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, maxLen=None):
+        super(BarFeed, self).__init__(interval, maxLen)
 
         self.__barFilter = None
         self.__dailyTime = datetime.time(0, 0, 0)
@@ -69,7 +69,7 @@ class Feed(BarFeed):
         2015-08-14 09:06:00  0.00690  0.00690  0.00690  0.00690  1.346117       9567
     
 
-    :param frequency: The frequency of the bars. Check :class:`quantworks.bar.Interval`.
+    :param interval: The interval of the bars. Check :class:`quantworks.bar.Interval`.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
     :param maxLen: The maximum number of values that the :class:`quantworks.dataseries.bards.BarDataSeries` will hold.
@@ -91,8 +91,8 @@ class Feed(BarFeed):
          * If any of the instruments loaded are in different timezones, then the timezone parameter should be set.
     """
 
-    def __init__(self, frequency, timezone=None, maxLen=None):
-        super(Feed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, timezone=None, maxLen=None):
+        super(Feed, self).__init__(interval, maxLen)
 
         self.__timezone = timezone
         # Assume bars don't have adjusted close. This will be set to True after

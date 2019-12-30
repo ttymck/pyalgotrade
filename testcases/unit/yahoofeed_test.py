@@ -114,8 +114,8 @@ class FeedTestCase(common.TestCase):
         barfeed_test.check_base_barfeed(self, barFeed, True)
 
     def testInvalidInterval(self):
-        with self.assertRaisesRegex(Exception, "Invalid frequency.*"):
-            yahoofeed.Feed(frequency=bar.Interval.MINUTE)
+        with self.assertRaisesRegex(Exception, "Invalid interval.*"):
+            yahoofeed.Feed(interval=bar.Interval.MINUTE)
 
     def testBaseFeedInterface(self):
         barFeed = yahoofeed.Feed()

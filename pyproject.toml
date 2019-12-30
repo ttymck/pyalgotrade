@@ -37,6 +37,7 @@ tox = "^3.14"
 pytest-cov = "^2.8"
 pandas = "^0.25.3"
 doc8 = "^0.8.0"
+rope = "^0.14.0"
 
 [tool.poetry.extras]
 TALib = ["cython", "TA-Lib"]

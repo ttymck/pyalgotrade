@@ -550,15 +550,15 @@ class BaseStrategy(object):
         """Logs a message with level CRITICAL on the strategy logger."""
         self.getLogger().critical(msg)
 
-    def resampleBarFeed(self, frequency, callback):
+    def resampleBarFeed(self, interval, callback):
         """
-        Builds a resampled barfeed that groups bars by a certain frequency.
+        Builds a resampled barfeed that groups bars by a certain interval.
 
-        :param frequency: The grouping frequency in seconds. Must be > 0.
+        :param interval: The grouping interval in seconds. Must be > 0.
         :param callback: A function similar to onBars that will be called when new bars are available.
         :rtype: :class:`quantworks.barfeed.BaseBarFeed`.
         """
-        ret = resampled.ResampledBarFeed(self.getFeed(), frequency)
+        ret = resampled.ResampledBarFeed(self.getFeed(), interval)
         ret.getNewValuesEvent().subscribe(lambda dt, bars: callback(bars))
         self.getDispatcher().addSubject(ret)
         self.__resampledBarFeeds.append(ret)

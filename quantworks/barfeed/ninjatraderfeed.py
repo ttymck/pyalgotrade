@@ -60,16 +60,16 @@ class Interval(object):
 
 
 class RowParser(csvfeed.RowParser):
-    def __init__(self, frequency, dailyBarTime, timezone=None):
-        self.__frequency = frequency
+    def __init__(self, interval, dailyBarTime, timezone=None):
+        self.__interval = interval
         self.__dailyBarTime = dailyBarTime
         self.__timezone = timezone
 
     def __parseDateTime(self, dateTime):
         ret = None
-        if self.__frequency == quantworks.bar.Interval.MINUTE:
+        if self.__interval == quantworks.bar.Interval.MINUTE:
             ret = parse_datetime(dateTime)
-        elif self.__frequency == quantworks.bar.Interval.DAY:
+        elif self.__interval == quantworks.bar.Interval.DAY:
             ret = datetime.datetime.strptime(dateTime, "%Y%m%d")
             # Time on CSV files is empty. If told to set one, do it.
             if self.__dailyBarTime is not None:
@@ -98,13 +98,13 @@ class RowParser(csvfeed.RowParser):
         high = float(csvRowDict["High"])
         low = float(csvRowDict["Low"])
         volume = float(csvRowDict["Volume"])
-        return bar.BasicBar(dateTime, open_, high, low, close, volume, None, self.__frequency)
+        return bar.BasicBar(dateTime, open_, high, low, close, volume, None, self.__interval)
 
 
 class Feed(csvfeed.BarFeed):
     """A :class:`quantworks.barfeed.csvfeed.BarFeed` that loads bars from CSV files exported from NinjaTrader.
 
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.MINUTE** or **quantworks.bar.Interval.DAY**
+    :param interval: The interval of the bars. Only **quantworks.bar.Interval.MINUTE** or **quantworks.bar.Interval.DAY**
         are supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
@@ -114,14 +114,14 @@ class Feed(csvfeed.BarFeed):
     :type maxLen: int.
     """
 
-    def __init__(self, frequency, timezone=None, maxLen=None):
+    def __init__(self, interval, timezone=None, maxLen=None):
         if isinstance(timezone, int):
             raise Exception("timezone as an int parameter is not supported anymore. Please use a pytz timezone instead.")
 
-        if frequency not in [bar.Interval.MINUTE, bar.Interval.DAY]:
-            raise Exception("Invalid frequency.")
+        if interval not in [bar.Interval.MINUTE, bar.Interval.DAY]:
+            raise Exception("Invalid interval.")
 
-        super(Feed, self).__init__(frequency, maxLen)
+        super(Feed, self).__init__(interval, maxLen)
 
         self.__timezone = timezone
 

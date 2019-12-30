@@ -21,18 +21,18 @@
 
 
 class Database(object):
-    def addBars(self, bars, frequency):
+    def addBars(self, bars, interval):
         for instrument in bars.getInstruments():
             bar = bars.getBar(instrument)
-            self.addBar(instrument, bar, frequency)
+            self.addBar(instrument, bar, interval)
 
     def addBarsFromFeed(self, feed):
         for dateTime, bars in feed:
             if bars:
                 self.addBars(bars, feed.getInterval())
 
-    def addBar(self, instrument, bar, frequency):
+    def addBar(self, instrument, bar, interval):
         raise NotImplementedError()
 
-    def getBars(self, instrument, frequency, timezone=None, fromDateTime=None, toDateTime=None):
+    def getBars(self, instrument, interval, timezone=None, fromDateTime=None, toDateTime=None):
         raise NotImplementedError()

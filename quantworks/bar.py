@@ -26,7 +26,9 @@ import six
 
 class Interval(object):
 
-    """Enum like class for bar frequencies. Valid values are:
+    """Enum like class for bar time intervals. 
+    
+    Intervals are represented in seconds.
 
     * **Interval.TRADE**: The bar represents a single trade.
     * **Interval.SECOND**: The bar summarizes the trading activity during 1 second.
@@ -37,7 +39,6 @@ class Interval(object):
     * **Interval.MONTH**: The bar summarizes the trading activity during 1 month.
     """
 
-    # It is important for frequency values to get bigger for bigger windows.
     TRADE = -1
     SECOND = 1
     MINUTE = 60
@@ -127,12 +128,12 @@ class BasicBar(Bar):
         '__low',
         '__volume',
         '__adjClose',
-        '__frequency',
+        '__interval',
         '__useAdjustedValue',
         '__extra',
     )
 
-    def __init__(self, dateTime, open_, high, low, close, volume, adjClose, frequency, extra={}):
+    def __init__(self, dateTime, open_, high, low, close, volume, adjClose, interval, extra={}):
         if high < low:
             raise Exception("high < low on %s" % (dateTime))
         elif high < open_:
@@ -151,7 +152,7 @@ class BasicBar(Bar):
         self.__low = low
         self.__volume = volume
         self.__adjClose = adjClose
-        self.__frequency = frequency
+        self.__interval = interval
         self.__useAdjustedValue = False
         self.__extra = extra
 
@@ -163,7 +164,7 @@ class BasicBar(Bar):
             self.__low,
             self.__volume,
             self.__adjClose,
-            self.__frequency,
+            self.__interval,
             self.__useAdjustedValue,
             self.__extra) = state
 
@@ -176,7 +177,7 @@ class BasicBar(Bar):
             self.__low,
             self.__volume,
             self.__adjClose,
-            self.__frequency,
+            self.__interval,
             self.__useAdjustedValue,
             self.__extra
         )
@@ -231,7 +232,7 @@ class BasicBar(Bar):
         return self.__adjClose
 
     def getInterval(self):
-        return self.__frequency
+        return self.__interval
 
     def getPrice(self):
         if self.__useAdjustedValue:

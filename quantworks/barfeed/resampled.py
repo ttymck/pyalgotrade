@@ -23,14 +23,14 @@ from quantworks import bar
 
 
 class BarsGrouper(resamplebase.Grouper):
-    def __init__(self, groupDateTime, bars, frequency):
+    def __init__(self, groupDateTime, bars, interval):
         resamplebase.Grouper.__init__(self, groupDateTime)
         self.__barGroupers = {}
-        self.__frequency = frequency
+        self.__interval = interval
 
         # Initialize BarGrouper instances for each instrument.
         for instrument, bar_ in bars.items():
-            barGrouper = resampled.BarGrouper(groupDateTime, bar_, frequency)
+            barGrouper = resampled.BarGrouper(groupDateTime, bar_, interval)
             self.__barGroupers[instrument] = barGrouper
 
     def addValue(self, value):
@@ -40,7 +40,7 @@ class BarsGrouper(resamplebase.Grouper):
             if barGrouper:
                 barGrouper.addValue(bar_)
             else:
-                barGrouper = resampled.BarGrouper(self.getDateTime(), bar_, self.__frequency)
+                barGrouper = resampled.BarGrouper(self.getDateTime(), bar_, self.__interval)
                 self.__barGroupers[instrument] = barGrouper
 
     def getGrouped(self):
@@ -52,14 +52,14 @@ class BarsGrouper(resamplebase.Grouper):
 
 class ResampledBarFeed(barfeed.BaseBarFeed):
 
-    def __init__(self, barFeed, frequency, maxLen=None):
-        super(ResampledBarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, barFeed, interval, maxLen=None):
+        super(ResampledBarFeed, self).__init__(interval, maxLen)
 
         if not isinstance(barFeed, barfeed.BaseBarFeed):
             raise Exception("barFeed must be a barfeed.BaseBarFeed instance")
 
-        if not resamplebase.is_valid_frequency(frequency):
-            raise Exception("Unsupported frequency")
+        if not resamplebase.is_valid_interval(interval):
+            raise Exception("Unsupported interval")
 
         # Register the same instruments as in the underlying barfeed.
         for instrument in barFeed.getRegisteredInstruments():

@@ -354,6 +354,14 @@ version = "1.3.3"
 six = ">=1.7.0"
 
 [[package]]
+category = "dev"
+description = "a python refactoring library..."
+name = "rope"
+optional = false
+python-versions = "*"
+version = "0.14.0"
+
+[[package]]
 category = "main"
 description = "SciPy: Scientific Library for Python"
 name = "scipy"
@@ -498,7 +506,7 @@ testing = ["pathlib2", "contextlib2", "unittest2"]
 TALib = ["TA-Lib"]
 
 [metadata]
-content-hash = "5837658fefaa7c723931006d1f6390ea3e68ed7a6dbf527e0bb640fd6bc533b9"
+content-hash = "f17454443f956546df848bfa846c9a2c3b8c614181b980752ed6405d4b71dc2d"
 python-versions = "^3.7"
 
 [metadata.files]
@@ -735,6 +743,11 @@ restructuredtext-lint = [
 ]
 retrying = [
     {file = "retrying-1.3.3.tar.gz", hash = "sha256:08c039560a6da2fe4f2c426d0766e284d3b736e355f8dd24b37367b0bb41973b"},
+]
+rope = [
+    {file = "rope-0.14.0-py2-none-any.whl", hash = "sha256:6b728fdc3e98a83446c27a91fc5d56808a004f8beab7a31ab1d7224cecc7d969"},
+    {file = "rope-0.14.0-py3-none-any.whl", hash = "sha256:f0dcf719b63200d492b85535ebe5ea9b29e0d0b8aebeb87fe03fc1a65924fdaf"},
+    {file = "rope-0.14.0.tar.gz", hash = "sha256:c5c5a6a87f7b1a2095fb311135e2a3d1f194f5ecb96900fdd0a9100881f48aaf"},
 ]
 scipy = [
     {file = "scipy-1.4.1-cp35-cp35m-macosx_10_6_intel.whl", hash = "sha256:c5cac0c0387272ee0e789e94a570ac51deb01c796b37fb2aad1fb13f85e2f97d"},

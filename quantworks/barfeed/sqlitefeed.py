@@ -84,7 +84,7 @@ class Database(dbfeed.Database):
         self.__connection.execute(
             "create table bar ("
             "instrument_id integer references instrument (instrument_id)"
-            ", frequency integer not null"
+            ", interval integer not null"
             ", timestamp integer not null"
             ", open real not null"
             ", high real not null"
@@ -92,29 +92,29 @@ class Database(dbfeed.Database):
             ", close real not null"
             ", volume real not null"
             ", adj_close real"
-            ", primary key (instrument_id, frequency, timestamp))")
+            ", primary key (instrument_id, interval, timestamp))")
 
-    def addBar(self, instrument, bar, frequency):
+    def addBar(self, instrument, bar, interval):
         instrument = normalize_instrument(instrument)
         instrumentId = self.__getOrCreateInstrument(instrument)
         timeStamp = dt.datetime_to_timestamp(bar.getDateTime())
 
         try:
-            sql = "insert into bar (instrument_id, frequency, timestamp, open, high, low, close, volume, adj_close) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-            params = [instrumentId, frequency, timeStamp, bar.getOpen(), bar.getHigh(), bar.getLow(), bar.getClose(), bar.getVolume(), bar.getAdjClose()]
+            sql = "insert into bar (instrument_id, interval, timestamp, open, high, low, close, volume, adj_close) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            params = [instrumentId, interval, timeStamp, bar.getOpen(), bar.getHigh(), bar.getLow(), bar.getClose(), bar.getVolume(), bar.getAdjClose()]
             self.__connection.execute(sql, params)
         except sqlite3.IntegrityError:
             sql = "update bar set open = ?, high = ?, low = ?, close = ?, volume = ?, adj_close = ?" \
-                " where instrument_id = ? and frequency = ? and timestamp = ?"
-            params = [bar.getOpen(), bar.getHigh(), bar.getLow(), bar.getClose(), bar.getVolume(), bar.getAdjClose(), instrumentId, frequency, timeStamp]
+                " where instrument_id = ? and interval = ? and timestamp = ?"
+            params = [bar.getOpen(), bar.getHigh(), bar.getLow(), bar.getClose(), bar.getVolume(), bar.getAdjClose(), instrumentId, interval, timeStamp]
             self.__connection.execute(sql, params)
 
-    def getBars(self, instrument, frequency, timezone=None, fromDateTime=None, toDateTime=None):
+    def getBars(self, instrument, interval, timezone=None, fromDateTime=None, toDateTime=None):
         instrument = normalize_instrument(instrument)
-        sql = "select bar.timestamp, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.adj_close, bar.frequency" \
+        sql = "select bar.timestamp, bar.open, bar.high, bar.low, bar.close, bar.volume, bar.adj_close, bar.interval" \
             " from bar join instrument on (bar.instrument_id = instrument.instrument_id)" \
-            " where instrument.name = ? and bar.frequency = ?"
-        args = [instrument, frequency]
+            " where instrument.name = ? and bar.interval = ?"
+        args = [instrument, interval]
 
         if fromDateTime is not None:
             sql += " and bar.timestamp >= ?"
@@ -141,8 +141,8 @@ class Database(dbfeed.Database):
 
 
 class Feed(membf.BarFeed):
-    def __init__(self, dbFilePath, frequency, maxLen=None):
-        super(Feed, self).__init__(frequency, maxLen)
+    def __init__(self, dbFilePath, interval, maxLen=None):
+        super(Feed, self).__init__(interval, maxLen)
 
         self.__db = Database(dbFilePath)
 

@@ -40,22 +40,22 @@ class OrderUpdateCallback:
 
 
 class BarsBuilder(object):
-    def __init__(self, instrument, frequency):
+    def __init__(self, instrument, interval):
         self.__instrument = instrument
-        self.__frequency = frequency
+        self.__interval = interval
         self.__nextDateTime = datetime.datetime(2011, 1, 1)
-        if frequency == bar.Interval.TRADE:
+        if interval == bar.Interval.TRADE:
             self.__delta = datetime.timedelta(milliseconds=1)
-        elif frequency == bar.Interval.SECOND:
+        elif interval == bar.Interval.SECOND:
             self.__delta = datetime.timedelta(seconds=1)
-        elif frequency == bar.Interval.MINUTE:
+        elif interval == bar.Interval.MINUTE:
             self.__delta = datetime.timedelta(minutes=1)
-        elif frequency == bar.Interval.HOUR:
+        elif interval == bar.Interval.HOUR:
             self.__delta = datetime.timedelta(hours=1)
-        elif frequency == bar.Interval.DAY:
+        elif interval == bar.Interval.DAY:
             self.__delta = datetime.timedelta(days=1)
         else:
-            raise Exception("Invalid frequency")
+            raise Exception("Invalid interval")
 
     def getCurrentDateTime(self):
         return self.__nextDateTime
@@ -71,7 +71,7 @@ class BarsBuilder(object):
     def nextBars(self, openPrice, highPrice, lowPrice, closePrice, volume=None, sessionClose=False):
         if volume is None:
             volume = closePrice*10
-        bar_ = bar.BasicBar(self.__nextDateTime, openPrice, highPrice, lowPrice, closePrice, volume, closePrice, self.__frequency)
+        bar_ = bar.BasicBar(self.__nextDateTime, openPrice, highPrice, lowPrice, closePrice, volume, closePrice, self.__interval)
         ret = {self.__instrument: bar_}
         self.advance(sessionClose)
         return bar.Bars(ret)
@@ -95,9 +95,9 @@ class DecimalTraits(broker.InstrumentTraits):
 
 
 class BarFeed(barfeed.BaseBarFeed):
-    def __init__(self, instrument, frequency):
-        barfeed.BaseBarFeed.__init__(self, frequency)
-        self.__builder = BarsBuilder(instrument, frequency)
+    def __init__(self, instrument, interval):
+        barfeed.BaseBarFeed.__init__(self, interval)
+        self.__builder = BarsBuilder(instrument, interval)
         self.__nextBars = None
 
     def getCurrentDateTime(self):

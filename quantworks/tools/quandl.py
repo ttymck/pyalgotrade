@@ -34,12 +34,12 @@ import quantworks.logger
 
 # http://www.quandl.com/help/api
 
-def download_csv(sourceCode, tableCode, begin, end, frequency, authToken):
+def download_csv(sourceCode, tableCode, begin, end, interval, authToken):
     url = "http://www.quandl.com/api/v1/datasets/%s/%s.csv" % (sourceCode, tableCode)
     params = {
         "trim_start": begin.strftime("%Y-%m-%d"),
         "trim_end": end.strftime("%Y-%m-%d"),
-        "collapse": frequency
+        "collapse": interval
     }
     if authToken is not None:
         params["auth_token"] = authToken
@@ -91,7 +91,7 @@ def download_weekly_bars(sourceCode, tableCode, year, csvFile, authToken=None):
     f.close()
 
 
-def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.Interval.DAY, timezone=None,
+def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, interval=bar.Interval.DAY, timezone=None,
                skipErrors=False, authToken=None, columnNames={}, forceDownload=False,
                skipMalformedBars=False
                ):
@@ -108,7 +108,7 @@ def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.
     :type toYear: int.
     :param storage: The path were the files will be loaded from, or downloaded to.
     :type storage: string.
-    :param frequency: The frequency of the bars. Only **quantworks.bar.Interval.DAY** or **quantworks.bar.Interval.WEEK**
+    :param interval: The interval of the bars. Only **quantworks.bar.Interval.DAY** or **quantworks.bar.Interval.WEEK**
         are supported.
     :param timezone: The default timezone to use to localize bars. Check :mod:`quantworks.marketsession`.
     :type timezone: A pytz timezone.
@@ -134,7 +134,7 @@ def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.
     """
 
     logger = quantworks.logger.getLogger("quandl")
-    ret = quandlfeed.Feed(frequency, timezone)
+    ret = quandlfeed.Feed(interval, timezone)
 
     # Additional column names.
     for col, name in six.iteritems(columnNames):
@@ -150,10 +150,10 @@ def build_feed(sourceCode, tableCodes, fromYear, toYear, storage, frequency=bar.
             if not os.path.exists(fileName) or forceDownload:
                 logger.info("Downloading %s %d to %s" % (tableCode, year, fileName))
                 try:
-                    if frequency == bar.Interval.DAY:
+                    if interval == bar.Interval.DAY:
                         download_daily_bars(sourceCode, tableCode, year, fileName, authToken)
                     else:
-                        assert frequency == bar.Interval.WEEK, "Invalid frequency"
+                        assert interval == bar.Interval.WEEK, "Invalid interval"
                         download_weekly_bars(sourceCode, tableCode, year, fileName, authToken)
                 except Exception as e:
                     if skipErrors:
@@ -176,7 +176,7 @@ def main():
     parser.add_argument("--storage", required=True, help="The path were the files will be downloaded to")
     parser.add_argument("--force-download", action='store_true', help="Force downloading even if the files exist")
     parser.add_argument("--ignore-errors", action='store_true', help="True to keep on downloading files in case of errors")
-    parser.add_argument("--frequency", default="daily", choices=["daily", "weekly"], help="The frequency of the bars. Only daily or weekly are supported")
+    parser.add_argument("--interval", default="daily", choices=["daily", "weekly"], help="The interval of the bars. Only daily or weekly are supported")
 
     args = parser.parse_args()
 
@@ -191,10 +191,10 @@ def main():
         if not os.path.exists(fileName) or args.force_download:
             logger.info("Downloading %s %d to %s" % (args.table_code, year, fileName))
             try:
-                if args.frequency == "daily":
+                if args.interval == "daily":
                     download_daily_bars(args.source_code, args.table_code, year, fileName, args.auth_token)
                 else:
-                    assert args.frequency == "weekly", "Invalid frequency"
+                    assert args.interval == "weekly", "Invalid interval"
                     download_weekly_bars(args.source_code, args.table_code, year, fileName, args.auth_token)
             except Exception as e:
                 if args.ignore_errors:

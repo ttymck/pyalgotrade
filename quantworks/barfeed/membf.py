@@ -34,8 +34,8 @@ from quantworks import utils
 # - Forward the call to start() if they override it.
 
 class BarFeed(barfeed.BaseBarFeed):
-    def __init__(self, frequency, maxLen=None):
-        super(BarFeed, self).__init__(frequency, maxLen)
+    def __init__(self, interval, maxLen=None):
+        super(BarFeed, self).__init__(interval, maxLen)
 
         self.__bars = {}
         self.__nextPos = {}
