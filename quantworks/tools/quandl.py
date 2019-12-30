@@ -176,7 +176,7 @@ def main():
     parser.add_argument("--storage", required=True, help="The path were the files will be downloaded to")
     parser.add_argument("--force-download", action='store_true', help="Force downloading even if the files exist")
     parser.add_argument("--ignore-errors", action='store_true', help="True to keep on downloading files in case of errors")
-    parser.add_argument("--interval", default="daily", choices=["daily", "weekly"], help="The interval of the bars. Only daily or weekly are supported")
+    parser.add_argument("--frequency", "--interval", dest="interval", default="daily", choices=["daily", "weekly"], help="The interval of the bars. Only daily or weekly are supported")
 
     args = parser.parse_args()
 
