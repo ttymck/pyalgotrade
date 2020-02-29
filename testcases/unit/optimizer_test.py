@@ -31,6 +31,11 @@ from quantworks.barfeed import yahoofeed
 
 from quantworks.examples import sma_crossover
 
+try:
+    import multiprocessing
+    multiprocessing.set_start_method('spawn')
+except: 
+    pass
 
 def parameters_generator(instrument, smaFirst, smaLast):
     for sma in range(smaFirst, smaLast+1):
@@ -57,7 +62,6 @@ class OptimizerTestCase(common.TestCase):
         self.assertEqual(round(res.getResult(), 2), 1295462.6)
         self.assertEqual(res.getParameters()[1], 20)
 
-    @pytest.mark.xfail
     def testFailingStrategy(self):
         barFeed = yahoofeed.Feed()
         instrument = "orcl"

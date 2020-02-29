@@ -23,7 +23,7 @@ import socket
 import multiprocessing
 import retrying
 
-from six.moves import xmlrpc_client
+from xmlrpc import client as xmlrpc_client
 
 import quantworks.logger
 from quantworks.bar import Frequency
@@ -39,7 +39,12 @@ def any_exception(exception):
     return True
 
 
-@retrying.retry(wait_exponential_multiplier=wait_exponential_multiplier, wait_exponential_max=wait_exponential_max, stop_max_delay=stop_max_delay, retry_on_exception=any_exception)
+@retrying.retry(
+    wait_exponential_multiplier=wait_exponential_multiplier,
+    wait_exponential_max=wait_exponential_max,
+    stop_max_delay=stop_max_delay,
+    retry_on_exception=any_exception
+)
 def retry_on_network_error(function, *args, **kwargs):
     return function(*args, **kwargs)
 
@@ -49,6 +54,7 @@ class Worker(object):
         url = "http://%s:%s/QuantWorksRPC" % (address, port)
         self.__logger = quantworks.logger.getLogger(workerName)
         self.__server = xmlrpc_client.ServerProxy(url, allow_none=True)
+        print("server methods:", self.__server.system.listMethods())
         if workerName is None:
             self.__workerName = socket.gethostname()
         else:

@@ -22,7 +22,7 @@
 import threading
 import time
 
-from six.moves import xmlrpc_server
+from xmlrpc import server as xmlrpc_server
 
 import quantworks.logger
 from quantworks.optimizer import base
@@ -99,6 +99,7 @@ class Server(xmlrpc_server.SimpleXMLRPCServer):
         self.register_function(self.pushJobResults, 'pushJobResults')
 
     def getInstrumentsAndBars(self):
+        print("getInstrumentsAndBars")
         return self.__instrumentsAndBars
 
     def getBarsFrequency(self):
